@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { WhatsappLogo } from '@phosphor-icons/react/dist/ssr'
 import { Check, Calendar, ZoomIn, X, Play, Users, MapPin, Clock } from "lucide-react"
 import agendanov from "../../../public/agendanov.png"
-import logo from "../../../public/logofernanda.png"
+import logo from "../../../public/logoeuremo.jpg"
 import Image from "next/image"
 
 export function Hero() {
@@ -58,8 +58,8 @@ export function Hero() {
                             <Image
                                 src={logo}
                                 alt="Eu Remo Sorrindo"
-                                width={250}
-                                height={100}
+                                width={150}
+                                height={150}
                                 className="object-contain"
                             />
                         </div>

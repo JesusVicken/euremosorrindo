@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     Sheet,
@@ -14,108 +14,349 @@ import {
 import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
-    const [open, setOpen] = useState(false)
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
     const pathname = usePathname()
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 10)
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
+        const handleScroll = () => {
+            const scrolled = window.scrollY > 20
+            setIsScrolled(scrolled)
+        }
+
+        // Throttle scroll events
+        let ticking = false
+        const updateScroll = () => {
+            handleScroll()
+            ticking = false
+        }
+
+        const onScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScroll)
+                ticking = true
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true })
+        return () => window.removeEventListener('scroll', onScroll)
     }, [])
 
     useEffect(() => {
-        setOpen(false)
+        setMobileMenuOpen(false)
+        setActiveDropdown(null)
     }, [pathname])
 
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = () => setActiveDropdown(null)
+        document.addEventListener('click', handleClickOutside)
+        return () => document.removeEventListener('click', handleClickOutside)
+    }, [])
+
     const navItems = [
-        { href: '/cpp', label: 'Fernanda' },
-        { href: '/extreme', label: 'Atleta' },
-        { href: '/estrutura', label: 'Serviços' },
-        { href: '/mobilizadores', label: 'Movimentos' },
+        {
+            href: '/cpp',
+            label: 'Fernanda',
+            submenu: [
+                { href: '/cpp/biografia', label: 'Biografia' },
+                { href: '/cpp/trajetoria', label: 'Trajetória' },
+                { href: '/cpp/premios', label: 'Prêmios' },
+            ]
+        },
+        {
+            href: '/extreme',
+            label: 'Atleta',
+            submenu: [
+                { href: '/extreme/competicoes', label: 'Competições' },
+                { href: '/extreme/treinamentos', label: 'Treinamentos' },
+                { href: '/extreme/resultados', label: 'Resultados' },
+            ]
+        },
+        {
+            href: '/estrutura',
+            label: 'Serviços',
+            submenu: [
+                { href: '/estrutura/consultoria', label: 'Consultoria' },
+                { href: '/estrutura/treinamento', label: 'Treinamento' },
+                { href: '/estrutura/palestras', label: 'Palestras' },
+            ]
+        },
+        {
+            href: '/mobilizadores',
+            label: 'Movimentos',
+            submenu: [
+                { href: '/mobilizadores/ambiental', label: 'Ambiental' },
+                { href: '/mobilizadores/social', label: 'Social' },
+                { href: '/mobilizadores/esportivo', label: 'Esportivo' },
+            ]
+        },
         { href: '/planos', label: 'Parceiros' },
-        { href: '/agenda', label: 'Notícias' },
-        { href: '/produtos', label: 'Produtos' },
+        {
+            href: '/agenda',
+            label: 'Notícias',
+            submenu: [
+                { href: '/agenda/eventos', label: 'Eventos' },
+                { href: '/agenda/noticias', label: 'Notícias' },
+                { href: '/agenda/blog', label: 'Blog' },
+            ]
+        },
+        {
+            href: '/produtos',
+            label: 'Produtos',
+            submenu: [
+                { href: '/produtos/equipamentos', label: 'Equipamentos' },
+                { href: '/produtos/vestuario', label: 'Vestuário' },
+                { href: '/produtos/acessorios', label: 'Acessórios' },
+            ]
+        },
         { href: '/contatos', label: 'Contato' },
     ]
 
+    const handleDropdownToggle = (e: React.MouseEvent, label: string) => {
+        e.stopPropagation()
+        setActiveDropdown(activeDropdown === label ? null : label)
+    }
+
+    const isActiveLink = (href: string) => {
+        return pathname === href || pathname.startsWith(href + '/')
+    }
+
     return (
-        <header
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
-                ? 'bg-white/90 shadow-sm backdrop-blur-md'
-                : 'bg-transparent'
+        <motion.header
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
+                    ? 'bg-white/95 shadow-lg backdrop-blur-xl border-b border-gray-100/50'
+                    : 'bg-transparent'
                 }`}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 md:py-4">
-                <Link href="/" className="z-50">
-                    <Image
-                        src="/logofernanda.png"
-                        alt="Logo Eu remo sorrindo"
-                        width={257}
-                        height={286}
-                        className="object-contain h-12 md:h-16 w-auto"
-                        priority
-                    />
-                </Link>
+                {/* Logo */}
+                <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="z-50"
+                >
+                    <Link href="/" className="block">
+                        <Image
+                            src="/logoeuremo.png"
+                            alt="Logo Eu remo sorrindo"
+                            width={160}
+                            height={60}
+                            className={`object-contain transition-all duration-500 ${isScrolled ? 'h-12 md:h-14' : 'h-14 md:h-16'
+                                } w-auto`}
+                            priority
+                        />
+                    </Link>
+                </motion.div>
 
                 {/* Menu Desktop */}
-                <nav
-                    className="
-                        hidden md:flex items-center
-                        gap-3 md:gap-3 lg:gap-6
-                        font-heading font-medium tracking-wide uppercase
-                        text-xs md:text-sm lg:text-base
-                    "
-                >
-                    {navItems.map(({ href, label }) => (
-                        <Link
-                            key={href}
-                            href={href}
-                            className="px-1.5 md:px-2 py-1 rounded-md hover:text-primary transition-colors hover:bg-accent/10 whitespace-nowrap"
-                        >
-                            {label}
-                        </Link>
+                <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+                    {navItems.map((item) => (
+                        <div key={item.href} className="relative">
+                            {item.submenu ? (
+                                <div className="relative">
+                                    <button
+                                        onClick={(e) => handleDropdownToggle(e, item.label)}
+                                        className={`
+                                            flex items-center gap-1 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300
+                                            ${isActiveLink(item.href)
+                                                ? 'text-blue-600 bg-blue-50/80'
+                                                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                            }
+                                            ${isScrolled ? 'text-sm' : 'text-base'}
+                                        `}
+                                    >
+                                        {item.label}
+                                        <motion.div
+                                            animate={{ rotate: activeDropdown === item.label ? 180 : 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <ChevronDown className="h-4 w-4" />
+                                        </motion.div>
+                                    </button>
+
+                                    <AnimatePresence>
+                                        {activeDropdown === item.label && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                transition={{ duration: 0.2, ease: "easeOut" }}
+                                                className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/50 py-2"
+                                            >
+                                                {item.submenu.map((subItem) => (
+                                                    <Link
+                                                        key={subItem.href}
+                                                        href={subItem.href}
+                                                        className="block px-4 py-3 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200 first:rounded-t-2xl last:rounded-b-2xl"
+                                                        onClick={() => setActiveDropdown(null)}
+                                                    >
+                                                        {subItem.label}
+                                                    </Link>
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            ) : (
+                                <Link
+                                    href={item.href}
+                                    className={`
+                                        block px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300
+                                        ${isActiveLink(item.href)
+                                            ? 'text-blue-600 bg-blue-50/80'
+                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                        }
+                                        ${isScrolled ? 'text-sm' : 'text-base'}
+                                    `}
+                                >
+                                    {item.label}
+                                </Link>
+                            )}
+                        </div>
                     ))}
                 </nav>
 
+                {/* CTA Button Desktop */}
+                <div className="hidden lg:block">
+                    <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <Button
+                            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                            asChild
+                        >
+                            <Link href="/contatos">
+                                Vamos Conversar
+                            </Link>
+                        </Button>
+                    </motion.div>
+                </div>
+
                 {/* Menu Mobile */}
-                <div className="md:hidden z-50">
-                    <Sheet open={open} onOpenChange={setOpen}>
-                        <SheetTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                aria-label="Abrir menu"
-                                className="text-foreground hover:bg-transparent"
+                <div className="lg:hidden z-50">
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                            <SheetTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    aria-label="Abrir menu"
+                                    className={`relative ${isScrolled
+                                            ? 'text-gray-700 hover:bg-gray-100/80'
+                                            : 'text-white hover:bg-white/20'
+                                        } transition-all duration-300`}
+                                >
+                                    <AnimatePresence mode="wait">
+                                        {isMobileMenuOpen ? (
+                                            <motion.div
+                                                key="close"
+                                                initial={{ rotate: -90, opacity: 0 }}
+                                                animate={{ rotate: 0, opacity: 1 }}
+                                                exit={{ rotate: 90, opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                            >
+                                                <X className="h-6 w-6" />
+                                            </motion.div>
+                                        ) : (
+                                            <motion.div
+                                                key="menu"
+                                                initial={{ rotate: 90, opacity: 0 }}
+                                                animate={{ rotate: 0, opacity: 1 }}
+                                                exit={{ rotate: -90, opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                            >
+                                                <Menu className="h-6 w-6" />
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent
+                                side="right"
+                                className="w-[85vw] max-w-sm bg-white/95 backdrop-blur-xl border-l border-gray-100/50"
                             >
-                                <Menu className="h-6 w-6" />
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="right" className="w-[260px] sm:w-[300px]">
-                            <SheetHeader>
-                                <SheetTitle className="text-left font-bold text-lg tracking-wide">
-                                    Menu
-                                </SheetTitle>
-                            </SheetHeader>
-                            <Separator className="my-4" />
-                            <nav className="flex flex-col space-y-2">
-                                {navItems.map(({ href, label }) => (
-                                    <Link
-                                        key={href}
-                                        href={href}
-                                        onClick={() => setOpen(false)}
-                                        className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-primary transition-colors"
+                                <SheetHeader className="text-left">
+                                    <SheetTitle className="flex items-center gap-3">
+                                        <Image
+                                            src="/logoeuremo.png"
+                                            alt="Logo"
+                                            width={120}
+                                            height={40}
+                                            className="h-8 w-auto"
+                                        />
+                                        <span className="text-lg font-bold text-gray-900">Menu</span>
+                                    </SheetTitle>
+                                </SheetHeader>
+
+                                <Separator className="my-4 bg-gray-200" />
+
+                                <nav className="flex flex-col space-y-1">
+                                    {navItems.map((item) => (
+                                        <div key={item.href} className="border-b border-gray-100/50 last:border-0">
+                                            {item.submenu ? (
+                                                <div className="py-2">
+                                                    <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-gray-50/50">
+                                                        <span className="font-semibold text-gray-900 text-sm">
+                                                            {item.label}
+                                                        </span>
+                                                        <ChevronDown className="h-4 w-4 text-gray-500" />
+                                                    </div>
+                                                    <div className="pl-4 mt-1 space-y-1">
+                                                        {item.submenu.map((subItem) => (
+                                                            <Link
+                                                                key={subItem.href}
+                                                                href={subItem.href}
+                                                                onClick={() => setMobileMenuOpen(false)}
+                                                                className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                                                            >
+                                                                {subItem.label}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <Link
+                                                    href={item.href}
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                    className={`block px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink(item.href)
+                                                            ? 'text-blue-600 bg-blue-50/80 font-semibold'
+                                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                                        }`}
+                                                >
+                                                    {item.label}
+                                                </Link>
+                                            )}
+                                        </div>
+                                    ))}
+                                </nav>
+
+                                <div className="absolute bottom-6 left-4 right-4">
+                                    <Button
+                                        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all duration-300"
+                                        asChild
                                     >
-                                        {label}
-                                    </Link>
-                                ))}
-                            </nav>
-                        </SheetContent>
-                    </Sheet>
+                                        <Link href="/contatos" onClick={() => setMobileMenuOpen(false)}>
+                                            Vamos Conversar
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </SheetContent>
+                        </Sheet>
+                    </motion.div>
                 </div>
             </div>
-        </header>
+        </motion.header>
     )
 }

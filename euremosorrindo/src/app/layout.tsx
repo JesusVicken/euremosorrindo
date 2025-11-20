@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Inter, Anton } from "next/font/google"
 import "./globals.css"
 import { AosInit } from "./_components/aos-init"
 import { ParallaxWrapper } from "./_components/ParallaxWrapper"
-// import Header from "./_components/header"
+import Header from "./_components/header"
 import FooterDev from "./_components/footer-dev"
 
 const geistSans = Geist({
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   title: "Eu Remo Sorrindo",
   description: "Eu Remo Sorrindo",
   icons: {
-    icon: "/logofernanda.png",
+    icon: "/logoeuremo.png",
   },
 }
 
@@ -49,7 +49,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${anton.variable} antialiased`}
       >
-        {/* <Header /> */}
+        <Header />
         <ParallaxWrapper>
           {children}
           <AosInit />
