@@ -325,8 +325,8 @@ export default function Header() {
                                         <Image
                                             src="/logoeuremo.png"
                                             alt="Logo"
-                                            width={120}
-                                            height={40}
+                                            width={150}
+                                            height={150}
                                             className="h-8 w-auto"
                                         />
                                         <span className="text-lg font-bold text-gray-900">Menu</span>
