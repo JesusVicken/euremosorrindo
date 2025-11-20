@@ -5,7 +5,7 @@ import Projects from "./_components/projects"
 // import { Tours } from "./_components/tours"
 import { Footer } from "./_components/footer"
 // import CheckVaa from "./_components/checkVaa"
-import { ParallaxWrapper } from "./_components/ParallaxWrapper"
+// import { ParallaxWrapper } from "./_components/ParallaxWrapper"
 import WhatsappWrapper from "./_components/whatsapp-wrapper"
 import HeroSection from "./_components/HeroSection"
 import MaskEffect from "./_components/maskEffect"
@@ -17,11 +17,12 @@ export default function Home() {
       <HeroSection />
       <Hero />
       <About />
-      <ParallaxWrapper>
+      {/* <ParallaxWrapper> */}
+      <WhatsappWrapper>
         <Projects />
-      </ParallaxWrapper>
-      {/* Envolve apenas os componentes que devem ter o botão do WhatsApp */}
-      <WhatsappWrapper> 
+        {/* </ParallaxWrapper> */}
+        {/* Envolve apenas os componentes que devem ter o botão do WhatsApp */}
+
         {/* <Tours />
         <Services />
         <CheckVaa /> */}
