@@ -8,11 +8,11 @@ export default function HeroSection() {
     const videoRef = useRef<HTMLVideoElement>(null)
 
     const carouselItems = [
-        {
-            subtitle: 'EU REMO SORRINDO',
-            title: 'ESCOLA',
-            highlight: 'FERNANDA RACHID',
-        },
+        // {
+        //     subtitle: 'EU REMO SORRINDO',
+        //     title: 'ESCOLA',
+        //     highlight: 'FERNANDA RACHID',
+        // },
         {
             subtitle: 'ESCOLA DE CANOAGEM E VA\'A',
             title: 'EU REMO',
