@@ -169,7 +169,7 @@ export default function Projects() {
                             </p>
 
                             <p className="text-cyan-200/60 text-sm">
-                                📍 Junte-se a nossa comunidade de remadores
+                                Junte-se a nossa comunidade de remadores
                             </p>
                         </div>
                     </div>

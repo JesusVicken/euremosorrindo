@@ -20,6 +20,7 @@ export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+    const [hoverDropdown, setHoverDropdown] = useState<string | null>(null)
     const pathname = usePathname()
 
     useEffect(() => {
@@ -28,7 +29,6 @@ export default function Header() {
             setIsScrolled(scrolled)
         }
 
-        // Throttle scroll events
         let ticking = false
         const updateScroll = () => {
             handleScroll()
@@ -49,11 +49,15 @@ export default function Header() {
     useEffect(() => {
         setMobileMenuOpen(false)
         setActiveDropdown(null)
+        setHoverDropdown(null)
     }, [pathname])
 
     // Close dropdown when clicking outside
     useEffect(() => {
-        const handleClickOutside = () => setActiveDropdown(null)
+        const handleClickOutside = () => {
+            setActiveDropdown(null)
+            setHoverDropdown(null)
+        }
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
     }, [])
@@ -117,13 +121,33 @@ export default function Header() {
         { href: '/contatos', label: 'Contato' },
     ]
 
+    // Função para abrir WhatsApp
+    const openWhatsApp = () => {
+        const phoneNumber = '+5561999674507'
+        const message = 'Olá! Gostaria de mais informações sobre o Eu Remo Sorrindo.'
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+        window.open(url, '_blank')
+    }
+
     const handleDropdownToggle = (e: React.MouseEvent, label: string) => {
         e.stopPropagation()
         setActiveDropdown(activeDropdown === label ? null : label)
     }
 
+    const handleMouseEnter = (label: string) => {
+        setHoverDropdown(label)
+    }
+
+    const handleMouseLeave = () => {
+        setHoverDropdown(null)
+    }
+
     const isActiveLink = (href: string) => {
         return pathname === href || pathname.startsWith(href + '/')
+    }
+
+    const isDropdownOpen = (label: string) => {
+        return activeDropdown === label || hoverDropdown === label
     }
 
     return (
@@ -132,8 +156,8 @@ export default function Header() {
             animate={{ y: 0 }}
             transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
-                    ? 'bg-white/95 shadow-lg backdrop-blur-xl border-b border-gray-100/50'
-                    : 'bg-transparent'
+                ? 'bg-white/95 shadow-lg backdrop-blur-xl border-b border-gray-100/50'
+                : 'bg-transparent'
                 }`}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 md:py-4">
@@ -147,8 +171,8 @@ export default function Header() {
                         <Image
                             src="/logoeuremo.png"
                             alt="Logo Eu remo sorrindo"
-                            width={160}
-                            height={60}
+                            width={150}
+                            height={150}
                             className={`object-contain transition-all duration-500 ${isScrolled ? 'h-12 md:h-14' : 'h-14 md:h-16'
                                 } w-auto`}
                             priority
@@ -159,11 +183,17 @@ export default function Header() {
                 {/* Menu Desktop */}
                 <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
                     {navItems.map((item) => (
-                        <div key={item.href} className="relative">
+                        <div
+                            key={item.href}
+                            className="relative"
+                            onMouseEnter={() => item.submenu && handleMouseEnter(item.label)}
+                            onMouseLeave={handleMouseLeave}
+                        >
                             {item.submenu ? (
                                 <div className="relative">
                                     <button
                                         onClick={(e) => handleDropdownToggle(e, item.label)}
+                                        onMouseEnter={() => handleMouseEnter(item.label)}
                                         className={`
                                             flex items-center gap-1 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300
                                             ${isActiveLink(item.href)
@@ -175,7 +205,7 @@ export default function Header() {
                                     >
                                         {item.label}
                                         <motion.div
-                                            animate={{ rotate: activeDropdown === item.label ? 180 : 0 }}
+                                            animate={{ rotate: isDropdownOpen(item.label) ? 180 : 0 }}
                                             transition={{ duration: 0.2 }}
                                         >
                                             <ChevronDown className="h-4 w-4" />
@@ -183,20 +213,25 @@ export default function Header() {
                                     </button>
 
                                     <AnimatePresence>
-                                        {activeDropdown === item.label && (
+                                        {isDropdownOpen(item.label) && (
                                             <motion.div
                                                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                                 transition={{ duration: 0.2, ease: "easeOut" }}
-                                                className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/50 py-2"
+                                                className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/50 py-2 z-50"
+                                                onMouseEnter={() => handleMouseEnter(item.label)}
+                                                onMouseLeave={handleMouseLeave}
                                             >
                                                 {item.submenu.map((subItem) => (
                                                     <Link
                                                         key={subItem.href}
                                                         href={subItem.href}
                                                         className="block px-4 py-3 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200 first:rounded-t-2xl last:rounded-b-2xl"
-                                                        onClick={() => setActiveDropdown(null)}
+                                                        onClick={() => {
+                                                            setActiveDropdown(null)
+                                                            setHoverDropdown(null)
+                                                        }}
                                                     >
                                                         {subItem.label}
                                                     </Link>
@@ -231,12 +266,10 @@ export default function Header() {
                         whileTap={{ scale: 0.95 }}
                     >
                         <Button
-                            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-                            asChild
+                            onClick={openWhatsApp}
+                            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
                         >
-                            <Link href="/contatos">
-                                Vamos Conversar
-                            </Link>
+                            Vamos Conversar
                         </Button>
                     </motion.div>
                 </div>
@@ -254,8 +287,8 @@ export default function Header() {
                                     size="icon"
                                     aria-label="Abrir menu"
                                     className={`relative ${isScrolled
-                                            ? 'text-gray-700 hover:bg-gray-100/80'
-                                            : 'text-white hover:bg-white/20'
+                                        ? 'text-gray-700 hover:bg-gray-100/80'
+                                        : 'text-white hover:bg-white/20'
                                         } transition-all duration-300`}
                                 >
                                     <AnimatePresence mode="wait">
@@ -307,32 +340,52 @@ export default function Header() {
                                         <div key={item.href} className="border-b border-gray-100/50 last:border-0">
                                             {item.submenu ? (
                                                 <div className="py-2">
-                                                    <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-gray-50/50">
+                                                    <button
+                                                        onClick={() => setActiveDropdown(
+                                                            activeDropdown === item.label ? null : item.label
+                                                        )}
+                                                        className="flex items-center justify-between w-full px-3 py-2 rounded-lg bg-gray-50/50"
+                                                    >
                                                         <span className="font-semibold text-gray-900 text-sm">
                                                             {item.label}
                                                         </span>
-                                                        <ChevronDown className="h-4 w-4 text-gray-500" />
-                                                    </div>
-                                                    <div className="pl-4 mt-1 space-y-1">
-                                                        {item.submenu.map((subItem) => (
-                                                            <Link
-                                                                key={subItem.href}
-                                                                href={subItem.href}
-                                                                onClick={() => setMobileMenuOpen(false)}
-                                                                className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                                                        <motion.div
+                                                            animate={{ rotate: activeDropdown === item.label ? 180 : 0 }}
+                                                            transition={{ duration: 0.2 }}
+                                                        >
+                                                            <ChevronDown className="h-4 w-4 text-gray-500" />
+                                                        </motion.div>
+                                                    </button>
+                                                    <AnimatePresence>
+                                                        {activeDropdown === item.label && (
+                                                            <motion.div
+                                                                initial={{ opacity: 0, height: 0 }}
+                                                                animate={{ opacity: 1, height: 'auto' }}
+                                                                exit={{ opacity: 0, height: 0 }}
+                                                                transition={{ duration: 0.2 }}
+                                                                className="pl-4 mt-1 space-y-1 overflow-hidden"
                                                             >
-                                                                {subItem.label}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
+                                                                {item.submenu.map((subItem) => (
+                                                                    <Link
+                                                                        key={subItem.href}
+                                                                        href={subItem.href}
+                                                                        onClick={() => setMobileMenuOpen(false)}
+                                                                        className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                                                                    >
+                                                                        {subItem.label}
+                                                                    </Link>
+                                                                ))}
+                                                            </motion.div>
+                                                        )}
+                                                    </AnimatePresence>
                                                 </div>
                                             ) : (
                                                 <Link
                                                     href={item.href}
                                                     onClick={() => setMobileMenuOpen(false)}
                                                     className={`block px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink(item.href)
-                                                            ? 'text-blue-600 bg-blue-50/80 font-semibold'
-                                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                                        ? 'text-blue-600 bg-blue-50/80 font-semibold'
+                                                        : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
                                                         }`}
                                                 >
                                                     {item.label}
@@ -344,12 +397,13 @@ export default function Header() {
 
                                 <div className="absolute bottom-6 left-4 right-4">
                                     <Button
-                                        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all duration-300"
-                                        asChild
+                                        onClick={() => {
+                                            openWhatsApp()
+                                            setMobileMenuOpen(false)
+                                        }}
+                                        className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                                     >
-                                        <Link href="/contatos" onClick={() => setMobileMenuOpen(false)}>
-                                            Vamos Conversar
-                                        </Link>
+                                        Vamos Conversar
                                     </Button>
                                 </div>
                             </SheetContent>

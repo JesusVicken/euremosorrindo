@@ -50,7 +50,7 @@ export function Hero() {
         <>
             <section className="bg-gradient-to-br from-blue-900 via-sky-800 to-cyan-700 text-white relative overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 z-0"></div>
-                
+
                 <div className='container mx-auto pt-20 pb-16 px-4 relative z-10'>
                     {/* Header Principal */}
                     <div className="text-center mb-12" data-aos="fade-down">
@@ -97,7 +97,7 @@ export function Hero() {
                                 {/* Botão Principal */}
                                 <div className="space-y-4">
                                     <a
-                                        href={`https://wa.me/5561998219177?text=${whatsappMessage}`}
+                                        href={`https://wa.me/5561999674507?text=${whatsappMessage}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white flex items-center justify-center gap-3 px-8 py-4 rounded-xl hover:shadow-2xl transition-all duration-300 font-bold text-lg w-full group"
@@ -106,9 +106,9 @@ export function Hero() {
                                         QUERO MINHA VAGA AGORA!
                                         <div className="w-2 h-2 bg-white rounded-full animate-ping group-hover:animate-none"></div>
                                     </a>
-                                    
+
                                     <p className="text-center text-cyan-200 text-sm">
-                                        ⚡ Vagas se esgotam rapidamente - Garanta a sua!
+                                        Vagas se esgotam rapidamente - Garanta a sua!
                                     </p>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@ export function Hero() {
                             {/* Features */}
                             <div className="grid grid-cols-2 gap-4">
                                 {features.map((feature, index) => (
-                                    <div 
+                                    <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-cyan-400/30 transition-all duration-300"
                                         data-aos="fade-up"
@@ -145,7 +145,7 @@ export function Hero() {
                                 </div>
 
                                 {/* Imagem da agenda interativa */}
-                                <div 
+                                <div
                                     className="relative w-full h-[400px] cursor-zoom-in group"
                                     onClick={() => setIsImageModalOpen(true)}
                                 >
@@ -157,14 +157,14 @@ export function Hero() {
                                         className="object-contain p-6 group-hover:scale-105 transition-transform duration-500"
                                         priority
                                     />
-                                    
+
                                     {/* Overlay de zoom */}
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
                                         <div className="bg-white/90 rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-300">
                                             <ZoomIn className="w-6 h-6 text-blue-600" />
                                         </div>
                                     </div>
-                                    
+
                                     {/* Label de clique */}
                                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
                                         Clique para ampliar
@@ -188,7 +188,7 @@ export function Hero() {
 
                             {/* Call to Action Secundário */}
                             <div className="mt-6 text-center">
-                                <button 
+                                <button
                                     onClick={() => setIsImageModalOpen(true)}
                                     className="text-cyan-300 hover:text-white border border-cyan-400 hover:bg-cyan-400/20 px-6 py-2 rounded-lg transition-all duration-300 font-semibold text-sm"
                                 >
@@ -206,19 +206,19 @@ export function Hero() {
                             <h3 className="font-bold text-white mb-2">Equipamento Incluso</h3>
                             <p className="text-cyan-100 text-sm">Tudo fornecido para sua aventura</p>
                         </div>
-                        
+
                         <div className="bg-gradient-to-br from-cyan-500/20 to-blue-600/20 backdrop-blur-sm rounded-2xl p-6 text-center border border-cyan-400/30" data-aos="fade-up" data-aos-delay="100">
                             <Users className="w-8 h-8 text-cyan-300 mx-auto mb-3" />
                             <h3 className="font-bold text-white mb-2">Instrutores Certificados</h3>
                             <p className="text-cyan-100 text-sm">Profissionais experientes</p>
                         </div>
-                        
+
                         <div className="bg-gradient-to-br from-cyan-500/20 to-blue-600/20 backdrop-blur-sm rounded-2xl p-6 text-center border border-cyan-400/30" data-aos="fade-up" data-aos-delay="200">
                             <MapPin className="w-8 h-8 text-cyan-300 mx-auto mb-3" />
                             <h3 className="font-bold text-white mb-2">Local Privilegiado</h3>
                             <p className="text-cyan-100 text-sm">Melhor ponto do Lago Paranoá</p>
                         </div>
-                        
+
                         <div className="bg-gradient-to-br from-cyan-500/20 to-blue-600/20 backdrop-blur-sm rounded-2xl p-6 text-center border border-cyan-400/30" data-aos="fade-up" data-aos-delay="300">
                             <Clock className="w-8 h-8 text-cyan-300 mx-auto mb-3" />
                             <h3 className="font-bold text-white mb-2">Flexível</h3>
@@ -238,7 +238,7 @@ export function Hero() {
                         >
                             <X className="w-8 h-8" />
                         </button>
-                        
+
                         <div className="bg-white rounded-lg overflow-hidden">
                             <Image
                                 src={agendanov}
@@ -249,7 +249,7 @@ export function Hero() {
                                 className="w-full h-auto max-h-[80vh] object-contain"
                             />
                         </div>
-                        
+
                         <div className="text-center mt-4 text-white">
                             <p className="text-sm">Role para ver todos os detalhes da programação</p>
                         </div>
