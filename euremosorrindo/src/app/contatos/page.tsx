@@ -1,242 +1,328 @@
-// 'use client'
+'use client'
 
-// import Image from 'next/image'
-// import { useEffect } from 'react'
-// import AOS from 'aos'
-// import 'aos/dist/aos.css'
-// import { Anchor } from 'lucide-react'
-// import {
-//     FaFacebook,
-//     FaInstagram,
-//     FaYoutube,
-//     FaWhatsapp,
-// } from 'react-icons/fa'
+import Image from "next/image"
+import { motion } from "framer-motion"
+import {
+    FacebookLogo,
+    InstagramLogo,
+    YoutubeLogo,
+    WhatsappLogo,
+} from "@phosphor-icons/react/dist/ssr"
+import { MapPin, Phone, Mail, Clock, Users } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { useEffect } from 'react'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
-// // Imagens dos parceiros
-// import ascadeLogo from '../../../public/logo-ascade1.png'
-// import canoMAMALogo from '../../../public/canoMAMAlogo1.png'
+// Logos dos parceiros (ajuste os caminhos conforme necessário)
+const brands = [
+    { name: "Rumo", logo: "/rumo.webp" },
+    { name: "Fundação Baúminas", logo: "/bauminas.jpg" },
+    { name: "Remo Brasília", logo: "/remobrasilia.jpg" },
+    { name: "Canoe Brasil", logo: "/canoe.jpg" },
+    { name: "Salute Nutrição Esportiva", logo: "/salute.jpg" },
+]
 
-// const brands = [
-//     { name: 'Ascade', logo: ascadeLogo },
-//     { name: 'CanoMAMA', logo: canoMAMALogo },
-// ]
+export default function ContatoPage() {
+    const whatsappNumber = "61999674507"
+    const whatsappMessage = "Olá! Visitei o site da Eu Remo Sorrindo e gostaria de mais informações sobre as aulas e experiências."
+    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
-// export default function ContatosPage() {
-//     useEffect(() => {
-//         AOS.init({ duration: 800, once: true })
-//     }, [])
+    useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: true
+        })
+    }, [])
 
-//     const whatsappNumber = '61998219177'
-//     const whatsappMessage =
-//         'Olá, gostaria de mais informações sobre as aulas de remo na CPP Extreme!'
-//     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
-
-//     return (
-//         <section className="bg-white text-black min-h-screen">
-//             <div className="container mx-auto px-4 py-22 space-y-20">
-
-//                 {/* Parceiros */}
-//                 <div data-aos="fade-up" className="space-y-12">
-//                     <h2 className="text-3xl md:text-4xl font-bold text-center flex items-center justify-center gap-2 text-black">
-//                         Nossos Parceiros
-//                     </h2>
-
-//                     <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
-//                         {brands.map((item, index) => (
-//                             <div
-//                                 key={index}
-//                                 className="bg-gray-100 hover:bg-gray-200 transition p-4 rounded-xl shadow-md flex items-center justify-center w-[150px] h-[100px]"
-//                             >
-//                                 <Image
-//                                     src={item.logo}
-//                                     alt={`Logo ${item.name}`}
-//                                     width={120}
-//                                     height={80}
-//                                     className="object-contain max-h-[80px]"
-//                                 />
-//                             </div>
-//                         ))}
-//                     </div>
-//                 </div>
-
-//                 {/* Contato e Informações */}
-//                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-
-//                     {/* Sobre */}
-//                     <div data-aos="fade-up-left" className="flex flex-col items-center text-center">
-//                         <div className="mb-6 w-full flex justify-center">
-//                             <Image
-//                                 src="/logocpp.png"
-//                                 alt="Logo CPP Extreme"
-//                                 width={300}
-//                                 height={225}
-//                                 className="w-auto h-32 md:h-24 object-contain"
-//                                 priority
-//                             />
-//                         </div>
-//                         <p className="text-gray-700 mb-6 leading-relaxed max-w-md">
-//                             Promovendo inclusão social através do esporte e aventura.
-//                         </p>
-//                         <div className="w-full flex justify-center">
-//                             <a
-//                                 href={whatsappLink}
-//                                 target="_blank"
-//                                 rel="noopener noreferrer"
-//                                 className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 transition text-white font-semibold px-6 py-3 rounded-lg text-lg"
-//                                 aria-label="Contato via WhatsApp"
-//                             >
-//                                 <FaWhatsapp className="w-6 h-6" />
-//                                 Contato via WhatsApp
-//                             </a>
-//                         </div>
-//                     </div>
-
-//                     {/* Contatos */}
-//                     <div data-aos="flip-up">
-//                         <h3 className="text-2xl font-semibold mb-4">Contatos</h3>
-//                         <ul className="space-y-3 text-gray-800 leading-relaxed">
-//                             <li>
-//                                 📞 <strong>Telefone:</strong> (61) 99821-9177
-//                             </li>
-//                             <li>
-//                                 📍 <strong>Local:</strong> Ascade - Associação dos Servidores da Câmara dos Deputados
-//                             </li>
-//                             <li>
-//                                 🗺️ Brasília, DF
-//                             </li>
-//                         </ul>
-//                     </div>
-
-//                     {/* Redes Sociais */}
-//                     <div data-aos="fade-up-right">
-//                         <h3 className="text-2xl font-semibold mb-4">Redes Sociais</h3>
-//                         <div className="flex gap-5 mt-2 justify-center md:justify-start">
-//                             <a
-//                                 href="https://www.facebook.com/CPPExtreme"
-//                                 target="_blank"
-//                                 rel="noopener noreferrer"
-//                                 className="text-[#1877F2] hover:scale-110 transition-transform"
-//                                 aria-label="Facebook"
-//                             >
-//                                 <FaFacebook size={32} />
-//                             </a>
-//                             <a
-//                                 href="https://www.instagram.com/cppextremebsb/"
-//                                 target="_blank"
-//                                 rel="noopener noreferrer"
-//                                 className="text-[#E1306C] hover:scale-110 transition-transform"
-//                                 aria-label="Instagram"
-//                             >
-//                                 <FaInstagram size={32} />
-//                             </a>
-//                             <a
-//                                 href="https://www.youtube.com/@cppextreme"
-//                                 target="_blank"
-//                                 rel="noopener noreferrer"
-//                                 className="text-[#FF0000] hover:scale-110 transition-transform"
-//                                 aria-label="YouTube"
-//                             >
-//                                 <FaYoutube size={32} />
-//                             </a>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-
-//             {/* Mapa */}
-//             <div className="w-full h-[300px] md:h-[400px] lg:h-[450px]">
-//                 <iframe
-//                     title="Localização CPP Extreme na Ascade"
-//                     src="https://www.google.com/maps?q=Ascade+-+Associação+dos+Servidores+da+Câmara+dos+Deputados,+Brasília+-+DF&output=embed"
-//                     width="100%"
-//                     height="100%"
-//                     loading="lazy"
-//                     style={{ border: 0 }}
-//                     allowFullScreen
-//                     referrerPolicy="no-referrer-when-downgrade"
-//                 ></iframe>
-//             </div>
-//         </section>
-//     )
-// }
-
-
-// Next_13+ (App Router) maintenance page
-// Save this file as: /app/maintenance/page.jsx
-// It uses the image at /public/logoeuremo.png
-// Tailwind CSS is assumed to be configured in the project.
-
-import Image from 'next/image'
-
-export const metadata = {
-    title: 'Manutenção — Euremo',
-    description: 'Página temporária de manutenção',
-}
-
-export default function MaintenancePage() {
     return (
-        <main className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-white px-6">
-            <div className="max-w-3xl w-full text-center p-8 rounded-2xl shadow-lg ring-1 ring-gray-100 bg-white">
-                <div className="flex justify-center mb-6">
-                    <div className="w-36 h-36 relative">
-                        <Image
-                            src="/logoeuremo.png"
-                            alt="Logo Euremo"
-                            fill
-                            style={{ objectFit: 'contain' }}
-                            sizes="(max-width: 768px) 120px, 144px"
-                            priority
-                        />
-                    </div>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
+            {/* Hero Section com Banner */}
+            <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0">
+                    <Image
+                        src="/bgremo.webp"
+                        alt="Canoagem no Lago Paranoá - Eu Remo Sorrindo"
+                        fill
+                        className="object-cover"
+                        priority
+                        sizes="100vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-cyan-700/70" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-2">Estamos em manutenção</h1>
-                <p className="text-gray-600 mb-6">Desculpe o transtorno — estamos fazendo atualizações importantes para melhorar seu serviço. Voltaremos em breve.</p>
+                <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl"
+                    >
+                        Entre em Contato
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-lg"
+                    >
+                        Vamos remar juntos! Entre em contato e descubra as melhores experiências de canoagem no Lago Paranoá.
+                    </motion.p>
+                </div>
+            </section>
 
-                <div className="grid gap-4 sm:grid-cols-2 items-center mb-6">
-                    <div>
-                        <p className="text-sm text-gray-500">Status:</p>
-                        <div className="mt-2 inline-flex items-center gap-2">
-                            <span className="inline-block w-3 h-3 rounded-full bg-amber-400 animate-pulse" aria-hidden />
-                            <span className="text-sm font-medium text-gray-700">Em progresso</span>
+            {/* Seção de Informações de Contato */}
+            <section className="py-16 lg:py-24 px-4 max-w-7xl mx-auto">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+                    {/* Informações de Contato */}
+                    <div className="space-y-8">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">
+                                Vamos Conversar
+                            </h2>
+                            <p className="text-lg text-gray-600 leading-relaxed mb-8">
+                                Estamos aqui para tirar todas suas dúvidas sobre aulas, passeios
+                                e experiências de canoagem. Entre em contato e vamos remar juntos!
+                            </p>
+                        </motion.div>
+
+                        {/* Cards de Informação */}
+                        <div className="space-y-6">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                viewport={{ once: true }}
+                            >
+                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+                                    <CardContent className="p-6">
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-3 bg-blue-100 rounded-xl">
+                                                <Phone className="w-6 h-6 text-blue-600" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">Telefone</h3>
+                                                <p className="text-gray-600">(61) 99967-4507</p>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                viewport={{ once: true }}
+                            >
+                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+                                    <CardContent className="p-6">
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-3 bg-green-100 rounded-xl">
+                                                <WhatsappLogo className="w-6 h-6 text-green-600" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">WhatsApp</h3>
+                                                <p className="text-gray-600">(61) 99967-4507</p>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.3 }}
+                                viewport={{ once: true }}
+                            >
+                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+                                    <CardContent className="p-6">
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 bg-cyan-100 rounded-xl">
+                                                <MapPin className="w-6 h-6 text-cyan-600" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">Localização</h3>
+                                                <p className="text-gray-600">
+                                                    ASSTJ – Setor de Clubes Sul, TR1<br />
+                                                    Brasília - DF
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.4 }}
+                                viewport={{ once: true }}
+                            >
+                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+                                    <CardContent className="p-6">
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-3 bg-purple-100 rounded-xl">
+                                                <Clock className="w-6 h-6 text-purple-600" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">Horários</h3>
+                                                <p className="text-gray-600">Segunda a Domingo - 6h às 18h</p>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
                         </div>
+
+                        {/* Botão WhatsApp Principal */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.5 }}
+                            viewport={{ once: true }}
+                        >
+                            <Button
+                                onClick={() => window.open(whatsappLink, '_blank')}
+                                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+                                size="lg"
+                            >
+                                <WhatsappLogo className="w-6 h-6 mr-3" />
+                                Fale Conosco no WhatsApp
+                            </Button>
+                        </motion.div>
                     </div>
 
-                    <div>
-                        <p className="text-sm text-gray-500">Tempo estimado:</p>
-                        <p className="mt-2 text-sm text-gray-700">Aproximadamente 1–2 horas</p>
+                    {/* Mapa */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="space-y-6"
+                    >
+                        <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                            <div className="p-6">
+                                <h3 className="text-2xl font-bold text-gray-800 mb-4">Nossa Localização</h3>
+                                <p className="text-gray-600 mb-6">
+                                    Estamos localizados na ASSTJ, no Setor de Clubes Sul,
+                                    oferecendo fácil acesso e uma vista incrível do Lago Paranoá.
+                                </p>
+                            </div>
+                            <div className="w-full h-80 md:h-96 relative">
+                                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent z-10 pointer-events-none"></div>
+                                <iframe
+                                    title="Localização Eu Remo Sorrindo na ASSTJ"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.123456789012!2d-47.933307724014!3d-15.793466137997992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a309c8b61b5f7%3A0x1b3cb3b41a4d501a!2sASSTJ%20-%20Associa%C3%A7%C3%A3o%20dos%20Servidores%20do%20STJ%20e%20do%20CJF!5e0!3m2!1spt-BR!2sbr!4v1234567890123"
+                                    width="100%"
+                                    height="100%"
+                                    loading="lazy"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            </div>
+                        </div>
+
+                        {/* Redes Sociais */}
+                        <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden">
+                            <CardContent className="p-6">
+                                <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                                    Siga Nossas Aventuras
+                                </h3>
+                                <p className="text-gray-600 text-center mb-6">
+                                    Acompanhe nossas experiências e novidades nas redes sociais
+                                </p>
+                                <div className="flex justify-center gap-4">
+                                    <a
+                                        href="https://www.instagram.com/euremosorrindo/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Instagram"
+                                        className="bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-xl hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
+                                    >
+                                        <InstagramLogo className="w-6 h-6 text-white" />
+                                    </a>
+                                    <a
+                                        href="https://www.facebook.com/euremosorrindo"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Facebook"
+                                        className="bg-gradient-to-br from-blue-600 to-blue-700 p-4 rounded-xl hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
+                                    >
+                                        <FacebookLogo className="w-6 h-6 text-white" />
+                                    </a>
+                                    <a
+                                        href="https://www.youtube.com/@euremosorrindo"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="YouTube"
+                                        className="bg-gradient-to-br from-red-600 to-red-700 p-4 rounded-xl hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
+                                    >
+                                        <YoutubeLogo className="w-6 h-6 text-white" />
+                                    </a>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Seção de Parceiros */}
+            <section className="py-16 bg-gradient-to-br from-blue-900 to-slate-900 text-white">
+                <div className="max-w-7xl mx-auto px-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-12"
+                    >
+                        <h2 className="text-4xl font-bold mb-4">Nossos Parceiros</h2>
+                        <p className="text-xl text-blue-200 max-w-2xl mx-auto">
+                            Empresas e organizações que acreditam no nosso trabalho e nos ajudam
+                            a proporcionar as melhores experiências em canoagem
+                        </p>
+                    </motion.div>
+
+                    <div className="flex flex-wrap justify-center gap-8">
+                        {brands.map((item, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                                className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl flex items-center justify-center shadow-lg border border-white/20 hover:scale-105 transition-transform duration-300"
+                            >
+                                <Image
+                                    src={item.logo}
+                                    alt={item.name}
+                                    width={150}
+                                    height={80}
+                                    quality={100}
+                                    className="object-contain"
+                                    style={{
+                                        width: "auto",
+                                        height: "auto",
+                                        maxWidth: "150px",
+                                        maxHeight: "80px",
+                                    }}
+                                />
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
-
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <a
-                        href="/"
-                        className="inline-block px-5 py-2 rounded-md text-sm font-medium bg-gray-100 hover:bg-gray-200 ring-1 ring-gray-200"
-                        aria-label="Voltar à página inicial"
-                    >
-                        Voltar ao site
-                    </a>
-
-                    <a
-                        href="mailto:suporte@euremo.com"
-                        className="inline-block px-5 py-2 rounded-md text-sm font-medium bg-emerald-600 text-white hover:bg-emerald-700"
-                    >
-                        Contatar suporte
-                    </a>
-                </div>
-
-                <p className="text-xs text-gray-400 mt-6">Se precisar de acesso urgente, entre em contato com nossa equipe.</p>
-            </div>
-        </main>
+            </section>
+        </div>
     )
 }
-
-/*
-  Uso alternativo (Pages Router):
-  - Salve o mesmo JSX em: /pages/maintenance.jsx
-  - Para servir automaticamente em tempo de build como página estática, crie public/maintenance.html
-
-  Observações:
-  - Ajuste as cores/linguagem conforme necessário.
-  - Se não usa Tailwind, converta as classes para CSS normal.
-*/
