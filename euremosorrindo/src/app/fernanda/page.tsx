@@ -11,20 +11,22 @@ import { GraduationCap, Award, Calendar, MapPin, Users, Trophy, Clock, Waves } f
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// Registrar plugin do GSAP
+// Registrar plugin do GSAP apenas no lado do cliente
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger)
 }
 
 export default function FernandaPage() {
     const [activeTab, setActiveTab] = useState('sobre')
-    const heroRef = useRef(null)
-    const contentRef = useRef(null)
-    const modalitiesRef = useRef(null)
-    const logoRef = useRef(null)
-    const titleRef = useRef(null)
-    const badgeRef = useRef(null)
-    const introTextRef = useRef(null)
+
+    // --- CORREÇÃO DE TYPESCRIPT: Tipando os Refs corretamente ---
+    const heroRef = useRef<HTMLDivElement | null>(null)
+    const contentRef = useRef<HTMLDivElement | null>(null)
+    const modalitiesRef = useRef<HTMLDivElement | null>(null)
+    const logoRef = useRef<HTMLDivElement | null>(null)
+    const titleRef = useRef<HTMLDivElement | null>(null)
+    const badgeRef = useRef<HTMLDivElement | null>(null)
+    const introTextRef = useRef<HTMLDivElement | null>(null)
 
     const { ref: heroInViewRef, inView: heroInView } = useInView({
         threshold: 0.3,
@@ -36,193 +38,202 @@ export default function FernandaPage() {
         triggerOnce: true
     })
 
-    // Combinar refs
-    const setHeroRef = (node: HTMLDivElement) => {
+    // --- CORREÇÃO DE TYPESCRIPT: Função combinada de Refs ---
+    // Aceita null para satisfazer a tipagem do React, mas só executa se node existir
+    const setHeroRef = (node: HTMLDivElement | null) => {
         heroRef.current = node
-        heroInViewRef(node)
+        if (node) heroInViewRef(node)
     }
 
-    const setContentRef = (node: HTMLDivElement) => {
+    const setContentRef = (node: HTMLDivElement | null) => {
         contentRef.current = node
-        contentInViewRef(node)
+        if (node) contentInViewRef(node)
     }
 
     // Animações GSAP avançadas
     useEffect(() => {
-        // Animação do hero com parallax
-        gsap.to(heroRef.current, {
-            yPercent: -30,
-            ease: "none",
-            scrollTrigger: {
-                trigger: heroRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        })
+        // Verifica se os elementos existem antes de animar
+        if (!heroRef.current) return;
 
-        // Animação em cascata do conteúdo do hero
-        const heroTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: heroRef.current,
-                start: "top 80%",
-                end: "bottom 20%",
-                toggleActions: "play none none reverse"
-            }
-        })
-
-        heroTl
-            .fromTo(logoRef.current,
-                {
-                    opacity: 0,
-                    scale: 0.8,
-                    x: -100,
-                    rotation: -5
-                },
-                {
-                    opacity: 1,
-                    scale: 1,
-                    x: 0,
-                    rotation: 0,
-                    duration: 1.2,
-                    ease: "back.out(1.7)"
-                }
-            )
-            .fromTo(titleRef.current,
-                { opacity: 0, y: 50 },
-                { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-                "-=0.5"
-            )
-            .fromTo(introTextRef.current,
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-                "-=0.3"
-            )
-            .fromTo(badgeRef.current,
-                { opacity: 0, y: 30, scale: 0.8 },
-                { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" },
-                "-=0.2"
-            )
-
-        // Animação dos cards de dados com stagger
-        gsap.fromTo('.data-item',
-            {
-                opacity: 0,
-                x: -50,
-                scale: 0.9
-            },
-            {
-                opacity: 1,
-                x: 0,
-                scale: 1,
-                duration: 0.6,
-                stagger: 0.15,
-                ease: "back.out(1.2)",
+        // Contexto do GSAP para limpeza automática (opcional, mas recomendado em React 18+)
+        const ctx = gsap.context(() => {
+            // Animação do hero com parallax
+            gsap.to(heroRef.current, {
+                yPercent: -30,
+                ease: "none",
                 scrollTrigger: {
-                    trigger: '.data-item',
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
+                    trigger: heroRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
                 }
-            }
-        )
+            })
 
-        // Animação das modalidades com efeito cascata
-        gsap.fromTo('.modality-card',
-            {
-                opacity: 0,
-                y: 100,
-                rotationY: 15,
-                scale: 0.8
-            },
-            {
-                opacity: 1,
-                y: 0,
-                rotationY: 0,
-                scale: 1,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "power3.out",
+            // Animação em cascata do conteúdo do hero
+            const heroTl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: '.modality-card',
+                    trigger: heroRef.current,
                     start: "top 80%",
                     end: "bottom 20%",
                     toggleActions: "play none none reverse"
                 }
-            }
-        )
+            })
 
-        // Animação dos cards de formação
-        gsap.fromTo('.formation-card',
-            {
-                opacity: 0,
-                y: 60,
-                x: -30
-            },
-            {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.7,
-                stagger: 0.25,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: '.formation-card',
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
+            heroTl
+                .fromTo(logoRef.current,
+                    {
+                        opacity: 0,
+                        scale: 0.8,
+                        x: -100,
+                        rotation: -5
+                    },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        x: 0,
+                        rotation: 0,
+                        duration: 1.2,
+                        ease: "back.out(1.7)"
+                    }
+                )
+                .fromTo(titleRef.current,
+                    { opacity: 0, y: 50 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+                    "-=0.5"
+                )
+                .fromTo(introTextRef.current,
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+                    "-=0.3"
+                )
+                .fromTo(badgeRef.current,
+                    { opacity: 0, y: 30, scale: 0.8 },
+                    { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" },
+                    "-=0.2"
+                )
+
+            // Animação dos cards de dados com stagger
+            gsap.fromTo('.data-item',
+                {
+                    opacity: 0,
+                    x: -50,
+                    scale: 0.9
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 0.6,
+                    stagger: 0.15,
+                    ease: "back.out(1.2)",
+                    scrollTrigger: {
+                        trigger: '.data-item',
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
                 }
-            }
-        )
+            )
 
-        // Animação dos destaques
-        gsap.fromTo('.highlight-item',
-            {
-                opacity: 0,
-                x: 50,
-                scale: 0.8
-            },
-            {
-                opacity: 1,
-                x: 0,
-                scale: 1,
-                duration: 0.5,
-                stagger: 0.1,
-                ease: "back.out(1.5)",
-                scrollTrigger: {
-                    trigger: '.highlight-item',
-                    start: "top 90%",
-                    toggleActions: "play none none reverse"
+            // Animação das modalidades com efeito cascata
+            gsap.fromTo('.modality-card',
+                {
+                    opacity: 0,
+                    y: 100,
+                    rotationY: 15,
+                    scale: 0.8
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    rotationY: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.modality-card',
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
                 }
-            }
-        )
+            )
 
-        // Animação de flutuação sutil para os cards
-        gsap.to('.modality-card', {
-            y: -10,
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-            stagger: 0.3
+            // Animação dos cards de formação
+            gsap.fromTo('.formation-card',
+                {
+                    opacity: 0,
+                    y: 60,
+                    x: -30
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    x: 0,
+                    duration: 0.7,
+                    stagger: 0.25,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: '.formation-card',
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            )
+
+            // Animação dos destaques
+            gsap.fromTo('.highlight-item',
+                {
+                    opacity: 0,
+                    x: 50,
+                    scale: 0.8
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: "back.out(1.5)",
+                    scrollTrigger: {
+                        trigger: '.highlight-item',
+                        start: "top 90%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            )
+
+            // Animação de flutuação sutil para os cards
+            gsap.to('.modality-card', {
+                y: -10,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                stagger: 0.3
+            })
+
+            // Animação de entrada das abas
+            gsap.fromTo('.tab-content',
+                {
+                    opacity: 0,
+                    y: 30
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: '.tab-content',
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            )
         })
 
-        // Animação de entrada das abas
-        gsap.fromTo('.tab-content',
-            {
-                opacity: 0,
-                y: 30
-            },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: '.tab-content',
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        )
+        return () => ctx.revert(); // Limpeza do GSAP ao desmontar
 
     }, [])
 
