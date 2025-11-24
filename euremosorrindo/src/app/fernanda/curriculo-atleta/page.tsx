@@ -23,20 +23,19 @@ export default function CurriculoEsportivo() {
         countries: 0,
         experience: 0
     })
-    const sectionRef = useRef(null)
-    const galleryRef = useRef(null)
-    const heroRef = useRef(null)
+
+    // CORREÇÃO: Especificar o tipo do useRef
+    const sectionRef = useRef<HTMLDivElement>(null)
+    const galleryRef = useRef<HTMLDivElement>(null)
+    const heroRef = useRef<HTMLDivElement>(null)
 
     const { ref: sectionInViewRef, inView: sectionInView } = useInView({
         threshold: 0.2,
         triggerOnce: true
     })
 
-    // Combinar refs
-    const setSectionRef = (node: HTMLDivElement) => {
-        sectionRef.current = node
-        sectionInViewRef(node)
-    }
+    // CORREÇÃO: Usar a ref diretamente sem função de combinação
+    // Remover a função setSectionRef e usar sectionInViewRef diretamente no elemento
 
     // Efeito de contagem
     useEffect(() => {
@@ -190,17 +189,19 @@ export default function CurriculoEsportivo() {
 
     // Animações GSAP
     useEffect(() => {
-        // Animação do hero com parallax
-        gsap.to(heroRef.current, {
-            yPercent: -20,
-            ease: "none",
-            scrollTrigger: {
-                trigger: heroRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        })
+        // CORREÇÃO: Adicionar verificações de null
+        if (heroRef.current) {
+            gsap.to(heroRef.current, {
+                yPercent: -20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: heroRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            })
+        }
 
         // Animação dos cards de conquistas
         gsap.fromTo('.achievement-card',
@@ -384,7 +385,8 @@ export default function CurriculoEsportivo() {
             </section>
 
             {/* Conteúdo Principal */}
-            <section ref={setSectionRef} className="py-16 lg:py-24 px-4 max-w-7xl mx-auto">
+            {/* CORREÇÃO: Usar sectionInViewRef diretamente em vez da função setSectionRef */}
+            <section ref={sectionInViewRef} className="py-16 lg:py-24 px-4 max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={sectionInView ? { opacity: 1, y: 0 } : {}}
