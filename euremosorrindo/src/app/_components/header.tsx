@@ -78,13 +78,7 @@ export default function Header() {
             ]
         },
         {
-            href: '/estrutura',
-            label: 'Serviços',
-            submenu: [
-                { href: '/estrutura/consultoria', label: 'Consultoria' },
-                { href: '/estrutura/treinamento', label: 'Treinamento' },
-                { href: '/estrutura/palestras', label: 'Palestras' },
-            ]
+            href: '/estrutura', label: 'Serviços'
         },
         {
             href: '/mobilizadores',
