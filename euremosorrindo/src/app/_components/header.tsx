@@ -92,13 +92,7 @@ export default function Header() {
         { href: '/planos', label: 'Parceiros' },
         { href: '/agenda', label: 'Agenda' },
         {
-            href: '/produtos',
-            label: 'Produtos',
-            submenu: [
-                { href: '/produtos/equipamentos', label: 'Equipamentos' },
-                { href: '/produtos/vestuario', label: 'Vestuário' },
-                { href: '/produtos/acessorios', label: 'Acessórios' },
-            ]
+            href: '/produtos', label: 'Produtos',
         },
         { href: '/contatos', label: 'Contato' },
     ]

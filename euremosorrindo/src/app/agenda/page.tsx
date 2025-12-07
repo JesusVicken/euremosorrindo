@@ -27,7 +27,7 @@ const eventosDezembro = [
 ]
 
 export default function AgendaMensal() {
-    const [mesSelecionado, setMesSelecionado] = useState<'novembro' | 'dezembro'>('novembro')
+    const [mesSelecionado, setMesSelecionado] = useState<'novembro' | 'dezembro'>('dezembro')
     const containerRef = useRef<HTMLDivElement>(null)
 
     const eventos = mesSelecionado === 'novembro' ? eventosNovembro : eventosDezembro
