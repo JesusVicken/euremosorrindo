@@ -90,7 +90,7 @@ export default function EquipamentosPage() {
     }, [])
 
     const handleWhatsApp = (produto: typeof produtosRemos[0]) => {
-        const mensagem = `Olá! Gostaria de adquirir o ${produto.nome} da CPP Extreme. Pode me informar mais detalhes?`
+        const mensagem = `Olá! Gostaria de adquirir o ${produto.nome} da Rumo. Pode me informar mais detalhes?`
         const numero = '+5561999674507'
         const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`
         window.open(url, '_blank')
