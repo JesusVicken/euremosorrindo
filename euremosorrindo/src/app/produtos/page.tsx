@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { useEffect, useState } from 'react'
-import { Check, Phone, MessageCircle, MapPin, Clock, Shield, Truck, Users, Leaf, ChevronRight, Maximize2, X } from 'lucide-react'
+import { Check, Phone, MessageCircle, MapPin, Clock, Shield, Truck, Users, Leaf, ChevronRight, Maximize2, X, ShoppingBag } from 'lucide-react'
 
 const produtosRemos = [
     {
@@ -158,7 +158,7 @@ export default function EquipamentosPage() {
                                     onClick={() => handleContato(produtosRemos[0])}
                                     className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30 hover:border-white/50 transition-all"
                                 >
-                                    <Phone className="w-5 h-5" />
+                                    <ShoppingBag className="w-5 h-5" />
                                     Adquira o seu
                                 </button>
                             </div>
@@ -191,6 +191,99 @@ export default function EquipamentosPage() {
             {/* Conteúdo Principal */}
             <div className="py-12 md:py-20">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+                    {/* Seção: Nossa Coleção Completa */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="mb-16 md:mb-24"
+                    >
+                        <div className="text-center mb-8 md:mb-12">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full mb-4">
+                                <ShoppingBag className="w-5 h-5 text-white" />
+                                <span className="text-sm font-semibold text-white">PRONTA ENTREGA</span>
+                            </div>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+                                Nossa Coleção Completa
+                            </h2>
+                            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                                Todos os nossos remos disponíveis para retirada imediata
+                            </p>
+                        </div>
+
+                        <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden bg-gradient-to-br from-white to-blue-50 shadow-xl border border-blue-100 group cursor-pointer">
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-white/30 z-10"></div>
+
+                            {/* Container responsivo para imagem 1200x1600 */}
+                            <div className="relative w-full" style={{ aspectRatio: '1200/1600' }}>
+                                <Image
+                                    src="/remos.jpg"
+                                    alt="Coleção completa de remos CPP Extreme disponíveis para pronta entrega"
+                                    fill
+                                    className="object-contain transform group-hover:scale-105 transition-transform duration-700"
+                                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 90vw, (max-width: 1024px) 80vw, 1200px"
+                                    onClick={() => handleAmpliarImagem('/remos.jpg')}
+                                />
+
+                                {/* Overlay com informações - Posicionado no topo */}
+                                <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent z-20 p-4 md:p-6">
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                        <div className="max-w-lg">
+                                            <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                                                Coleção Completa de Remos
+                                            </h3>
+                                            <p className="text-blue-200 text-sm">
+                                                Clique para ver em detalhes todos os modelos disponíveis
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="hidden md:flex items-center gap-2 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full">
+                                                <span className="text-green-400 text-sm font-semibold">✓</span>
+                                                <span className="text-white text-sm">Pronta entrega</span>
+                                            </div>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleAmpliarImagem('/remos.jpg');
+                                                }}
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-xl transition-all border border-white/30"
+                                            >
+                                                <Maximize2 className="w-4 h-4 md:w-5 md:h-5" />
+                                                <span className="text-sm md:text-base">Ampliar Imagem</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Informações na parte inferior */}
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent z-20 p-4 md:p-6">
+                                    <div className="text-center">
+                                        <p className="text-white text-sm md:text-base font-semibold">
+                                            {produtosRemos.length} modelos disponíveis • Pronta entrega • Condições especiais
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Badge mobile */}
+                                <div className="absolute top-4 right-4 md:hidden z-30">
+                                    <div className="bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                        PRONTA ENTREGA
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Descrição abaixo da imagem */}
+                        <div className="mt-6 text-center max-w-3xl mx-auto">
+                            <p className="text-gray-700">
+                                Nossa coleção inclui todos os modelos de remos disponíveis para pronta entrega.
+                                Cada peça é fabricada artesanalmente com materiais de alta qualidade e
+                                atenção aos detalhes que fazem a diferença na sua remada.
+                            </p>
+                        </div>
+                    </motion.div>
 
                     {/* Produto Principal */}
                     <div id="produtos" className="grid lg:grid-cols-2 gap-8 md:gap-12 mb-16 md:mb-24">
@@ -500,8 +593,8 @@ export default function EquipamentosPage() {
                                     onClick={() => document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' })}
                                     className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-bold text-lg transition-all bg-transparent text-white border-2 border-white hover:bg-white/10"
                                 >
-                                    <ChevronRight className="w-6 h-6" />
-                                    VER PRODUTOS
+                                    <ShoppingBag className="w-6 h-6" />
+                                    VER COLEÇÃO COMPLETA
                                 </button>
                             </div>
                             <p className="mt-6 text-green-200 text-sm">
