@@ -15,13 +15,13 @@ import {
     ChevronDown,
     Camera,
     ArrowRight,
-    Sparkles
+    Sparkles,
+    ExternalLink
 } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const projetos = [
-    // ... (Seus dados continuam iguais)
     {
         id: 'eco-remada',
         titulo: 'Eco Remada',
@@ -30,6 +30,7 @@ const projetos = [
         cor: 'text-green-500',
         bgcor: 'bg-green-500/10',
         bgImage: '/ecoremada.jpg',
+        instagramUrl: 'https://instagram.com/euremosorrindo', // URL do Instagram
         texto: [
             "Um movimento que surgiu na cidade de Cataguases-MG no qual um grupo de amigos organizaram uma remada entre os municípios de Cataguases e Aracati para chamar a atenção sobre a preservação do Rio Pomba.",
             "A ideia inicial tomou grandes proporções e reuniu muitos remadores e não remadores a favor da causa. Neste período passei me integrar ao grupo e também fazer parte da organização."
@@ -43,6 +44,7 @@ const projetos = [
         cor: 'text-blue-500',
         bgcor: 'bg-blue-500/10',
         bgImage: '/paisefilhos.jpg',
+        instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
             "Um projeto que visa contribuir para o desenvolvimento humano nos mais amplos aspectos da vida, seja no fortalecimento de vínculos socioafetivos, seja no reconectar aspectos da natureza humana.",
             "Tem como fundamento e princípio a Ecologia Humana, ou seja, a integração do Ser com o Ambiente de maneira harmônica."
@@ -56,6 +58,7 @@ const projetos = [
         cor: 'text-purple-500',
         bgcor: 'bg-purple-500/10',
         bgImage: '/cucaUnb.jpg',
+        instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
             "O Clube foi fundado na década de 1988. Em 2010, o grupo de professores e participantes do Projeto Caiaque Comunitário revitalizou o clube com uma nova proposta pedagógica e técnica.",
             "Com treinos regulares, foi possível retomar a participação da equipe nos campeonatos regionais e nacionais."
@@ -69,6 +72,7 @@ const projetos = [
         cor: 'text-orange-500',
         bgcor: 'bg-orange-500/10',
         bgImage: '/caiaquecomunitario.jpg',
+        instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
             "Realizado na Universidade de Brasília. Teve como objetivos promover qualidade de vida e educação ambiental por meio de oficinas de canoagem.",
             "O projeto aconteceu no período de 2009 a 2016 oferecendo oficinas de canoagem. Durante este período, foram atendidas cerca de 5.000 pessoas das mais diferentes faixas etárias."
@@ -82,6 +86,7 @@ const projetos = [
         cor: 'text-cyan-500',
         bgcor: 'bg-cyan-500/10',
         bgImage: '/aguasdocerrado.jpg',
+        instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
             "Água como Matriz Ecopedagógica é uma metodologia de ensino e aprendizagem em educação ambiental idealizada pelas professoras Vera Catalão e Maria do Socorro Rodrigues.",
             "Reconhecimento das bacias hidrográficas e do cerrado, por meio de cursos, atividades lúdico pedagógicas e vivências."
@@ -96,6 +101,7 @@ const projetos = [
         bgcor: 'bg-teal-500/10',
         bgImage: '/aguasdocerrado.jpg',
         isLowRes: true,
+        instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
             "Projeto realizado entre os anos de 2014 e 2016 com vistas à sensibilização e educação comunitária realizada por meio de vivências e oficinas.",
             "Foram mais de 20.000 pessoas impactadas e implantação de tecnologias sociais em seis escolas do Distrito Federal."
@@ -104,14 +110,11 @@ const projetos = [
 ]
 
 export default function InfoProjetos() {
-    // 1. Alterado para aceitar string ou null
     const [ativo, setAtivo] = useState<string | null>('eco-remada')
     const [bgAtual, setBgAtual] = useState<any>(projetos[0])
     const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        // Só troca o fundo se tiver algum projeto ativo. 
-        // Se fechar tudo, mantém o fundo do último para não ficar preto do nada.
         if (ativo) {
             const projetoAtivo = projetos.find(p => p.id === ativo)
             if (projetoAtivo) {
@@ -120,9 +123,14 @@ export default function InfoProjetos() {
         }
     }, [ativo])
 
-    // 2. Nova função de Toggle (Alternar)
     const toggleProjeto = (id: string) => {
         setAtivo(prevAtivo => prevAtivo === id ? null : id)
+    }
+
+    // Função para abrir o Instagram
+    const abrirInstagram = (e: React.MouseEvent, url: string) => {
+        e.stopPropagation(); // Evita que o clique propague para o accordion
+        window.open(url, '_blank', 'noopener,noreferrer');
     }
 
     useGSAP(() => {
@@ -167,11 +175,7 @@ export default function InfoProjetos() {
             <div className="relative z-20 w-full h-full flex flex-col items-center pt-20 pb-6 px-4 md:px-6">
 
                 {/* Cabeçalho */}
-                <div className="w-full max-w-4xl text-center text-white header-content shrink-0 mb-6">
-                    <div className="inline-flex items-center gap-2 py-1 px-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-xs font-semibold tracking-widest mb-4 text-blue-300 uppercase shadow-lg">
-                        <Sparkles className="w-3 h-3" />
-                        Nossa História
-                    </div>
+                <div className="w-full max-w-4xl text-center text-white header-content shrink-0 mb-6 py-20">
                     <h2 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight drop-shadow-xl bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
                         Trajetória de Impacto
                     </h2>
@@ -188,8 +192,8 @@ export default function InfoProjetos() {
                                 key={projeto.id}
                                 data={projeto}
                                 isOpen={ativo === projeto.id}
-                                // 3. Chamando a função de toggle aqui
                                 onClick={() => toggleProjeto(projeto.id)}
+                                onVerGaleria={abrirInstagram} // Passando a função para abrir Instagram
                             />
                         ))}
                     </div>
@@ -215,7 +219,14 @@ export default function InfoProjetos() {
     )
 }
 
-function AccordionItem({ data, isOpen, onClick }: { data: any, isOpen: boolean, onClick: () => void }) {
+interface AccordionItemProps {
+    data: any;
+    isOpen: boolean;
+    onClick: () => void;
+    onVerGaleria: (e: React.MouseEvent, url: string) => void;
+}
+
+function AccordionItem({ data, isOpen, onClick, onVerGaleria }: AccordionItemProps) {
     const contentRef = useRef<HTMLDivElement>(null)
     const Icon = data.icone
 
@@ -236,6 +247,11 @@ function AccordionItem({ data, isOpen, onClick }: { data: any, isOpen: boolean, 
             })
         }
     }, [isOpen])
+
+    // Função específica para este item
+    const handleVerGaleria = (e: React.MouseEvent) => {
+        onVerGaleria(e, data.instagramUrl);
+    }
 
     return (
         <div
@@ -283,14 +299,22 @@ function AccordionItem({ data, isOpen, onClick }: { data: any, isOpen: boolean, 
                     </div>
 
                     <div className="mt-6 flex justify-start">
-                        <button className="group/btn flex items-center gap-3 py-2 px-4 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-all active:scale-95">
-                            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm text-blue-600 group-hover/btn:text-blue-700">
+                        <button
+                            onClick={handleVerGaleria}
+                            className="group/btn flex items-center gap-3 py-2 px-4 rounded-lg bg-gray-50 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:shadow-md border border-gray-100 hover:border-blue-200 transition-all active:scale-95"
+                        >
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-sm text-white group-hover/btn:scale-105 transition-transform">
                                 <Camera className="w-4 h-4" />
                             </div>
-                            <span className="text-xs font-bold uppercase tracking-wider text-gray-600 group-hover/btn:text-gray-900">
-                                Ver Galeria de Fotos
-                            </span>
-                            <ArrowRight className="w-3 h-3 text-gray-400 group-hover/btn:translate-x-1 transition-transform" />
+                            <div className="flex flex-col items-start">
+                                <span className="text-xs font-bold uppercase tracking-wider text-gray-600 group-hover/btn:text-blue-700">
+                                    Ver Galeria no Instagram
+                                </span>
+                                <span className="text-[10px] text-gray-400 group-hover/btn:text-gray-500">
+                                    @euremosorrindo
+                                </span>
+                            </div>
+                            <ExternalLink className="w-3 h-3 text-gray-400 group-hover/btn:text-blue-500 group-hover/btn:translate-x-1 transition-transform" />
                         </button>
                     </div>
                 </div>
