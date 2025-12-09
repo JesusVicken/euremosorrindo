@@ -81,13 +81,13 @@ export default function Header() {
             href: '/estrutura', label: 'Serviços'
         },
         {
-            href: '/mobilizadores',
-            label: 'Movimentos',
-            submenu: [
-                { href: '/mobilizadores/ambiental', label: 'Ambiental' },
-                { href: '/mobilizadores/social', label: 'Social' },
-                { href: '/mobilizadores/esportivo', label: 'Esportivo' },
-            ]
+            href: '/movimentos',
+            label: 'Movimentos'
+            // submenu: [
+            //     { href: '/mobilizadores/ambiental', label: 'Ambiental' },
+            //     { href: '/mobilizadores/social', label: 'Social' },
+            //     { href: '/mobilizadores/esportivo', label: 'Esportivo' },
+            // ]
         },
         { href: '/planos', label: 'Parceiros' },
         { href: '/agenda', label: 'Agenda' },
