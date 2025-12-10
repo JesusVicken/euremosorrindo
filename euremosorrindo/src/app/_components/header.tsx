@@ -81,6 +81,9 @@ export default function Header() {
             href: '/estrutura', label: 'Serviços'
         },
         {
+            href: '/remadas', label: 'Bora Remar'
+        },
+        {
             href: '/movimentos',
             label: 'Movimentos'
             // submenu: [
