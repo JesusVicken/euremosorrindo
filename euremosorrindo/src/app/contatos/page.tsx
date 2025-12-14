@@ -29,9 +29,6 @@ export default function ContatoPage() {
     const whatsappMessage = "Olá! Vim pelo site e gostaria de saber mais sobre as aulas de canoagem."
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
-    // Link para abrir o mapa em nova aba (App nativo)
-    const mapLinkExterno = "https://maps.app.goo.gl/seuLinkAquiSeTiver"
-
     useEffect(() => {
         AOS.init({
             duration: 800,
@@ -101,7 +98,7 @@ export default function ContatoPage() {
                 </div>
             </div>
 
-            {/* 3. CARDS INTERATIVOS */}
+            {/* 3. CARDS INTERATIVOS (ATUALIZADO: ÍCONES MAIORES) */}
             <section className="py-20 px-4 -mt-10 relative z-20">
                 <div className="container mx-auto max-w-6xl">
                     <div className="grid md:grid-cols-3 gap-6">
@@ -113,11 +110,12 @@ export default function ContatoPage() {
                         >
                             <Card className="h-full bg-white border-2 border-transparent hover:border-green-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
                                 <CardContent className="p-8 flex flex-col items-center text-center">
-                                    <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-6 group-hover:bg-green-600 group-hover:text-white transition-colors">
-                                        <WhatsappLogo size={40} weight="fill" />
+                                    {/* Ícone Aumentado e Margem Reduzida */}
+                                    <div className="w-24 h-24 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                                        <WhatsappLogo size={56} weight="fill" />
                                     </div>
                                     <h3 className="text-2xl font-bold text-slate-800 mb-2">WhatsApp</h3>
-                                    <p className="text-slate-500 mb-6">Agende sua aula ou tire dúvidas rapidamente.</p>
+                                    <p className="text-slate-500 mb-6 text-sm md:text-base">Agende sua aula ou tire dúvidas rapidamente.</p>
                                     <span className="mt-auto text-green-600 font-bold flex items-center gap-2">
                                         Iniciar Conversa <ArrowRight size={18} />
                                     </span>
@@ -132,11 +130,12 @@ export default function ContatoPage() {
                         >
                             <Card className="h-full bg-white border-2 border-transparent hover:border-blue-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
                                 <CardContent className="p-8 flex flex-col items-center text-center">
-                                    <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                        <MapPin size={40} />
+                                    {/* Ícone Aumentado e Margem Reduzida */}
+                                    <div className="w-24 h-24 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                                        <MapPin size={56} />
                                     </div>
                                     <h3 className="text-2xl font-bold text-slate-800 mb-2">Localização</h3>
-                                    <p className="text-slate-500 mb-6">Escola Fernanda Rachid<br />Setor de Clubes Sul</p>
+                                    <p className="text-slate-500 mb-6 text-sm md:text-base">Escola Fernanda Rachid<br />Setor de Clubes Sul</p>
                                     <span className="mt-auto text-blue-600 font-bold flex items-center gap-2">
                                         Ver no Mapa <ArrowRight size={18} />
                                     </span>
@@ -151,11 +150,12 @@ export default function ContatoPage() {
                         >
                             <Card className="h-full bg-white border-2 border-transparent hover:border-orange-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
                                 <CardContent className="p-8 flex flex-col items-center text-center">
-                                    <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 mb-6 group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                                        <Clock size={40} />
+                                    {/* Ícone Aumentado e Margem Reduzida */}
+                                    <div className="w-24 h-24 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 mb-4 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300 shadow-sm">
+                                        <Clock size={56} />
                                     </div>
                                     <h3 className="text-2xl font-bold text-slate-800 mb-2">Horários</h3>
-                                    <p className="text-slate-500 mb-6">Todos os dias<br />06:00 às 18:00</p>
+                                    <p className="text-slate-500 mb-6 text-sm md:text-base">Todos os dias<br />06:00 às 18:00</p>
                                     <span className="mt-auto text-orange-600 font-bold flex items-center gap-2">
                                         Consultar Vagas <ArrowRight size={18} />
                                     </span>
@@ -167,7 +167,7 @@ export default function ContatoPage() {
                 </div>
             </section>
 
-            {/* 4. MAPA GRANDE + DETALHES (CORRIGIDO) */}
+            {/* 4. MAPA GRANDE + DETALHES (ATUALIZADO: LOGOS) */}
             <section className="pb-20 px-4" id="mapa-container">
                 <div className="container mx-auto max-w-6xl">
                     <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100 grid lg:grid-cols-2">
@@ -176,9 +176,27 @@ export default function ContatoPage() {
                             <div className="inline-flex items-center gap-2 text-blue-600 font-bold bg-blue-100 w-fit px-4 py-1.5 rounded-full text-sm">
                                 <MapPin size={16} /> Ponto de Encontro
                             </div>
-                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
-                                Escola Fernanda Rachid
-                            </h2>
+
+                            {/* SUBSTITUIÇÃO DO TÍTULO PELAS LOGOS */}
+                            <div className="flex items-center gap-6 mb-4">
+                                <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0">
+                                    <Image
+                                        src="/logoescola.png"
+                                        alt="Logo Escola Fernanda Rachid"
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
+                                <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0">
+                                    <Image
+                                        src="/logoeuremo.png"
+                                        alt="Logo Eu Remo Sorrindo"
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
+                            </div>
+
                             <p className="text-slate-600 text-lg leading-relaxed">
                                 Nossa base está localizada em um dos pontos mais bonitos do Lago Paranoá.
                                 Oferecemos estrutura completa para receber você e sua família com segurança e conforto.
@@ -203,11 +221,11 @@ export default function ContatoPage() {
                                 onClick={() => window.open(whatsappLink, '_blank')}
                                 className="mt-6 bg-green-600 hover:bg-green-700 text-white rounded-xl py-6 text-lg shadow-lg hover:shadow-green-200 transition-all w-full md:w-fit"
                             >
-                                Agendar Visita
+                                Agendar Remada
                             </Button>
                         </div>
 
-                        {/* IFRAME CORRIGIDO */}
+                        {/* IFRAME */}
                         <div className="h-[400px] lg:h-auto relative bg-slate-200">
                             <iframe
                                 title="Localização Escola Fernanda Rachid"
