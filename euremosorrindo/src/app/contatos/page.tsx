@@ -8,14 +8,14 @@ import {
     YoutubeLogo,
     WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr"
-import { MapPin, Phone, Mail, Clock, Users } from "lucide-react"
+import { MapPin, Phone, Clock, ArrowRight } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useEffect } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-// Logos dos parceiros (ajuste os caminhos conforme necessário)
+// Logos dos parceiros
 const brands = [
     { name: "Rumo", logo: "/rumo.webp" },
     { name: "Fundação Baúminas", logo: "/bauminas.jpg" },
@@ -26,298 +26,250 @@ const brands = [
 
 export default function ContatoPage() {
     const whatsappNumber = "61999674507"
-    const whatsappMessage = "Olá! Visitei o site da Eu Remo Sorrindo e gostaria de mais informações sobre as aulas e experiências."
+    const whatsappMessage = "Olá! Vim pelo site e gostaria de saber mais sobre as aulas de canoagem."
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
+
+    // Link para abrir o mapa em nova aba (App nativo)
+    const mapLinkExterno = "https://maps.app.goo.gl/seuLinkAquiSeTiver"
 
     useEffect(() => {
         AOS.init({
-            duration: 1000,
+            duration: 800,
             easing: 'ease-out-cubic',
             once: true
         })
     }, [])
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
-            {/* Hero Section com Banner */}
-            <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0">
-                    <Image
-                        src="/bgremo.webp"
-                        alt="Canoagem no Lago Paranoá - Eu Remo Sorrindo"
-                        fill
-                        className="object-cover"
-                        priority
-                        sizes="100vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-cyan-700/70" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        <div className="min-h-screen bg-slate-50 font-sans">
+
+            {/* 1. HERO SECTION COM VÍDEO */}
+            <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 w-full h-full">
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="object-cover w-full h-full brightness-75"
+                    >
+                        <source src="/remosorrindo.mp4" type="video/mp4" />
+                    </video>
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/40 to-black/30" />
                 </div>
 
-                <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
-                    <motion.h1
+                <div className="relative z-20 container mx-auto px-4 text-center">
+                    <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl"
+                        transition={{ duration: 1 }}
                     >
-                        Entre em Contato
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-lg"
-                    >
-                        Vamos remar juntos! Entre em contato e descubra as melhores experiências de canoagem no Lago Paranoá.
-                    </motion.p>
-                </div>
-            </section>
-
-            {/* Seção de Informações de Contato */}
-            <section className="py-16 lg:py-24 px-4 max-w-7xl mx-auto">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-                    {/* Informações de Contato */}
-                    <div className="space-y-8">
-                        <motion.div
-                            initial={{ opacity: 0, x: -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6 }}
-                            viewport={{ once: true }}
-                        >
-                            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">
-                                Vamos Conversar
-                            </h2>
-                            <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                                Estamos aqui para tirar todas suas dúvidas sobre aulas, passeios
-                                e experiências de canoagem. Entre em contato e vamos remar juntos!
-                            </p>
-                        </motion.div>
-
-                        {/* Cards de Informação */}
-                        <div className="space-y-6">
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                                viewport={{ once: true }}
-                            >
-                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                                    <CardContent className="p-6">
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-3 bg-blue-100 rounded-xl">
-                                                <Phone className="w-6 h-6 text-blue-600" />
-                                            </div>
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">Telefone</h3>
-                                                <p className="text-gray-600">(61) 99967-4507</p>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.2 }}
-                                viewport={{ once: true }}
-                            >
-                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                                    <CardContent className="p-6">
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-3 bg-green-100 rounded-xl">
-                                                <WhatsappLogo className="w-6 h-6 text-green-600" />
-                                            </div>
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">WhatsApp</h3>
-                                                <p className="text-gray-600">(61) 99967-4507</p>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.3 }}
-                                viewport={{ once: true }}
-                            >
-                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                                    <CardContent className="p-6">
-                                        <div className="flex items-start gap-4">
-                                            <div className="p-3 bg-cyan-100 rounded-xl">
-                                                <MapPin className="w-6 h-6 text-cyan-600" />
-                                            </div>
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">Localização</h3>
-                                                <p className="text-gray-600">
-                                                    ASSTJ – Setor de Clubes Sul, TR1<br />
-                                                    Brasília - DF
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.4 }}
-                                viewport={{ once: true }}
-                            >
-                                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                                    <CardContent className="p-6">
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-3 bg-purple-100 rounded-xl">
-                                                <Clock className="w-6 h-6 text-purple-600" />
-                                            </div>
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-gray-800 mb-1">Horários</h3>
-                                                <p className="text-gray-600">Segunda a Domingo - 6h às 18h</p>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        </div>
-
-                        {/* Botão WhatsApp Principal */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.5 }}
-                            viewport={{ once: true }}
-                        >
-                            <Button
-                                onClick={() => window.open(whatsappLink, '_blank')}
-                                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
-                                size="lg"
-                            >
-                                <WhatsappLogo className="w-6 h-6 mr-3" />
-                                Fale Conosco no WhatsApp
-                            </Button>
-                        </motion.div>
-                    </div>
-
-                    {/* Mapa */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="space-y-6"
-                    >
-                        <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
-                            <div className="p-6">
-                                <h3 className="text-2xl font-bold text-gray-800 mb-4">Nossa Localização</h3>
-                                <p className="text-gray-600 mb-6">
-                                    Estamos localizados na ASSTJ, no Setor de Clubes Sul,
-                                    oferecendo fácil acesso e uma vista incrível do Lago Paranoá.
-                                </p>
-                            </div>
-                            <div className="w-full h-80 md:h-96 relative">
-                                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent z-10 pointer-events-none"></div>
-                                <iframe
-                                    title="Localização Eu Remo Sorrindo na ASSTJ"
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.123456789012!2d-47.933307724014!3d-15.793466137997992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a309c8b61b5f7%3A0x1b3cb3b41a4d501a!2sASSTJ%20-%20Associa%C3%A7%C3%A3o%20dos%20Servidores%20do%20STJ%20e%20do%20CJF!5e0!3m2!1spt-BR!2sbr!4v1234567890123"
-                                    width="100%"
-                                    height="100%"
-                                    loading="lazy"
-                                    style={{ border: 0 }}
-                                    allowFullScreen
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                ></iframe>
-                            </div>
-                        </div>
-
-                        {/* Redes Sociais */}
-                        <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden">
-                            <CardContent className="p-6">
-                                <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-                                    Siga Nossas Aventuras
-                                </h3>
-                                <p className="text-gray-600 text-center mb-6">
-                                    Acompanhe nossas experiências e novidades nas redes sociais
-                                </p>
-                                <div className="flex justify-center gap-4">
-                                    <a
-                                        href="https://www.instagram.com/euremosorrindo/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        aria-label="Instagram"
-                                        className="bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-xl hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
-                                    >
-                                        <InstagramLogo className="w-6 h-6 text-white" />
-                                    </a>
-                                    <a
-                                        href="https://www.facebook.com/euremosorrindo"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        aria-label="Facebook"
-                                        className="bg-gradient-to-br from-blue-600 to-blue-700 p-4 rounded-xl hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
-                                    >
-                                        <FacebookLogo className="w-6 h-6 text-white" />
-                                    </a>
-                                    <a
-                                        href="https://www.youtube.com/@euremosorrindo"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        aria-label="YouTube"
-                                        className="bg-gradient-to-br from-red-600 to-red-700 p-4 rounded-xl hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
-                                    >
-                                        <YoutubeLogo className="w-6 h-6 text-white" />
-                                    </a>
-                                </div>
-                            </CardContent>
-                        </Card>
+                        <span className="inline-block py-1 px-4 rounded-full bg-orange-500 text-white font-bold text-sm mb-6 shadow-lg tracking-wide uppercase">
+                            Contato & Localização
+                        </span>
+                        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-xl leading-tight">
+                            Vamos Remar <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-300">
+                                Juntos?
+                            </span>
+                        </h1>
+                        <p className="text-xl text-slate-100 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+                            Entre em contato, tire suas dúvidas e venha viver a experiência da canoagem no Lago Paranoá.
+                        </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Seção de Parceiros */}
-            <section className="py-16 bg-gradient-to-br from-blue-900 to-slate-900 text-white">
-                <div className="max-w-7xl mx-auto px-4">
+            {/* 2. BARRA DE REDES SOCIAIS */}
+            <div className="bg-white border-b border-slate-200 relative z-30 shadow-sm">
+                <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p className="font-semibold text-slate-600 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Siga nossas aventuras diárias:
+                    </p>
+                    <div className="flex gap-4">
+                        <a href="https://instagram.com/euremosorrindo" target="_blank" className="bg-gradient-to-tr from-yellow-500 via-pink-600 to-purple-600 text-white p-2.5 rounded-lg hover:scale-110 transition-transform shadow-md">
+                            <InstagramLogo size={24} weight="bold" />
+                        </a>
+                        <a href="https://facebook.com/euremosorrindo" target="_blank" className="bg-blue-600 text-white p-2.5 rounded-lg hover:scale-110 transition-transform shadow-md">
+                            <FacebookLogo size={24} weight="bold" />
+                        </a>
+                        <a href="https://youtube.com/@euremosorrindo" target="_blank" className="bg-red-600 text-white p-2.5 rounded-lg hover:scale-110 transition-transform shadow-md">
+                            <YoutubeLogo size={24} weight="bold" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {/* 3. CARDS INTERATIVOS */}
+            <section className="py-20 px-4 -mt-10 relative z-20">
+                <div className="container mx-auto max-w-6xl">
+                    <div className="grid md:grid-cols-3 gap-6">
+
+                        <motion.div
+                            whileHover={{ y: -10 }}
+                            className="cursor-pointer"
+                            onClick={() => window.open(whatsappLink, '_blank')}
+                        >
+                            <Card className="h-full bg-white border-2 border-transparent hover:border-green-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
+                                <CardContent className="p-8 flex flex-col items-center text-center">
+                                    <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-6 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                                        <WhatsappLogo size={40} weight="fill" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-2">WhatsApp</h3>
+                                    <p className="text-slate-500 mb-6">Agende sua aula ou tire dúvidas rapidamente.</p>
+                                    <span className="mt-auto text-green-600 font-bold flex items-center gap-2">
+                                        Iniciar Conversa <ArrowRight size={18} />
+                                    </span>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+
+                        <motion.div
+                            whileHover={{ y: -10 }}
+                            className="cursor-pointer"
+                            onClick={() => document.getElementById('mapa-container')?.scrollIntoView({ behavior: 'smooth' })}
+                        >
+                            <Card className="h-full bg-white border-2 border-transparent hover:border-blue-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
+                                <CardContent className="p-8 flex flex-col items-center text-center">
+                                    <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                        <MapPin size={40} />
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-2">Localização</h3>
+                                    <p className="text-slate-500 mb-6">Escola Fernanda Rachid<br />Setor de Clubes Sul</p>
+                                    <span className="mt-auto text-blue-600 font-bold flex items-center gap-2">
+                                        Ver no Mapa <ArrowRight size={18} />
+                                    </span>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+
+                        <motion.div
+                            whileHover={{ y: -10 }}
+                            className="cursor-pointer"
+                            onClick={() => window.open(whatsappLink, '_blank')}
+                        >
+                            <Card className="h-full bg-white border-2 border-transparent hover:border-orange-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
+                                <CardContent className="p-8 flex flex-col items-center text-center">
+                                    <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 mb-6 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                                        <Clock size={40} />
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-2">Horários</h3>
+                                    <p className="text-slate-500 mb-6">Todos os dias<br />06:00 às 18:00</p>
+                                    <span className="mt-auto text-orange-600 font-bold flex items-center gap-2">
+                                        Consultar Vagas <ArrowRight size={18} />
+                                    </span>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+
+                    </div>
+                </div>
+            </section>
+
+            {/* 4. MAPA GRANDE + DETALHES (CORRIGIDO) */}
+            <section className="pb-20 px-4" id="mapa-container">
+                <div className="container mx-auto max-w-6xl">
+                    <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100 grid lg:grid-cols-2">
+
+                        <div className="p-8 lg:p-12 flex flex-col justify-center space-y-6 bg-gradient-to-br from-white to-blue-50">
+                            <div className="inline-flex items-center gap-2 text-blue-600 font-bold bg-blue-100 w-fit px-4 py-1.5 rounded-full text-sm">
+                                <MapPin size={16} /> Ponto de Encontro
+                            </div>
+                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
+                                Escola Fernanda Rachid
+                            </h2>
+                            <p className="text-slate-600 text-lg leading-relaxed">
+                                Nossa base está localizada em um dos pontos mais bonitos do Lago Paranoá.
+                                Oferecemos estrutura completa para receber você e sua família com segurança e conforto.
+                            </p>
+
+                            <div className="flex flex-col gap-4 mt-4">
+                                <div className="flex items-center gap-4 text-slate-700">
+                                    <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+                                        <Phone size={20} />
+                                    </div>
+                                    <span className="font-semibold">(61) 99967-4507</span>
+                                </div>
+                                <div className="flex items-center gap-4 text-slate-700">
+                                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                        <WhatsappLogo size={20} weight="fill" />
+                                    </div>
+                                    <span className="font-semibold">Atendimento via WhatsApp</span>
+                                </div>
+                            </div>
+
+                            <Button
+                                onClick={() => window.open(whatsappLink, '_blank')}
+                                className="mt-6 bg-green-600 hover:bg-green-700 text-white rounded-xl py-6 text-lg shadow-lg hover:shadow-green-200 transition-all w-full md:w-fit"
+                            >
+                                Agendar Visita
+                            </Button>
+                        </div>
+
+                        {/* IFRAME CORRIGIDO */}
+                        <div className="h-[400px] lg:h-auto relative bg-slate-200">
+                            <iframe
+                                title="Localização Escola Fernanda Rachid"
+                                src="https://maps.google.com/maps?q=Escola%20Fernanda%20Rachid%20Brasilia&t=m&z=15&output=embed&iwloc=near"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="grayscale-[0%] hover:grayscale-0 transition-all duration-500"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 5. PARCEIROS */}
+            <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+                    <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-orange-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+                </div>
+
+                <div className="container mx-auto px-4 relative z-10 text-center">
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
                         viewport={{ once: true }}
-                        className="text-center mb-12"
+                        className="mb-16"
                     >
-                        <h2 className="text-4xl font-bold mb-4">Nossos Parceiros</h2>
-                        <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-                            Empresas e organizações que acreditam no nosso trabalho e nos ajudam
-                            a proporcionar as melhores experiências em canoagem
+                        <h2 className="text-3xl font-bold mb-4">Parceiros Oficiais</h2>
+                        <div className="w-20 h-1.5 bg-gradient-to-r from-orange-500 to-yellow-400 mx-auto rounded-full"></div>
+                        <p className="mt-4 text-slate-400 max-w-xl mx-auto">
+                            Empresas que acreditam no esporte como ferramenta de transformação.
                         </p>
                     </motion.div>
 
-                    <div className="flex flex-wrap justify-center gap-8">
+                    <div className="flex flex-wrap justify-center gap-8 items-center">
                         {brands.map((item, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, scale: 0.8 }}
+                                initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl flex items-center justify-center shadow-lg border border-white/20 hover:scale-105 transition-transform duration-300"
+                                className="group"
                             >
-                                <Image
-                                    src={item.logo}
-                                    alt={item.name}
-                                    width={150}
-                                    height={80}
-                                    quality={100}
-                                    className="object-contain"
-                                    style={{
-                                        width: "auto",
-                                        height: "auto",
-                                        maxWidth: "150px",
-                                        maxHeight: "80px",
-                                    }}
-                                />
+                                <div className="bg-white p-6 rounded-2xl w-52 h-32 flex items-center justify-center hover:scale-105 transition-all duration-300 shadow-lg shadow-black/20">
+                                    <div className="relative w-full h-full">
+                                        <Image
+                                            src={item.logo}
+                                            alt={item.name}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                </div>
+                                <p className="mt-3 text-sm text-slate-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {item.name}
+                                </p>
                             </motion.div>
                         ))}
                     </div>

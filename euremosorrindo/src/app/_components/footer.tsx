@@ -13,15 +13,12 @@ import RemoLogo from "../../../public/remobrasilia.jpg"
 import CanoeLogo from "../../../public/canoe.jpg"
 import SaluteLogo from "../../../public/salute.jpg"
 
-
-
 const brands = [
   { name: "Rumo", logo: ascadeLogo },
   { name: "Fundação Baúminas", logo: canoMAMALogo },
   { name: "Remo Brasília", logo: RemoLogo },
   { name: "Canoe Brasil", logo: CanoeLogo },
   { name: "Salute Nutrição Esportiva", logo: SaluteLogo },
-
 ]
 
 export function Footer() {
@@ -108,7 +105,7 @@ export function Footer() {
               </div>
               <div className="flex items-start gap-3 text-cyan-100">
                 <MapPin className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1" />
-                <span>ASSTJ – Setor de Clubes Sul, TR1<br />Brasília - DF</span>
+                <span>Escola Fernanda Rachid<br />Setor de Clubes Sul, Tr. 1<br />Brasília - DF</span>
               </div>
             </div>
           </div>
@@ -154,12 +151,12 @@ export function Footer() {
         </footer>
       </div>
 
-      {/* Google Maps - Versão Corrigida */}
+      {/* Google Maps - Atualizado */}
       <div className="w-full h-[300px] md:h-[400px] lg:h-[450px] relative">
         <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent z-10 pointer-events-none"></div>
         <iframe
-          title="Localização Eu Remo Sorrindo na ASSTJ"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.123456789012!2d-47.933307724014!3d-15.793466137997992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a309c8b61b5f7%3A0x1b3cb3b41a4d501a!2sASSTJ%20-%20Associa%C3%A7%C3%A3o%20dos%20Servidores%20do%20STJ%20e%20do%20CJF!5e0!3m2!1spt-BR!2sbr!4v1234567890123"
+          title="Localização Escola Fernanda Rachid"
+          src="https://maps.google.com/maps?q=Escola+Fernanda+Rachid+Setor+de+Clubes+Esportivos+Sul+Brasilia&t=&z=15&ie=UTF8&iwloc=&output=embed"
           width="100%"
           height="100%"
           loading="lazy"

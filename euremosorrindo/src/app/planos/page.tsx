@@ -1,20 +1,19 @@
+
 'use client'
 
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Star, Users, Target, Award, Heart } from "lucide-react"
-import { useEffect } from 'react'
+import { Star, Users, Target, Award, Heart, TrendingUp, Shield, Zap, Sparkles } from "lucide-react"
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// Registrar plugin do GSAP
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger)
 }
 
-// Dados dos parceiros
 const brands = [
     {
         name: "Rumo",
@@ -50,29 +49,57 @@ const brands = [
         description: "Consultoria em nutrição para atletas",
         category: "Saúde",
         since: "2022"
-    },
+    }
 ]
 
 const benefits = [
     {
         icon: Users,
         title: "Rede Colaborativa",
-        description: "Conexão com profissionais e entidades do meio esportivo"
+        description: "Conexão estratégica com profissionais, atletas e instituições do cenário esportivo nacional",
+        gradient: "from-blue-500 to-cyan-500",
+        bgColor: "bg-gradient-to-br from-blue-50 to-cyan-50",
+        features: ["Networking exclusivo", "Parcerias estratégicas", "Acesso a eventos"]
     },
     {
         icon: Target,
-        title: "Metas Alcançadas",
-        description: "Juntos conquistamos resultados extraordinários"
+        title: "Resultados Mensuráveis",
+        description: "Métricas claras de performance e impacto social com relatórios trimestrais",
+        gradient: "from-green-500 to-emerald-500",
+        bgColor: "bg-gradient-to-br from-green-50 to-emerald-50",
+        features: ["KPIs personalizados", "ROI transparente", "Relatórios detalhados"]
     },
     {
         icon: Award,
-        title: "Reconhecimento",
-        description: "Visibilidade e credibilidade no mercado"
+        title: "Visibilidade de Marca",
+        description: "Exposição multiplataforma e associação a valores positivos do esporte",
+        gradient: "from-amber-500 to-orange-500",
+        bgColor: "bg-gradient-to-br from-amber-50 to-orange-50",
+        features: ["Branding em eventos", "Mídias sociais", "Conteúdo exclusivo"]
     },
     {
         icon: Heart,
-        title: "Propósito Compartilhado",
-        description: "Unidos por valores e objetivos comuns"
+        title: "Impacto Social",
+        description: "Contribuição direta para o desenvolvimento esportivo e inclusão social",
+        gradient: "from-rose-500 to-pink-500",
+        bgColor: "bg-gradient-to-br from-rose-50 to-pink-50",
+        features: ["Projetos sociais", "Inclusão esportiva", "Transformação comunitária"]
+    },
+    {
+        icon: TrendingUp,
+        title: "Crescimento",
+        description: "Oportunidades de negócio e expansão no mercado esportivo",
+        gradient: "from-purple-500 to-violet-500",
+        bgColor: "bg-gradient-to-br from-purple-50 to-violet-50",
+        features: ["Novos mercados", "Oportunidades B2B", "Expansão de portfólio"]
+    },
+    {
+        icon: Shield,
+        title: "Credibilidade",
+        description: "Associação a uma marca reconhecida e respeitada no esporte nacional",
+        gradient: "from-slate-700 to-slate-900",
+        bgColor: "bg-gradient-to-br from-slate-100 to-slate-200",
+        features: ["Reputação sólida", "Confiança do mercado", "Excelência comprovada"]
     }
 ]
 
@@ -81,115 +108,131 @@ export default function ParceirosPage() {
     const whatsappMessage = "Olá! Gostaria de mais informações sobre como ser um parceiro do Eu Remo Sorrindo."
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
+    const videoRef = useRef<HTMLVideoElement | null>(null)
+
     useEffect(() => {
-        // Animação dos cards de parceiros
         gsap.fromTo('.partner-card',
-            {
-                opacity: 0,
-                y: 60,
-                scale: 0.9
-            },
+            { opacity: 0, y: 60, scale: 0.95 },
             {
                 opacity: 1,
                 y: 0,
                 scale: 1,
                 duration: 0.8,
                 stagger: 0.15,
-                ease: "back.out(1.2)",
-                scrollTrigger: {
-                    trigger: '.partner-card',
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
+                ease: "power3.out",
+                scrollTrigger: { trigger: '.partner-card', start: 'top 85%' }
             }
         )
 
-        // Animação dos benefícios
         gsap.fromTo('.benefit-card',
-            {
-                opacity: 0,
-                x: -50
-            },
+            { opacity: 0, y: 30, rotateX: -15 },
             {
                 opacity: 1,
-                x: 0,
+                y: 0,
+                rotateX: 0,
                 duration: 0.6,
                 stagger: 0.1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: '.benefit-card',
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
+                ease: "back.out(1.2)",
+                scrollTrigger: { trigger: '.benefit-card', start: 'top 90%' }
             }
         )
 
-        // Animação de contagem
+        // Animar estatísticas
         const counters = document.querySelectorAll('.counter')
         counters.forEach(counter => {
-            const target = +counter.getAttribute('data-target')!
-            const duration = 2000
-            const steps = 60
-            const increment = target / steps
+            const target = Number(counter.getAttribute('data-target'))
             let current = 0
-
+            const increment = target / 50
             const timer = setInterval(() => {
                 current += increment
                 if (current >= target) {
-                    counter.textContent = target.toString()
+                    counter.textContent = String(target)
                     clearInterval(timer)
                 } else {
-                    counter.textContent = Math.floor(current).toString()
+                    counter.textContent = String(Math.floor(current))
                 }
-            }, duration / steps)
+            }, 25)
         })
     }, [])
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
-            {/* Hero Section */}
-            <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-700">
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-800/80 to-cyan-700/90" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        <div className="min-h-screen bg-slate-50">
 
-                    {/* Elementos decorativos */}
-                    <div className="absolute top-10 left-10 w-20 h-20 bg-cyan-400/20 rounded-full blur-xl"></div>
-                    <div className="absolute bottom-20 right-20 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
-                    <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-white/10 rounded-full blur-lg"></div>
+            {/* HERO COM VÍDEO */}
+            <section className="relative h-[85vh] w-full overflow-hidden">
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster="/parceria.jpg"
+                    className="absolute inset-0 h-full w-full object-cover"
+                >
+                    <source src="/entrepontes.mp4" type="video/mp4" />
+                </video>
+
+                {/* Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-cyan-700/30" />
+
+                {/* Logo Eu Remo Sorrindo */}
+                <div className="absolute top-6 left-6 z-20">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 border border-white/20">
+                        <Image
+                            src="/logoeuremo.png"
+                            alt="Eu Remo Sorrindo"
+                            width={160}
+                            height={60}
+                            className="object-contain"
+                        />
+                    </div>
                 </div>
 
-                <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
+                {/* Conteúdo */}
+                <div className="relative z-10 flex h-full items-center justify-center px-4">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
+                        className="max-w-5xl text-center text-white"
                     >
-                        <div className="flex justify-center mb-6">
-                            <div className="bg-white/20 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/30">
-                                <span className="text-sm font-semibold text-white/90">Parcerias que Transformam</span>
-                            </div>
-                        </div>
+                        <motion.span
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                            className="inline-block mb-8 rounded-full bg-gradient-to-r from-white/20 to-white/10 px-8 py-3 text-base font-semibold backdrop-blur-lg border border-white/30"
+                        >
+                            <Sparkles className="inline-block w-4 h-4 mr-2" />
+                            Parcerias que Transformam
+                        </motion.span>
 
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl">
-                            Nossos <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Parceiros</span>
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-8 tracking-tight">
+                            <span className="bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent">
+                                NOSSOS
+                            </span>
+                            <br />
+                            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
+                                PARCEIROS
+                            </span>
                         </h1>
 
-                        <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-lg mb-8">
-                            Juntos construímos uma rede de excelência no esporte,
-                            unindo forças para promover a canoagem e transformar vidas.
+                        <p className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+                            Marcas visionárias que acreditam no poder transformador do esporte
                         </p>
 
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.4 }}
+                            transition={{ delay: 0.6, duration: 0.5 }}
+                            className="flex flex-col sm:flex-row items-center justify-center gap-4"
                         >
                             <Button
-                                onClick={() => window.open(whatsappLink, '_blank')}
-                                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-8 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 text-lg"
                                 size="lg"
+                                onClick={() => window.open(whatsappLink, '_blank')}
+                                className="rounded-2xl px-12 py-7 text-lg font-semibold bg-gradient-to-r from-green-500 via-green-600 to-emerald-600 hover:from-green-600 hover:via-green-700 hover:to-emerald-700 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
                             >
+                                <Zap className="mr-2 h-5 w-5" />
                                 Seja Nosso Parceiro
                             </Button>
                         </motion.div>
@@ -197,63 +240,67 @@ export default function ParceirosPage() {
                 </div>
 
                 {/* Scroll indicator */}
-                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-                    <motion.div
-                        animate={{
-                            y: [0, 10, 0]
-                        }}
-                        transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
-                        className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
-                    >
-                        <motion.div
-                            animate={{
-                                y: [0, 12, 0]
-                            }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                            className="w-1 h-3 bg-white/70 rounded-full mt-2"
-                        />
-                    </motion.div>
-                </div>
+                <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+                >
+                    <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+                        <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
+                    </div>
+                </motion.div>
             </section>
 
-            {/* Estatísticas */}
-            <section className="py-16 bg-white/50 backdrop-blur-sm">
+            {/* ESTATÍSTICAS MODERNAS */}
+            <section className="py-20 bg-gradient-to-b from-white to-slate-50">
                 <div className="max-w-7xl mx-auto px-4">
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                        {[
-                            { number: 5, label: "Parceiros Ativos", suffix: "+" },
-                            { number: 4, label: "Anos de Parceria", suffix: "+" },
-                            { number: 50, label: "Projetos Realizados", suffix: "+" },
-                            { number: 1000, label: "Vidas Impactadas", suffix: "+" }
-                        ].map((stat, index) => (
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+                            Juntos Fazemos a Diferença
+                        </h2>
+                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                            Números que mostram nosso impacto coletivo no desenvolvimento do esporte nacional
+                        </p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                        {[{ n: 5, l: 'Parceiros Estratégicos', icon: Users },
+                        { n: 4, l: 'Anos de Excelência', icon: Award },
+                        { n: 50, l: 'Projetos Realizados', icon: Target },
+                        { n: 1000, l: 'Vidas Transformadas', icon: Heart }].map((s, i) => (
                             <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                key={i}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: i * 0.1 }}
                                 viewport={{ once: true }}
                                 className="text-center"
                             >
-                                <div className="text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
-                                    <span className="counter" data-target={stat.number}>0</span>{stat.suffix}
+                                <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-slate-100">
+                                    <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 rounded-2xl bg-gradient-to-br ${i === 0 ? 'from-blue-500 to-cyan-500' : i === 1 ? 'from-amber-500 to-orange-500' : i === 2 ? 'from-green-500 to-emerald-500' : 'from-rose-500 to-pink-500'} shadow-lg`}>
+                                        <s.icon className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div className="mt-4">
+                                        <div className="text-5xl font-black text-slate-800 mb-2">
+                                            <span className="counter" data-target={s.n}>0</span>+
+                                        </div>
+                                        <p className="text-slate-600 font-medium">{s.l}</p>
+                                    </div>
                                 </div>
-                                <div className="text-gray-600 font-medium">{stat.label}</div>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Parceiros */}
-            <section className="py-16 lg:py-24 px-4 max-w-7xl mx-auto">
+            {/* PARCEIROS */}
+            <section className="py-24 px-4 max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -261,149 +308,184 @@ export default function ParceirosPage() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
-                        Conheça Nossos Parceiros
+                    <div className="inline-flex items-center gap-3 mb-6">
+                        <div className="h-px w-12 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+                        <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm">Nossas Alianças</span>
+                        <div className="h-px w-12 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
+                        Empresas que Acreditam em <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Nossa Missão</span>
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                        Empresas e organizações que compartilham nossa paixão pelo esporte
-                        e juntos construímos um legado na canoagem brasileira.
+                    <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                        Conheça as organizações que fazem parte da nossa rede de transformação esportiva
                     </p>
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {brands.map((brand, index) => (
-                        <motion.div
-                            key={brand.name}
-                            className="partner-card group"
-                        >
-                            <Card className="bg-white/90 backdrop-blur-sm border border-gray-200 shadow-xl rounded-3xl overflow-hidden h-full hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                    {brands.map(brand => (
+                        <div key={brand.name} className="partner-card">
+                            <Card className="rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 border border-slate-200 overflow-hidden">
                                 <CardContent className="p-8">
-                                    {/* Logo */}
-                                    <div className="flex justify-center mb-6">
-                                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl border border-blue-200 group-hover:scale-110 transition-transform duration-300">
+                                    <div className="flex flex-col items-center text-center">
+                                        {/* Logo Container */}
+                                        <div className="relative w-48 h-24 mb-8">
                                             <Image
                                                 src={brand.logo}
                                                 alt={brand.name}
-                                                width={120}
-                                                height={60}
-                                                quality={100}
+                                                fill
                                                 className="object-contain"
-                                                style={{
-                                                    width: "auto",
-                                                    height: "auto",
-                                                    maxWidth: "120px",
-                                                    maxHeight: "60px",
-                                                }}
+                                                sizes="(max-width: 192px) 100vw, 192px"
                                             />
                                         </div>
-                                    </div>
 
-                                    {/* Informações */}
-                                    <div className="text-center space-y-4">
-                                        <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                                            {brand.name}
-                                        </h3>
-
-                                        <div className="flex justify-center gap-2">
-                                            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                                        {/* Badges */}
+                                        <div className="flex gap-2 mb-6">
+                                            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                                                 {brand.category}
                                             </span>
-                                            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                                            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
                                                 Desde {brand.since}
                                             </span>
                                         </div>
 
-                                        <p className="text-gray-600 leading-relaxed">
-                                            {brand.description}
-                                        </p>
+                                        {/* Content */}
+                                        <h3 className="text-2xl font-bold text-slate-800 mb-3">{brand.name}</h3>
+                                        <p className="text-slate-600 mb-6 leading-relaxed">{brand.description}</p>
 
                                         {/* Rating */}
-                                        <div className="flex justify-center items-center gap-1 text-amber-500">
-                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                <Star key={star} className="w-4 h-4 fill-current" />
+                                        <div className="flex items-center justify-center gap-1 text-amber-500 mb-2">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star key={i} className="w-5 h-5 fill-current" />
                                             ))}
-                                            <span className="text-sm text-gray-500 ml-1">5.0</span>
                                         </div>
+                                        <span className="text-sm text-slate-500">Parceria 5 estrelas</span>
                                     </div>
                                 </CardContent>
                             </Card>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </section>
 
-            {/* Benefícios da Parceria */}
-            <section className="py-16 bg-gradient-to-br from-blue-900 to-slate-900 text-white">
-                <div className="max-w-7xl mx-auto px-4">
+            {/* BENEFÍCIOS MODERNOS */}
+            <section className="py-24 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+                {/* Elementos decorativos */}
+                <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+
+                <div className="max-w-7xl mx-auto relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         viewport={{ once: true }}
-                        className="text-center mb-16"
+                        className="text-center mb-20"
                     >
-                        <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-                            Vantagens de Ser Nosso Parceiro
+                        <div className="inline-flex items-center gap-3 mb-6">
+                            <div className="h-px w-12 bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
+                            <span className="text-cyan-400 font-semibold uppercase tracking-wider text-sm">Vantagens Exclusivas</span>
+                            <div className="h-px w-12 bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
+                        </div>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                            Por que ser nosso <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">Parceiro?</span>
                         </h2>
-                        <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-                            Uma parceria que vai além do negócio, criando valor para todos os envolvidos.
+                        <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+                            Oferecemos mais que uma parceria - criamos uma relação estratégica que gera valor para todos
                         </p>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                         {benefits.map((benefit, index) => (
                             <motion.div
                                 key={benefit.title}
-                                className="benefit-card"
+                                initial={{ opacity: 0, y: 30, rotateX: -15 }}
+                                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                                className="benefit-card h-full"
                             >
-                                <Card className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl overflow-hidden h-full hover:bg-white/15 transition-all duration-300 group">
-                                    <CardContent className="p-6 text-center">
-                                        <div className="flex justify-center mb-4">
-                                            <div className="p-3 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-300">
-                                                <benefit.icon className="w-8 h-8 text-white" />
-                                            </div>
+                                <Card className={`rounded-3xl border-0 overflow-hidden h-full transform transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl ${benefit.bgColor}`}>
+                                    <CardContent className="p-8 h-full flex flex-col">
+                                        {/* Ícone com gradiente */}
+                                        <div className={`mb-6 p-4 rounded-2xl bg-gradient-to-br ${benefit.gradient} w-14 h-14 flex items-center justify-center shadow-lg`}>
+                                            <benefit.icon className="w-7 h-7 text-white" />
                                         </div>
-                                        <h3 className="text-xl font-bold text-white mb-3">
+
+                                        {/* Título */}
+                                        <h3 className="text-2xl font-bold text-slate-800 mb-4">
                                             {benefit.title}
                                         </h3>
-                                        <p className="text-blue-100 leading-relaxed">
+
+                                        {/* Descrição */}
+                                        <p className="text-slate-600 mb-6 flex-grow">
                                             {benefit.description}
                                         </p>
+
+                                        {/* Features */}
+                                        <div className="space-y-3">
+                                            {benefit.features.map((feature, idx) => (
+                                                <div key={idx} className="flex items-center gap-3">
+                                                    <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${benefit.gradient}`} />
+                                                    <span className="text-sm font-medium text-slate-700">{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Decorative element */}
+                                        <div className="mt-6 pt-6 border-t border-slate-200/50">
+                                            <div className={`h-1 rounded-full w-12 bg-gradient-to-r ${benefit.gradient}`} />
+                                        </div>
                                     </CardContent>
                                 </Card>
                             </motion.div>
                         ))}
                     </div>
-                </div>
-            </section>
 
-            {/* CTA Final */}
-            <section className="py-16 lg:py-24 px-4">
-                <div className="max-w-4xl mx-auto text-center">
+                    {/* CTA FINAL CLEAN */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
                         viewport={{ once: true }}
+                        className="mt-24 text-center"
                     >
-                        <h2 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
-                            Vamos Construir Juntos?
-                        </h2>
-                        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                            Se sua empresa compartilha nossos valores e quer fazer parte
-                            dessa jornada, entre em contato e vamos conversar!
-                        </p>
+                        <div className="max-w-3xl mx-auto">
+                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                                Vamos criar algo extraordinário juntos?
+                            </h3>
 
-                        <Button
-                            onClick={() => window.open(whatsappLink, '_blank')}
-                            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-8 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 text-lg"
-                            size="lg"
-                        >
-                            Iniciar Parceria
-                        </Button>
+                            <p className="text-lg text-slate-300 mb-10">
+                                Entre em contato para uma conversa estratégica sobre como sua marca pode fazer parte desta jornada
+                            </p>
+
+                            <Button
+                                size="lg"
+                                onClick={() => window.open(whatsappLink, '_blank')}
+                                className="rounded-2xl px-12 py-7 text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-2xl hover:shadow-3xl transition-all duration-300"
+                            >
+                                <Zap className="mr-3 h-6 w-6" />
+                                Iniciar Parceria
+                            </Button>
+
+                            <p className="text-slate-400 text-sm mt-6">
+                                Respondemos em até 24 horas úteis
+                            </p>
+                        </div>
                     </motion.div>
                 </div>
             </section>
+
+            {/* CSS para animação de gradiente */}
+            <style jsx global>{`
+        @keyframes gradient-x {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradient-x 3s ease infinite;
+        }
+      `}</style>
         </div>
     )
 }
