@@ -450,10 +450,6 @@ export default function ParceirosPage() {
                         className="mt-24 text-center"
                     >
                         <div className="max-w-3xl mx-auto">
-                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                                Vamos criar algo extraordinário juntos?
-                            </h3>
-
                             <p className="text-lg text-slate-300 mb-10">
                                 Entre em contato para uma conversa estratégica sobre como sua marca pode fazer parte desta jornada
                             </p>
