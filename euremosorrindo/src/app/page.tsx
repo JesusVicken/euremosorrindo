@@ -8,12 +8,12 @@ import { Footer } from "./_components/footer"
 // import { ParallaxWrapper } from "./_components/ParallaxWrapper"
 import WhatsappWrapper from "./_components/whatsapp-wrapper"
 import HeroSection from "./_components/HeroSection"
-// import MaskEffect from "./_components/maskEffect"
+import MaskEffect from "./_components/maskEffect"
 
 export default function Home() {
   return (
     <main>
-      {/* <MaskEffect /> */}
+
       <HeroSection />
       <Hero />
       <About />
@@ -26,6 +26,7 @@ export default function Home() {
         {/* <Tours />
         <Services />
         <CheckVaa /> */}
+        <MaskEffect />
         <Footer />
 
       </WhatsappWrapper>
