@@ -81,7 +81,7 @@ export default function Header() {
             href: '/estrutura', label: 'Serviços'
         },
         {
-            href: '/remadas', label: 'Bora Remar'
+            href: '/remadas', label: 'Aulas'
         },
         {
             href: '/movimentos',
