@@ -5,372 +5,458 @@ import { motion } from 'framer-motion'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { useEffect, useState } from 'react'
-import { Check, Phone, MessageCircle, MapPin, Clock, Shield, Truck, Users, Leaf, ChevronRight, Maximize2, X, ShoppingBag, CreditCard } from 'lucide-react'
+import {
+    Check, MessageCircle, ChevronRight, X, Sun, Droplets,
+    ChevronLeft, CreditCard, ShoppingBag, Palette
+} from 'lucide-react'
 
+// --- DADOS DOS REMOS ---
 const produtosRemos = [
     {
-        id: 1,
-        nome: 'Remo Elite Madeira',
-        preco: 'R$ 798,00', // Valor Atualizado
-        descricao: 'Modelo clássico com cabo em madeira caixeta e pá em madeira revestida com fibra de vidro',
-        descricaoCompleta: 'O remo Elite Madeira é um modelo construído com cabo em madeira caixeta formado por 4 lâminas, curvo e pá em madeira revestida com fibra de vidro. Isso deixa o remo um pouco mais flexível e proporciona uma remada bem confortável. Ideal para quem inicia no esporte assim como para quem busca uma construção mais clássica.',
-        imagem: '/madeira.webp',
-        imagemLarge: '/madeira.webp',
-        categoria: 'Clássico',
+        id: 'madeira',
+        nome: 'Remo Madeira (Iniciante)',
+        preco: 'R$ 798,00',
+        condicaoPagamento: 'À vista ou 2x (+10%)',
+        descricao: 'Modelo clássico indicado para quem está iniciando no esporte.',
+        descricaoCompleta: 'O remo de Madeira é ideal para quem busca sentir a água com conforto. Sua construção oferece a flexibilidade necessária para o aprendizado, reduzindo o impacto nas articulações.',
+        imagens: ['/produtos/remo1.jpg', '/produtos/remo2.jpg'],
+        categoria: 'Iniciante',
         caracteristicas: [
-            'Cabo em madeira caixeta (4 lâminas)',
-            'Pá em madeira + fibra de vidro',
-            'Flexibilidade ideal para conforto',
-            'Construção artesanal sustentável',
-            'Peso equilibrado para iniciantes e experientes'
+            'Construção em Madeira',
+            'Flexibilidade ideal para aprendizado',
+            'Design clássico',
+            'Ótimo custo-benefício'
         ],
-        recomendacao: 'Ideal para remadores que buscam uma construção clássica, maior flexibilidade e conforto na remada.',
-        disponivel: true,
-        destaque: true,
-        avaliacao: 4.8,
         prontaEntrega: true,
-        dimensoes: '399x239 mm'
+    },
+    {
+        id: 'hibrido',
+        nome: 'Remo Híbrido (Performance)',
+        preco: 'R$ 1.395,00',
+        condicaoPagamento: 'À vista ou 2x (+10%)',
+        descricao: 'Modelo híbrido (madeira e carbono) indicado para atletas que visam performance.',
+        descricaoCompleta: 'A união perfeita entre a tradição da madeira no cabo e a tecnologia do carbono na pá. Proporciona leveza, rigidez e a transferência de força ideal para competições.',
+        imagens: ['/produtos/remo3.jpg', '/produtos/remo4.jpg', '/produtos/remo5.jpg', '/produtos/remo6.jpg'],
+        categoria: 'Performance',
+        caracteristicas: [
+            'Cabo em Madeira (Conforto)',
+            'Pá em Carbono (Rigidez e Leveza)',
+            'Transferência de força superior',
+            'Indicado para competições'
+        ],
+        prontaEntrega: true,
+    }
+]
+
+// --- DADOS DOS COLETES ---
+const produtosColetes = [
+    {
+        id: 1,
+        nome: 'Colete Hava',
+        imgFrente: '/produtos/coletehava.webp',
+        imgCostas: '/produtos/coletehava2.webp',
     },
     {
         id: 2,
-        nome: 'Remo Elite Carbono',
-        preco: 'R$ 1.395,00', // Valor Atualizado
-        descricao: 'Modelo híbrido com cabo em madeira caixeta e pá em espuma naval revestida com fibra de carbono',
-        descricaoCompleta: 'O Remo Elite Carbono é um modelo híbrido, construído com cabo em madeira caixeta formado por 4 lâminas, curvo e pá em espuma naval revestida com fibra de carbono. Isso deixa o conjunto um pouco mais leve e rígido, proporcionando conforto e performance. Remo fabricado artesanalmente por remadores, para remadores.',
-        imagem: '/carbono.webp',
-        imagemLarge: '/carbono.webp',
-        categoria: 'Performance',
-        caracteristicas: [
-            'Cabo em madeira caixeta (4 lâminas)',
-            'Pá em espuma naval + fibra de carbono',
-            'Leveza e rigidez premium',
-            'Construção artesanal sustentável',
-            'Performance para competição'
-        ],
-        recomendacao: 'Recomendado para remadores iniciantes e competidores que buscam leveza, rigidez e alta performance.',
-        disponivel: true,
-        destaque: true,
-        avaliacao: 4.9,
-        prontaEntrega: true,
-        dimensoes: '399x239 mm'
+        nome: 'Colete Iguaçu',
+        imgFrente: '/produtos/coleteiguacu.jpg',
+        imgCostas: '/produtos/coleteiguacu2.jpg',
+    },
+    {
+        id: 3,
+        nome: 'Colete Multisport',
+        imgFrente: '/produtos/coletemultisport.jpg',
+        imgCostas: '/produtos/coletemultisport2.jpg',
+        obs: 'Disponível em Laranja e Azul'
+    },
+    {
+        id: 4,
+        nome: 'Colete Wind',
+        imgFrente: '/produtos/coletewind.jpg',
+        imgCostas: '/produtos/coletewind2.jpg',
     }
 ]
 
-const beneficios = [
-    {
-        icone: Truck,
-        titulo: 'Pronta Entrega',
-        descricao: 'Disponível para retirada imediata em nossa loja em Brasília'
-    },
-    {
-        icone: Shield,
-        titulo: 'Garantia Especial',
-        descricao: 'Garantia exclusiva para membros da comunidade CPP Extreme'
-    },
-    {
-        icone: Users,
-        titulo: 'Feito por Remadores',
-        descricao: 'Equipamentos desenvolvidos e testados por atletas experientes'
-    },
-    {
-        icone: Leaf,
-        titulo: 'Produção Sustentável',
-        descricao: 'Madeira de reflorestamento e processos eco-friendly'
-    }
-]
+// --- DADOS CAPAS ---
+const capasData = {
+    titulo: 'Capas Personalizadas',
+    descricao: 'Proteja seu equipamento com estilo! Temos vários tamanhos, modelos e estampas disponíveis. Você também pode personalizar a sua.',
+    imagem: '/produtos/caparemo.webp',
+    precos: [
+        { item: 'Grande (1 remo)', valor: 'R$ 220,00' },
+        { item: 'Grande (2 remos)', valor: 'R$ 300,00' },
+        { item: 'Pequena (somente pá)', valor: 'R$ 100,00' },
+    ]
+}
+
+// --- DADOS SUN TECH ---
+const suntechData = {
+    titulo: 'SUNTECH - Protetor Solar',
+    descricao: 'Protetor solar brasileiro, desenvolvido a base de produtos naturais. Super indicado para atletas de atividades ao ar livre e aquáticas especialmente, e crianças. Super resistente e a sua alta concentração rende por muito tempo, garantindo proteção duradoura.',
+    imagem: '/suntech.jpg',
+    precos: [
+        { item: 'FPS 50 (180g)', valor: 'R$ 190,00' },
+        { item: 'FPS 30 (180g)', valor: 'R$ 130,00' },
+        { item: 'FPS 50 (75g)', valor: 'R$ 100,00' },
+        { item: 'FPS 30 (75g)', valor: 'R$ 65,00' },
+    ]
+}
 
 export default function EquipamentosPage() {
+    // States para Remos
     const [produtoSelecionado, setProdutoSelecionado] = useState(produtosRemos[0])
+    const [indiceImagemRemo, setIndiceImagemRemo] = useState(0)
+
+    // States Gerais
     const [imagemAmpliada, setImagemAmpliada] = useState<string | null>(null)
 
     useEffect(() => {
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-out-cubic',
-            once: true
-        })
+        AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: true })
     }, [])
 
-    const handleWhatsApp = (produto: typeof produtosRemos[0]) => {
-        const mensagem = `Olá! Tenho interesse no ${produto.nome} (Valor: ${produto.preco}). Gostaria de saber sobre formas de pagamento e retirada.`
+    useEffect(() => {
+        setIndiceImagemRemo(0)
+    }, [produtoSelecionado])
+
+    const handleWhatsApp = (texto: string) => {
         const numero = '+5561999674507'
-        const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`
+        const url = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`
         window.open(url, '_blank')
     }
 
-    const handleContato = (produto: typeof produtosRemos[0]) => {
-        handleWhatsApp(produto)
+    const proximaImagemRemo = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setIndiceImagemRemo((prev) => (prev + 1) % produtoSelecionado.imagens.length)
     }
 
-    const handleAmpliarImagem = (imagemSrc: string) => {
-        setImagemAmpliada(imagemSrc)
-    }
-
-    const handleFecharImagem = () => {
-        setImagemAmpliada(null)
+    const anteriorImagemRemo = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setIndiceImagemRemo((prev) => (prev - 1 + produtoSelecionado.imagens.length) % produtoSelecionado.imagens.length)
     }
 
     return (
-        <section className="relative w-full min-h-screen text-gray-900 overflow-hidden bg-gradient-to-b from-white via-blue-50 to-white">
+        <section className="relative w-full min-h-screen text-gray-900 overflow-hidden bg-white">
 
-            {/* Banner Hero com imagem */}
-            <div className="relative w-full h-[350px] md:h-[450px] lg:h-[535px] overflow-hidden">
+            {/* --- HERO BANNER --- */}
+            <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
                 <Image
                     src="/remoBg.png"
-                    alt="Remos CPP Extreme - Equipamentos de Alta Performance"
+                    alt="Eu Remo Sorrindo - Loja Oficial"
                     fill
-                    className="object-cover"
+                    className="object-cover object-center"
                     priority
                     sizes="100vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-950/90 via-blue-900/60 to-blue-900/30"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent"></div>
 
-                {/* Conteúdo sobre a imagem */}
                 <div className="absolute inset-0 flex items-center">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                         <motion.div
-                            initial={{ opacity: 0, y: 40 }}
+                            initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="max-w-4xl"
+                            className="max-w-2xl lg:max-w-3xl"
                         >
-                            <div className="mb-6">
-                                <p className="text-xl md:text-2xl font-light text-blue-100 flex items-center gap-2">
-                                    Artesanal <span className="text-orange-500">•</span> Performance <span className="text-orange-500">•</span> Sustentável
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 sm:mb-6 leading-tight drop-shadow-xl">
+                                Loja Oficial <br /> Eu Remo Sorrindo
+                            </h1>
+                            <div className="border-l-4 border-orange-500 pl-4 sm:pl-6 mb-6 sm:mb-8">
+                                <p className="text-base sm:text-lg md:text-xl text-white font-light drop-shadow-md leading-relaxed">
+                                    Nossa loja oferece produtos à pronta entrega e também sob encomenda,
+                                    com itens selecionados para quem vive e ama a canoagem,
+                                    garantindo qualidade, praticidade e estilo dentro e fora da água.
                                 </p>
                             </div>
 
-                            <p className="text-lg text-gray-200 max-w-2xl leading-relaxed mb-8">
-                                Eleve seu nível com equipamentos premium. Desenvolvidos por remadores para remadores,
-                                unindo a tradição da madeira com a tecnologia da fibra para máximo conforto e durabilidade.
-                            </p>
-
-                            <div className="flex flex-wrap gap-4">
-                                <button
-                                    onClick={() => document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold bg-white text-blue-900 hover:bg-blue-50 hover:scale-105 transition-all shadow-xl"
-                                >
-                                    Ver Modelos e Preços
-                                    <ChevronRight className="w-5 h-5" />
-                                </button>
-                            </div>
+                            <button
+                                onClick={() => document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold bg-orange-500 text-white hover:bg-orange-600 transition-all shadow-lg hover:shadow-orange-500/30 text-sm sm:text-base"
+                            >
+                                Ver Produtos
+                                <ChevronRight className="w-5 h-5" />
+                            </button>
                         </motion.div>
                     </div>
                 </div>
             </div>
 
-            {/* Modal para imagem ampliada */}
+            {/* --- MODAL ZOOM --- */}
             {imagemAmpliada && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm" onClick={handleFecharImagem}>
-                    <button
-                        className="absolute top-6 right-6 z-60 p-2 text-white/80 hover:text-white transition-colors bg-white/10 rounded-full"
-                        onClick={handleFecharImagem}
-                    >
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm" onClick={() => setImagemAmpliada(null)}>
+                    <button className="absolute top-6 right-6 p-2 text-white bg-white/10 rounded-full hover:bg-white/20 z-10">
                         <X className="w-8 h-8" />
                     </button>
-                    <div className="relative w-full max-w-5xl h-full max-h-[85vh]" onClick={(e) => e.stopPropagation()}>
+                    <div className="relative w-full h-full max-w-5xl max-h-[80vh] sm:max-h-[90vh]">
                         <Image
                             src={imagemAmpliada}
-                            alt="Imagem ampliada do remo"
+                            alt="Zoom"
                             fill
                             className="object-contain"
+                            sizes="100vw"
                         />
                     </div>
                 </div>
             )}
 
-            {/* Conteúdo Principal */}
-            <div className="py-12 md:py-20">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="py-12 sm:py-16 md:py-24 container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 sm:space-y-32">
 
-                    {/* Produto Principal */}
-                    <div id="produtos" className="grid lg:grid-cols-2 gap-8 md:gap-16 mb-16 md:mb-24 items-start">
+                {/* --- SEÇÃO 1: REMOS --- */}
+                <div id="produtos" className="scroll-mt-24">
+                    <div className="flex items-center gap-4 mb-8 sm:mb-12">
+                        <div className="h-px bg-gray-200 flex-1"></div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-blue-900 uppercase tracking-wider text-center">Remos Profissionais</h2>
+                        <div className="h-px bg-gray-200 flex-1"></div>
+                    </div>
 
-                        {/* COLUNA 1: Imagem do Produto */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="relative order-2 lg:order-1 sticky top-24"
-                        >
-                            <div className="relative rounded-3xl overflow-hidden bg-white p-8 shadow-2xl border border-blue-100">
-                                {/* Badge de Preço Flutuante na Imagem (Mobile) */}
-                                <div className="absolute top-4 right-4 md:hidden z-20 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg">
-                                    {produtoSelecionado.preco}
-                                </div>
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+                        {/* Galeria de Imagens do Remo */}
+                        <div className="relative order-2 lg:order-1 bg-white p-4 sm:p-6 rounded-3xl shadow-2xl border border-gray-100">
+                            <div className="relative aspect-[4/5] sm:aspect-square w-full rounded-2xl overflow-hidden group">
+                                <Image
+                                    src={produtoSelecionado.imagens[indiceImagemRemo]}
+                                    alt={produtoSelecionado.nome}
+                                    fill
+                                    className="object-cover cursor-zoom-in transition-transform duration-500 hover:scale-105"
+                                    onClick={() => setImagemAmpliada(produtoSelecionado.imagens[indiceImagemRemo])}
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
+                                />
 
-                                {/* Imagem grande do remo */}
-                                <div className="relative aspect-[4/5] md:aspect-square w-full mx-auto cursor-zoom-in group">
-                                    <Image
-                                        src={produtoSelecionado.imagemLarge}
-                                        alt={produtoSelecionado.nome}
-                                        fill
-                                        className="object-contain p-4 transform group-hover:scale-110 transition-transform duration-700"
-                                        sizes="(max-width: 768px) 100vw, 50vw"
-                                        onClick={() => handleAmpliarImagem(produtoSelecionado.imagemLarge)}
-                                    />
-                                    <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                                        <div className="bg-black/60 text-white p-2 rounded-lg backdrop-blur-sm">
-                                            <Maximize2 className="w-5 h-5" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Miniaturas dos remos */}
-                                <div className="mt-6 flex justify-center gap-4">
-                                    {produtosRemos.map((produto) => (
+                                {/* Controles da Galeria */}
+                                {produtoSelecionado.imagens.length > 1 && (
+                                    <>
                                         <button
-                                            key={produto.id}
-                                            onClick={() => setProdutoSelecionado(produto)}
-                                            className={`relative w-24 h-24 rounded-xl overflow-hidden border-2 transition-all duration-300 ${produtoSelecionado.id === produto.id
-                                                ? 'border-blue-600 shadow-md scale-105'
-                                                : 'border-gray-200 hover:border-blue-300 opacity-70 hover:opacity-100'
-                                                }`}
+                                            onClick={anteriorImagemRemo}
+                                            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 rounded-full hover:bg-white text-blue-900 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
                                         >
+                                            <ChevronLeft size={20} />
+                                        </button>
+                                        <button
+                                            onClick={proximaImagemRemo}
+                                            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 rounded-full hover:bg-white text-blue-900 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+                                        >
+                                            <ChevronRight size={20} />
+                                        </button>
+                                    </>
+                                )}
+
+                                <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-black/60 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm">
+                                    {indiceImagemRemo + 1} / {produtoSelecionado.imagens.length}
+                                </div>
+                            </div>
+
+                            {/* Miniaturas */}
+                            <div className="mt-4 sm:mt-6 flex justify-center gap-3 sm:gap-4 overflow-x-auto py-2">
+                                {produtosRemos.map((produto) => (
+                                    <button
+                                        key={produto.id}
+                                        onClick={() => setProdutoSelecionado(produto)}
+                                        className={`flex flex-col items-center gap-2 p-1.5 rounded-xl border-2 transition-all min-w-[70px] ${produtoSelecionado.id === produto.id
+                                                ? 'border-blue-600 bg-blue-50'
+                                                : 'border-transparent hover:bg-gray-50'
+                                            }`}
+                                    >
+                                        <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border border-gray-200">
                                             <Image
-                                                src={produto.imagem}
+                                                src={produto.imagens[0]}
                                                 alt={produto.nome}
                                                 fill
                                                 className="object-cover"
+                                                sizes="100px"
                                             />
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        {/* COLUNA 2: Informações do Produto */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="space-y-8 order-1 lg:order-2"
-                        >
-                            <div>
-                                <div className="flex flex-wrap items-center gap-3 mb-4">
-                                    <span className="bg-blue-100 text-blue-800 font-bold text-xs uppercase tracking-wider px-3 py-1 rounded-full">
-                                        {produtoSelecionado.categoria}
-                                    </span>
-                                    {produtoSelecionado.prontaEntrega && (
-                                        <span className="bg-green-100 text-green-700 font-bold text-xs uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1">
-                                            <Truck className="w-3 h-3" /> Pronta Entrega
+                                        </div>
+                                        <span className={`text-[10px] sm:text-xs font-bold whitespace-nowrap ${produtoSelecionado.id === produto.id ? 'text-blue-700' : 'text-gray-500'}`}>
+                                            {produto.categoria}
                                         </span>
-                                    )}
-                                </div>
-
-                                <h2 className="text-4xl md:text-5xl font-black mb-2 text-gray-900 leading-tight">
-                                    {produtoSelecionado.nome}
-                                </h2>
-
-                                {/* PREÇO EM DESTAQUE */}
-                                <div className="flex flex-col mb-6 p-4 bg-blue-50/50 rounded-xl border border-blue-100">
-                                    <div className="flex items-baseline gap-2">
-                                        <span className="text-sm text-gray-500 font-medium">A partir de</span>
-                                        <span className="text-4xl font-bold text-blue-700">
-                                            {produtoSelecionado.preco}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-2 mt-1 text-sm text-blue-600 font-medium">
-                                        <CreditCard className="w-4 h-4" />
-                                        <span>Consulte condições de parcelamento</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="flex text-orange-400">
-                                        {[...Array(5)].map((_, i) => (
-                                            <span key={i} className="text-xl">★</span>
-                                        ))}
-                                    </div>
-                                    <span className="text-gray-500 text-sm font-medium border-l border-gray-300 pl-4">
-                                        Avaliação 5.0 de atletas
-                                    </span>
-                                </div>
-
-                                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                                    {produtoSelecionado.descricao}
-                                </p>
-
-                                <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-                                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                                        <Users className="w-5 h-5 text-blue-600" />
-                                        Para quem é indicado?
-                                    </h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed">{produtoSelecionado.recomendacao}</p>
-                                </div>
-                            </div>
-
-                            {/* Características */}
-                            <div>
-                                <h3 className="font-bold text-gray-900 mb-4 text-lg">Especificações Técnicas:</h3>
-                                <ul className="grid sm:grid-cols-2 gap-3">
-                                    {produtoSelecionado.caracteristicas.map((caract, index) => (
-                                        <li key={index} className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
-                                            <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                                            <span className="text-gray-700 text-sm font-medium">{caract}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            {/* CTA Principal */}
-                            <div className="pt-6 border-t border-gray-200">
-                                <button
-                                    onClick={() => handleContato(produtoSelecionado)}
-                                    className="w-full flex items-center justify-center gap-3 px-6 py-5 rounded-2xl font-bold text-xl transition-all bg-[#25D366] hover:bg-[#128C7E] text-white shadow-xl hover:shadow-2xl hover:-translate-y-1"
-                                >
-                                    <MessageCircle className="w-7 h-7" />
-                                    COMPRAR AGORA
-                                </button>
-                                <p className="text-center text-xs text-gray-500 mt-3 flex items-center justify-center gap-1">
-                                    <Shield className="w-3 h-3" /> Compra segura direto pelo WhatsApp da Escola
-                                </p>
-                            </div>
-                        </motion.div>
-                    </div>
-
-                    {/* Benefícios */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="mb-16 md:mb-24 bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100"
-                    >
-                        <h2 className="text-2xl md:text-3xl font-bold mb-10 text-center text-gray-900">
-                            Por que escolher nossos remos?
-                        </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {beneficios.map((beneficio, index) => (
-                                <div key={index} className="text-center group">
-                                    <div className="w-16 h-16 mx-auto flex items-center justify-center rounded-2xl bg-blue-50 mb-4 group-hover:bg-blue-600 transition-colors duration-300">
-                                        <beneficio.icone className="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                                    </div>
-                                    <h3 className="text-lg font-bold mb-2 text-gray-900">{beneficio.titulo}</h3>
-                                    <p className="text-gray-500 text-sm">{beneficio.descricao}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    {/* FAQ Resumido */}
-                    <div className="max-w-3xl mx-auto mb-20">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-gray-900">Dúvidas Frequentes</h2>
-                        <div className="space-y-4">
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                                <h3 className="font-bold text-gray-900 mb-2">Qual a diferença principal entre Madeira e Carbono?</h3>
-                                <p className="text-gray-600">O de Madeira oferece mais flexibilidade e "feel" clássico. O de Carbono é focado em performance, sendo mais leve e rígido.</p>
-                            </div>
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                                <h3 className="font-bold text-gray-900 mb-2">Como sei o tamanho ideal?</h3>
-                                <p className="text-gray-600">Entre em contato conosco! Nossa equipe de atletas vai te ajudar a escolher a medida baseada na sua altura e envergadura.</p>
+                                    </button>
+                                ))}
                             </div>
                         </div>
-                    </div>
 
+                        {/* Detalhes do Remo */}
+                        <div className="order-1 lg:order-2 space-y-6 sm:space-y-8">
+                            <div>
+                                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">{produtoSelecionado.nome}</h3>
+                                <p className="text-base sm:text-lg text-gray-600 leading-relaxed">{produtoSelecionado.descricaoCompleta}</p>
+                            </div>
+
+                            <div className="bg-blue-50 rounded-2xl p-5 sm:p-8 border border-blue-100">
+                                <div className="flex items-baseline gap-2">
+                                    <span className="text-xs sm:text-sm text-blue-600 font-semibold uppercase tracking-wide">Valor à vista</span>
+                                </div>
+                                <div className="text-4xl sm:text-5xl font-bold text-blue-800 mb-2 sm:mb-3">{produtoSelecionado.preco}</div>
+                                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-gray-600 bg-white px-3 py-1.5 rounded-full shadow-sm">
+                                    <CreditCard size={14} />
+                                    {produtoSelecionado.condicaoPagamento}
+                                </div>
+                            </div>
+
+                            <ul className="space-y-3 sm:space-y-4">
+                                {produtoSelecionado.caracteristicas.map((caract, idx) => (
+                                    <li key={idx} className="flex items-center gap-3 text-gray-700 text-sm sm:text-base">
+                                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                            <Check size={14} className="text-green-600" />
+                                        </div>
+                                        {caract}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <button
+                                onClick={() => handleWhatsApp(`Olá! Tenho interesse no ${produtoSelecionado.nome}. Gostaria de mais detalhes!`)}
+                                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 text-lg"
+                            >
+                                <MessageCircle size={24} />
+                                Comprar pelo WhatsApp
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
+                {/* --- SEÇÃO 2: COLETES --- */}
+                <div>
+                    <div className="flex items-center gap-4 mb-6 sm:mb-8">
+                        <div className="h-px bg-gray-200 flex-1"></div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-orange-600 uppercase tracking-wider text-center">Coletes Esportivos</h2>
+                        <div className="h-px bg-gray-200 flex-1"></div>
+                    </div>
+
+                    <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 text-base sm:text-lg px-2">
+                        Vários modelos para todas as modalidades e preferências. <br className="hidden sm:block" />
+                        Os valores variam de <span className="font-bold text-orange-600">R$ 280,00 até R$ 600,00</span>.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {produtosColetes.map((colete) => (
+                            <div key={colete.id} className="group bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all border border-gray-100 flex flex-col">
+                                {/* ALTERADO AQUI: aspect-square para 600x600 */}
+                                <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-4 bg-gray-100">
+                                    {/* Imagem Frente (Padrão) */}
+                                    <Image
+                                        src={colete.imgFrente}
+                                        alt={`${colete.nome} Frente`}
+                                        fill
+                                        className="object-cover opacity-100 transition-opacity duration-300 group-hover:opacity-0"
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                    />
+                                    {/* Imagem Costas (Hover) */}
+                                    <Image
+                                        src={colete.imgCostas}
+                                        alt={`${colete.nome} Costas`}
+                                        fill
+                                        className="object-cover absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                    />
+                                </div>
+                                <h3 className="text-lg font-bold text-gray-900 mb-1">{colete.nome}</h3>
+                                {colete.obs && <p className="text-xs text-gray-500 mb-3">{colete.obs}</p>}
+                                <div className="mt-auto pt-2">
+                                    <button
+                                        onClick={() => handleWhatsApp(`Olá! Tenho interesse no ${colete.nome}. Gostaria de saber valores exatos e tamanhos disponíveis.`)}
+                                        className="w-full py-2.5 border-2 border-orange-500 text-orange-600 font-bold rounded-lg hover:bg-orange-500 hover:text-white transition-colors text-sm uppercase"
+                                    >
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* --- SEÇÃO 3: CAPAS DE REMO --- */}
+                <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+                    <div className="grid lg:grid-cols-2">
+                        {/* Imagem Capa */}
+                        <div className="relative h-64 sm:h-80 lg:h-auto min-h-[300px]">
+                            <Image
+                                src={capasData.imagem}
+                                alt="Capas de Remos"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/10"></div>
+                        </div>
+
+                        {/* Conteúdo Capa */}
+                        <div className="p-6 sm:p-10 lg:p-14 flex flex-col justify-center bg-gray-50">
+                            <div className="flex items-center gap-2 mb-4 text-purple-600 font-bold tracking-wide uppercase text-sm">
+                                <Palette size={20} />
+                                <span>Personalização</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4">{capasData.titulo}</h2>
+                            <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
+                                {capasData.descricao}
+                            </p>
+
+                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+                                {capasData.precos.map((item, idx) => (
+                                    <div key={idx} className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 border-b border-gray-100 last:border-0 hover:bg-purple-50 transition-colors gap-1 sm:gap-0">
+                                        <span className="font-medium text-gray-700">{item.item}</span>
+                                        <span className="font-bold text-purple-700 text-lg">{item.valor}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => handleWhatsApp(`Olá! Gostaria de uma capa personalizada para meu remo.`)}
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-purple-500/30"
+                            >
+                                <ShoppingBag size={20} />
+                                Encomendar Capa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* --- SEÇÃO 4: SUN TECH --- */}
+                <div className="bg-orange-50 rounded-[2.5rem] p-6 sm:p-10 lg:p-12 overflow-hidden relative">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-300 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
+                        <div className="order-2 lg:order-1">
+                            <div className="flex items-center gap-2 mb-4 text-orange-600 font-bold tracking-wide uppercase text-sm">
+                                <Sun size={20} />
+                                <span>Proteção Solar</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 sm:mb-6">{suntechData.titulo}</h2>
+                            <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8">
+                                {suntechData.descricao}
+                            </p>
+
+                            {/* Tabela de Preços */}
+                            <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-8 border border-orange-100">
+                                {suntechData.precos.map((item, idx) => (
+                                    <div key={idx} className="flex justify-between items-center p-4 border-b border-gray-100 last:border-0 hover:bg-orange-50 transition-colors">
+                                        <span className="font-medium text-gray-700 text-sm sm:text-base">{item.item}</span>
+                                        <span className="font-bold text-orange-600 text-base sm:text-lg">{item.valor}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => handleWhatsApp(`Olá! Quero garantir meu protetor SunTech.`)}
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-md hover:shadow-orange-500/30"
+                            >
+                                <Droplets size={20} />
+                                Pedir SunTech
+                            </button>
+                        </div>
+
+                        <div className="order-1 lg:order-2 relative h-[300px] sm:h-[400px] lg:h-[500px] w-full rounded-3xl overflow-hidden shadow-2xl lg:rotate-1 lg:hover:rotate-0 transition-all duration-500">
+                            <Image
+                                src={suntechData.imagem}
+                                alt="SunTech Protetor"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
+                            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                <p className="text-white font-medium text-center text-sm sm:text-base">Alta resistência à água e suor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     )

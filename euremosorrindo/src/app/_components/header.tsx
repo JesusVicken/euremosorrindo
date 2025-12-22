@@ -86,23 +86,18 @@ export default function Header() {
         {
             href: '/movimentos',
             label: 'Movimentos'
-            // submenu: [
-            //     { href: '/mobilizadores/ambiental', label: 'Ambiental' },
-            //     { href: '/mobilizadores/social', label: 'Social' },
-            //     { href: '/mobilizadores/esportivo', label: 'Esportivo' },
-            // ]
         },
         { href: '/planos', label: 'Parceiros' },
         { href: '/agenda', label: 'Agenda' },
         {
-            href: '/produtos', label: 'Produtos',
+            href: '/produtos', label: 'Loja Oficial',
         },
         { href: '/contatos', label: 'Contato' },
     ]
 
     const openWhatsApp = () => {
         const phoneNumber = '+5561999674507'
-        const message = 'Olá! Gostaria de mais informações sobre o Eu Remo Sorrindo.'
+        const message = 'Olá! Gostaria de mais informações sobre aulas na Eu Remo Sorrindo.'
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
         window.open(url, '_blank')
     }
