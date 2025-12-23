@@ -85,10 +85,10 @@ export default function Header() {
         },
         {
             href: '/movimentos',
-            label: 'Movimentos'
+            label: 'Projetos'
         },
         { href: '/planos', label: 'Parceiros' },
-        { href: '/agenda', label: 'Agenda' },
+        { href: '/agenda', label: 'Eventos' },
         {
             href: '/produtos', label: 'Loja Oficial',
         },
