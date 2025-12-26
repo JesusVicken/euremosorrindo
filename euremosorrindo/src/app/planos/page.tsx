@@ -1,10 +1,11 @@
 'use client'
 
 import Image from "next/image"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Star, Users, Target, Award, Heart, TrendingUp, Shield, Zap, Sparkles } from "lucide-react"
+import { Star, Users, Target, Award, Heart, TrendingUp, Shield, Zap, Sparkles, ExternalLink } from "lucide-react"
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -15,52 +16,74 @@ if (typeof window !== 'undefined') {
 
 const brands = [
     {
-        name: "Rumo",
+        name: "Rumo Custom Paddles",
         logo: "/rumo.webp",
-        description: "Empresa especializada em equipamentos esportivos aquáticos",
-        category: "Equipamentos"
+        description: "Empresa especializada em equipamentos esportivos aquáticos de alta performance",
+        category: "Equipamentos",
+        url: "https://www.rumobrasil.com.br/"
     },
     {
         name: "Fundação Baúminas",
         logo: "/bauminas.jpg",
-        description: "Fundação dedicada ao desenvolvimento esportivo e social",
-        category: "Social"
-    },
-    {
-        name: "Remo Brasília",
-        logo: "/remobrasilia.jpg",
-        description: "Clube de remo tradicional de Brasília",
-        category: "Esportivo"
+        description: "Fundação dedicada ao desenvolvimento esportivo, cultural e social",
+        category: "Social",
+        url: "https://fundacaobauminas.org.br/"
     },
     {
         name: "Canoe Brasil",
         logo: "/canoe.jpg",
-        description: "Fabricante nacional de caiaques e canoas",
-        category: "Equipamentos"
+        description: "Fabricante nacional referência em caiaques e canoas",
+        category: "Equipamentos",
+        url: "https://www.canoe.com.br/"
     },
     {
         name: "Salute Nutrição Esportiva",
         logo: "/salute.jpg",
         description: "Consultoria em nutrição para atletas",
-        category: "Saúde"
+        category: "Saúde",
+        url: "#"
     },
     {
-        name: "ACKC",
+        name: "Nenutrição",
+        logo: "/nenutricao.webp", 
+        description: "Nutrição especializada para alta performance e saúde",
+        category: "Saúde",
+        url: "https://www.nenutricao.com.br/"
+    },
+    {
+        name: "ACKC Brasília",
         logo: "/ackc.jpg",
-        description: "Associação de Canoagem Caiakagem Brasília",
-        category: "Esportivo"
+        description: "Associação de Canoagem Caiakagem Brasília - Fomento ao esporte local",
+        category: "Esportivo",
+        url: "https://www.instagram.com/caiakagem/"
     },
     {
         name: "ASSTJ",
         logo: "/asstj.png",
         description: "Associação dos Servidores do Superior Tribunal de Justiça e do Conselho da Justiça Federal",
-        category: "Institucional"
+        category: "Institucional",
+        url: "https://www.asstj.org.br/index.html"
+    },
+    {
+        name: "Cerrado Experience",
+        logo: "/cerrado.png", 
+        description: "Experiências únicas de ecoturismo no Cerrado",
+        category: "Turismo",
+        url: "https://cerradoexperience.com.br/"
+    },
+    {
+        name: "Remo Brasília",
+        logo: "/remobrasilia.jpg",
+        description: "Clube de remo tradicional de Brasília",
+        category: "Esportivo",
+        url: "#"
     },
     {
         name: "APAE-DF",
         logo: "/apae.jpg",
         description: "Associação de Pais e Amigos dos Excepcionais do Distrito Federal",
-        category: "Social"
+        category: "Social",
+        url: "https://apaedf.org.br/"
     }
 ]
 
@@ -188,6 +211,19 @@ export default function ParceirosPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-cyan-700/30" />
 
+                {/* Logo Eu Remo Sorrindo */}
+                <div className="absolute top-6 left-6 z-20">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 border border-white/20">
+                        <Image
+                            src="/logoeuremo.png"
+                            alt="Eu Remo Sorrindo"
+                            width={160}
+                            height={60}
+                            className="object-contain"
+                        />
+                    </div>
+                </div>
+
                 {/* Conteúdo */}
                 <div className="relative z-10 flex h-full items-center justify-center px-4">
                     <motion.div
@@ -298,7 +334,7 @@ export default function ParceirosPage() {
                 </div>
             </section>
 
-            {/* PARCEIROS */}
+            {/* PARCEIROS (COM LINKS) */}
             <section className="py-24 px-4 max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
@@ -321,45 +357,56 @@ export default function ParceirosPage() {
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {brands.map(brand => (
-                        <div key={brand.name} className="partner-card">
-                            <Card className="rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 border border-slate-200 overflow-hidden h-full">
-                                <CardContent className="p-8 h-full flex flex-col">
-                                    <div className="flex flex-col items-center text-center h-full">
-                                        {/* Logo Container */}
-                                        <div className="relative w-48 h-24 mb-8 shrink-0">
-                                            <Image
-                                                src={brand.logo}
-                                                alt={brand.name}
-                                                fill
-                                                className="object-contain"
-                                                sizes="(max-width: 192px) 100vw, 192px"
-                                            />
-                                        </div>
+                    {brands.map((brand, index) => (
+                        <div key={index} className="partner-card">
+                            {/* Componente Link envolve o Card para torná-lo clicável */}
+                            <Link href={brand.url} target={brand.url !== "#" ? "_blank" : "_self"} className={`block h-full cursor-pointer group ${brand.url === "#" ? "cursor-default" : ""}`}>
+                                <Card className="rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:scale-[1.02] border border-slate-200 overflow-hidden h-full relative">
+                                    <CardContent className="p-8 h-full flex flex-col">
 
-                                        {/* Badges (SEM O SINCE) */}
-                                        <div className="flex justify-center mb-6 shrink-0">
-                                            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                                                {brand.category}
-                                            </span>
-                                        </div>
-
-                                        {/* Content */}
-                                        <h3 className="text-2xl font-bold text-slate-800 mb-3">{brand.name}</h3>
-                                        <p className="text-slate-600 mb-6 leading-relaxed flex-grow">{brand.description}</p>
-
-                                        {/* Rating */}
-                                        <div className="flex flex-col items-center mt-auto">
-                                            <div className="flex items-center justify-center gap-1 text-amber-500 mb-2">
-                                                {[...Array(5)].map((_, i) => (
-                                                    <Star key={i} className="w-5 h-5 fill-current" />
-                                                ))}
+                                        {/* Ícone de Link Externo (aparece no hover) */}
+                                        {brand.url !== "#" && (
+                                            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <ExternalLink className="w-5 h-5 text-blue-500" />
                                             </div>
-                                            <span className="text-sm text-slate-500">Parceria 5 estrelas</span>
+                                        )}
+
+                                        <div className="flex flex-col items-center text-center h-full">
+                                            {/* Logo Container - CORRIGIDO: Removido grayscale e opacity */}
+                                            <div className="relative w-48 h-24 mb-8 shrink-0">
+                                                <Image
+                                                    src={brand.logo}
+                                                    alt={brand.name}
+                                                    fill
+                                                    className="object-contain"
+                                                    sizes="(max-width: 192px) 100vw, 192px"
+                                                />
+                                            </div>
+
+                                            {/* Badge Categoria */}
+                                            <div className="flex justify-center mb-6 shrink-0">
+                                                <span className="px-3 py-1 bg-blue-50 text-blue-600 group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors rounded-full text-sm font-medium">
+                                                    {brand.category}
+                                                </span>
+                                            </div>
+
+                                            {/* Content */}
+                                            <h3 className="text-2xl font-bold text-slate-800 mb-3 group-hover:text-blue-700 transition-colors">{brand.name}</h3>
+                                            <p className="text-slate-600 mb-6 leading-relaxed flex-grow text-sm group-hover:text-slate-700">{brand.description}</p>
+
+                                            {/* Rating */}
+                                            <div className="flex flex-col items-center mt-auto">
+                                                <div className="flex items-center justify-center gap-1 text-amber-400 group-hover:text-amber-500 transition-colors mb-2">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <Star key={i} className="w-5 h-5 fill-current" />
+                                                    ))}
+                                                </div>
+                                                <span className="text-xs text-slate-400 group-hover:text-slate-500">Parceria Confirmada</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                    </CardContent>
+                                </Card>
+                            </Link>
                         </div>
                     ))}
                 </div>
