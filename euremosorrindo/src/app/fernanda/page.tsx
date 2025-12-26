@@ -1,14 +1,13 @@
-
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
-import { GraduationCap, Award, MapPin, Users, Trophy, Clock, Waves, Sparkles, Quote } from 'lucide-react'
+import { GraduationCap, Award, MapPin, Users, Trophy, Clock, Waves, Sparkles, Quote, X, ZoomIn } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -17,14 +16,27 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger)
 }
 
+// --- ARRAY DE FOTOS DA FERNANDA (ATUALIZADO) ---
+const fernandaPhotos = [
+    { src: '/fernanda/fer1.jpg', alt: 'Fernanda Momento 1', span: 'col-span-1 row-span-1' },
+    { src: '/fernanda/fer2.jpg', alt: 'Fernanda Momento 2', span: 'col-span-1 row-span-2' }, // Vertical
+    { src: '/fernanda/fer3.jpg', alt: 'Fernanda Momento 3', span: 'col-span-1 row-span-1' },
+    { src: '/fernanda/fer4.jpg', alt: 'Fernanda Momento 4', span: 'col-span-2 row-span-2' }, // Destaque Grande
+    { src: '/fernanda/fer5.jpg', alt: 'Fernanda Momento 5', span: 'col-span-1 row-span-1' },
+    { src: '/fernanda/fer6.jpg', alt: 'Fernanda Momento 6', span: 'col-span-1 row-span-1' },
+    { src: '/fernanda/fer7.jpg', alt: 'Fernanda Momento 7', span: 'col-span-2 row-span-1' }, // Horizontal
+    { src: '/fernanda/fer8.jpg', alt: 'Fernanda Momento 8', span: 'col-span-1 row-span-1' }, // NOVO
+    { src: '/fernanda/fer9.jpg', alt: 'Fernanda Momento 9', span: 'col-span-1 row-span-1' }, // NOVO
+]
+
 export default function FernandaPage() {
     const [activeTab, setActiveTab] = useState('sobre')
+    const [selectedImage, setSelectedImage] = useState<string | null>(null) // Para o Modal
 
     // Refs
     const heroRef = useRef<HTMLDivElement>(null)
     const profileHeaderRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
-    const modalitiesRef = useRef<HTMLDivElement>(null)
     const logoRef = useRef<HTMLDivElement>(null)
 
     // Observers
@@ -45,7 +57,6 @@ export default function FernandaPage() {
     // --- ANIMAÇÕES GSAP ---
     useEffect(() => {
         const ctx = gsap.context(() => {
-
             // 1. Parallax do Hero
             if (heroRef.current) {
                 gsap.to(".hero-bg-image", {
@@ -71,28 +82,14 @@ export default function FernandaPage() {
                 })
 
                 introTl
-                    .fromTo(".intro-title",
-                        { y: 30, opacity: 0 },
-                        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
-                    )
-                    .fromTo(".intro-text",
-                        { y: 20, opacity: 0 },
-                        { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.6"
-                    )
-                    .fromTo(".intro-badge",
-                        { scale: 0.8, opacity: 0 },
-                        { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4"
-                    )
+                    .fromTo(".intro-title", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" })
+                    .fromTo(".intro-text", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.6")
+                    .fromTo(".intro-badge", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4")
             }
 
             // 3. Logo
-            gsap.fromTo(logoRef.current,
-                { opacity: 0, x: -50 },
-                { opacity: 1, x: 0, duration: 1.5, ease: "power3.out", delay: 0.5 }
-            )
-
+            gsap.fromTo(logoRef.current, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1.5, ease: "power3.out", delay: 0.5 })
         })
-
         return () => ctx.revert()
     }, [])
 
@@ -113,36 +110,77 @@ export default function FernandaPage() {
             id: 'oceanica',
             title: 'Canoagem Oceânica',
             icon: Waves,
-            description: 'Modalidade recente na história da canoagem na qual o objetivo das provas é percorrer um percurso previamente definido em carta náutica, em águas marinhas, no menor tempo possível.',
-            details: 'A embarcação utilizada é o Surfski, um tipo de caiaque desenvolvido especialmente para os mares.',
+            description: 'Modalidade desafiadora em águas marinhas, exigindo navegação precisa e resistência.',
+            details: 'Utiliza-se o Surfski, caiaque rápido e estável projetado para surfar ondas em mar aberto.',
             image: '/oceanica.jpg',
-            color: 'border-blue-200 hover:border-blue-400',
-            accentColor: 'text-blue-600'
+            tag: 'Aventura',
+            accent: 'bg-blue-50 text-blue-600'
         },
         {
             id: 'velocidade',
             title: 'Canoagem Velocidade',
             icon: Trophy,
-            description: 'Modalidade olímpica essencialmente de competição. É praticada em rios ou lagos de águas calmas com raias demarcadas nas distâncias de 1.000, 500 e 200 metros.',
-            details: 'As embarcações utilizadas são K1, K2, K4 e C1 e C2, sendo que a letra k significa Kayak (caiaque) e o C de Canoe (canoa). Os numerais correspondem à quantidade de integrantes na embarcação.',
+            description: 'A mais pura explosão e técnica olímpica em águas calmas. Foco total em performance.',
+            details: 'Disputada em K1, K2, K4, C1 e C2 nas distâncias de 200m, 500m e 1000m.',
             image: '/velocidade.jpg',
-            color: 'border-green-200 hover:border-green-400',
-            accentColor: 'text-green-600'
+            tag: 'Olímpica',
+            accent: 'bg-yellow-50 text-yellow-600'
         },
         {
             id: 'maratona',
             title: 'Canoagem Maratona',
             icon: Clock,
-            description: 'Envolve remar grandes distâncias em águas calmas. Tradicionais eventos de Canoagem Maratona possuem postos fixados de portages, onde o atleta precisa carregar sua canoa ou kayak.',
-            details: 'As embarcações utilizadas são K1, K2, C1 e C2.',
+            description: 'Resistência extrema em longas distâncias, combinando remo e "portage" (corrida com o barco).',
+            details: 'Provas longas que testam o limite físico e mental do atleta em rios e lagos.',
             image: '/maratona.jpg',
-            color: 'border-orange-200 hover:border-orange-400',
-            accentColor: 'text-orange-600'
+            tag: 'Resistência',
+            accent: 'bg-red-50 text-red-600'
+        },
+        {
+            id: 'canoa',
+            title: 'Canoa Havaiana (Va\'a)',
+            icon: Users,
+            description: 'Conexão ancestral com o mar e trabalho em equipe. Sincronia e força coletiva.',
+            details: 'Praticada em canoas V1, V6 e outras configurações, focando na cultura e no espírito de equipe.',
+            image: '/fernandavaa.jpg',
+            tag: 'Tradição',
+            accent: 'bg-teal-50 text-teal-600'
         }
     ]
 
     return (
         <div className="min-h-screen bg-slate-50">
+
+            {/* --- MODAL DE IMAGEM --- */}
+            <AnimatePresence>
+                {selectedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+                        onClick={() => setSelectedImage(null)}
+                    >
+                        <button className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors">
+                            <X size={32} />
+                        </button>
+                        <motion.div
+                            initial={{ scale: 0.9 }}
+                            animate={{ scale: 1 }}
+                            className="relative w-full max-w-5xl h-[85vh] rounded-xl overflow-hidden"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <Image
+                                src={selectedImage}
+                                alt="Fernanda Rachid Ampliada"
+                                fill
+                                className="object-contain"
+                                sizes="100vw"
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* --- HERO SECTION --- */}
             <section ref={setHeroRef} className="relative h-[85vh] lg:h-[95vh] w-full overflow-hidden flex items-end justify-center">
@@ -228,7 +266,7 @@ export default function FernandaPage() {
 
                         <div className="flex justify-center">
                             <TabsList className="grid grid-cols-3 w-full max-w-md p-1 bg-slate-200/50 rounded-full">
-                                {['sobre', 'formacao', 'modalidades'].map((tab) => (
+                                {['sobre', 'formacao', 'atleta'].map((tab) => (
                                     <TabsTrigger
                                         key={tab}
                                         value={tab}
@@ -240,7 +278,9 @@ export default function FernandaPage() {
                             </TabsList>
                         </div>
 
-                        <TabsContent value="sobre" className="space-y-8">
+                        {/* --- ABA SOBRE (COM GALERIA) --- */}
+                        <TabsContent value="sobre" className="space-y-12">
+                            {/* Cards de Informação */}
                             <div className="grid lg:grid-cols-2 gap-8">
                                 <Card className="border-none shadow-xl bg-white rounded-3xl overflow-hidden">
                                     <div className="h-2 w-full bg-gradient-to-r from-blue-500 to-cyan-400"></div>
@@ -286,12 +326,60 @@ export default function FernandaPage() {
                                     </CardContent>
                                 </Card>
                             </div>
+
+                            {/* --- GALERIA DE FOTOS (CORRIGIDA) --- */}
+                            <div className="space-y-6">
+                                <div className="text-center">
+                                    <h3 className="text-2xl font-bold text-slate-800">Momentos & Conquistas</h3>
+                                    <div className="h-1 w-20 bg-blue-500 mx-auto mt-2 rounded-full"></div>
+                                </div>
+
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+                                    {fernandaPhotos.map((photo, index) => {
+                                        // Verifica se a imagem ocupa 2 colunas para ajustar o sizes
+                                        const isLargeSpan = photo.span.includes('col-span-2');
+
+                                        return (
+                                            <motion.div
+                                                key={index}
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                whileInView={{ opacity: 1, scale: 1 }}
+                                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                                viewport={{ once: true }}
+                                                className={`relative group rounded-2xl overflow-hidden shadow-md cursor-pointer ${photo.span}`}
+                                                onClick={() => setSelectedImage(photo.src)}
+                                            >
+                                                <Image
+                                                    src={photo.src}
+                                                    alt={photo.alt}
+                                                    fill
+                                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    // AJUSTE AQUI: Sizes dinâmico baseado no tamanho do span no grid
+                                                    sizes={
+                                                        isLargeSpan
+                                                            ? "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Item grande
+                                                            : "(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"   // Item pequeno
+                                                    }
+                                                    priority={index < 4}
+                                                />
+                                                {/* Overlay no Hover */}
+                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                    <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full text-white transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                                                        <ZoomIn size={24} />
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
                         </TabsContent>
 
+                        {/* --- ABA FORMAÇÃO --- */}
                         <TabsContent value="formacao">
                             <Card className="border-none shadow-xl bg-white rounded-3xl overflow-hidden">
                                 <CardContent className="p-8 md:p-12">
-                                    <h3 className="text-3xl font-bold text-slate-800 mb-10 text-center">Jornada Acadêmica</h3>
+                                    <h3 className="text-3xl font-bold text-slate-800 mb-10 text-center">Jornada Acadêmica e Profissional</h3>
                                     <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                                         {academicData.map((item, index) => (
                                             <div key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
@@ -312,48 +400,60 @@ export default function FernandaPage() {
                             </Card>
                         </TabsContent>
 
-                        {/* --- ABA MODALIDADES (COM EFEITO SCANNER) --- */}
-                        <TabsContent value="modalidades">
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" ref={modalitiesRef}>
+                        {/* --- ABA ATLETA --- */}
+                        <TabsContent value="atleta">
+                            <div className="text-center mb-10">
+                                <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Multifacetada nas Águas</h2>
+                                <p className="text-slate-500 max-w-2xl mx-auto">
+                                    A trajetória de Fernanda Rachid no esporte é marcada pela diversidade e excelência em diversas modalidades de canoagem.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
                                 {modalities.map((modality) => (
-                                    <div key={modality.id} className="modality-card group h-full">
-                                        <Card className="h-full border-none shadow-lg hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-white">
-
-                                            {/* Container da Imagem com Efeitos */}
-                                            <div className="relative h-64 overflow-hidden">
-                                                <Image
-                                                    src={modality.image}
-                                                    alt={modality.title}
-                                                    fill
-                                                    // Efeito de Pan & Zoom lento no hover
-                                                    className="object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:-translate-y-2"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
-
-                                                {/* Efeito de Scanner (Feixe de Luz) */}
-                                                <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
-                                                    <div className="w-full h-[50%] bg-gradient-to-b from-transparent via-white/20 to-transparent -translate-y-full group-hover:translate-y-[250%] transition-transform duration-[1.5s] ease-in-out" />
-                                                </div>
-
-                                                <div className="absolute bottom-5 left-5 text-white z-30">
-                                                    <div className="p-2 bg-white/20 backdrop-blur-md rounded-lg w-fit mb-3">
-                                                        <modality.icon size={24} />
-                                                    </div>
-                                                    <h3 className="text-xl font-bold">{modality.title}</h3>
-                                                </div>
+                                    <motion.div
+                                        key={modality.id}
+                                        whileHover={{ y: -8 }}
+                                        transition={{ type: "spring", stiffness: 300 }}
+                                        className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl overflow-hidden border border-slate-100 flex flex-col md:flex-row h-full md:h-64"
+                                    >
+                                        <div className="relative w-full md:w-2/5 h-48 md:h-full overflow-hidden">
+                                            <Image
+                                                src={modality.image}
+                                                alt={modality.title}
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
+                                            <div className="absolute top-4 left-4">
+                                                <Badge className="bg-white/90 text-slate-800 hover:bg-white shadow-sm backdrop-blur-sm">
+                                                    {modality.tag}
+                                                </Badge>
                                             </div>
+                                        </div>
 
-                                            <CardContent className="p-6">
-                                                <p className="text-slate-600 mb-4 leading-relaxed text-sm">
-                                                    {modality.description}
-                                                </p>
-                                                <div className="pt-4 border-t border-slate-100">
-                                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Detalhes</p>
-                                                    <p className="text-slate-500 text-sm">{modality.details}</p>
+                                        <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
+                                            <div className="flex items-center gap-3 mb-4">
+                                                <div className={`p-2.5 rounded-xl ${modality.accent}`}>
+                                                    <modality.icon size={22} />
                                                 </div>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
+                                                <h3 className="text-xl font-bold text-slate-800 leading-tight">
+                                                    {modality.title}
+                                                </h3>
+                                            </div>
+                                            <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                                {modality.description}
+                                            </p>
+                                            <div className="mt-auto pt-4 border-t border-slate-100">
+                                                <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-1">
+                                                    Detalhes Técnicos
+                                                </p>
+                                                <p className="text-sm text-slate-500 italic">
+                                                    "{modality.details}"
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </TabsContent>

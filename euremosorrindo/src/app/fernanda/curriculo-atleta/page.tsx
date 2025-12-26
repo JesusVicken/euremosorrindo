@@ -300,7 +300,7 @@ export default function CurriculoEsportivo() {
                 {/* Imagem de fundo - fernanda1.jpg com ajuste para mostrar o rosto */}
                 <div className="absolute inset-0">
                     <Image
-                        src="/fernanda1.jpg"
+                        src="/fernanda/fer7.jpg"
                         alt="Fernanda Rachid - Atleta profissional"
                         fill
                         className="object-cover"
