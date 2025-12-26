@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
@@ -9,15 +9,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Badge } from '@/components/ui/badge'
 import {
     Sun, Anchor, Users, Shield, MapPin, Calendar,
-    Clock, CheckCircle2, MessageCircle, X, ZoomIn, Heart
+    Clock, MessageCircle, X, ZoomIn, Heart
 } from 'lucide-react'
 
 // --- CONFIGURAÇÃO DAS IMAGENS ---
-// Tratando a mistura de extensões (.png e .jpg) conforme solicitado
 const galleryImages = [
     { id: 1, src: '/servicos/COLONIA/colonia1.png', alt: 'Crianças brincando', span: 'col-span-1 row-span-1' },
     { id: 2, src: '/servicos/COLONIA/colonia2.png', alt: 'Atividades na água', span: 'col-span-1 row-span-1' },
-    { id: 3, src: '/servicos/COLONIA/colonia3.jpg', alt: 'Canoagem em grupo', span: 'col-span-2 row-span-2' }, 
+    { id: 3, src: '/servicos/COLONIA/colonia3.jpg', alt: 'Canoagem em grupo', span: 'col-span-2 row-span-2' },
     { id: 4, src: '/servicos/COLONIA/colonia4.jpg', alt: 'Diversão no lago', span: 'col-span-1 row-span-1' },
     { id: 5, src: '/servicos/COLONIA/colonia5.jpg', alt: 'Sorrisos', span: 'col-span-1 row-span-1' },
     { id: 6, src: '/servicos/COLONIA/colonia6.jpg', alt: 'Aventuras', span: 'col-span-1 row-span-1' },
@@ -33,13 +32,13 @@ export default function ColoniaDeFeriasPage() {
 
     const openWhatsApp = () => {
         const phoneNumber = '+5561999674507'
-        const message = 'Olá! Gostaria de informações sobre a próxima Colônia de Férias!'
+        const message = 'Olá! Gostaria de fazer a inscrição para a Colônia de Férias de Janeiro/2026!'
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
         window.open(url, '_blank')
     }
 
     return (
-        <div className="min-h-screen bg-[#FFFDF7]"> {/* Fundo creme bem suave */}
+        <div className="min-h-screen bg-[#FDFDFD]">
 
             {/* --- MODAL DE ZOOM --- */}
             <AnimatePresence>
@@ -66,60 +65,150 @@ export default function ColoniaDeFeriasPage() {
                                 fill
                                 className="object-contain"
                                 sizes="100vw"
+                                priority // Prioridade alta para a imagem do modal carregar rápido
                             />
                         </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            {/* --- HERO SECTION --- */}
-            <section className="relative h-[80vh] w-full overflow-hidden flex items-center justify-center">
-                <Image
-                    src="/servicos/COLONIA/coloniaBg.png"
-                    alt="Colônia de Férias Eu Remo Sorrindo"
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="100vw"
-                />
-                {/* Overlay Gradiente */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#FFFDF7] opacity-90" />
-                <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply" />
+            {/* --- HERO SECTION (LAYOUT HÍBRIDO) --- */}
+            <section className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 overflow-hidden">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-yellow-400/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-                <div className="relative z-10 container mx-auto px-4 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <Badge className="bg-orange-500 hover:bg-orange-600 text-white text-base px-4 py-1 mb-6 shadow-lg">
-                            <Sun className="w-4 h-4 mr-2" /> Próxima Temporada Aberta
-                        </Badge>
-                        <h1 className="text-5xl md:text-7xl font-black text-white mb-6 drop-shadow-xl tracking-tight leading-tight">
-                            A Melhor <span className="text-yellow-400">Colônia de Férias</span> <br /> de Brasília!
-                        </h1>
-                        <p className="text-xl md:text-2xl text-white/90 font-medium max-w-2xl mx-auto mb-10 drop-shadow-md">
-                            Diversão, natureza, esporte e novas amizades no coração do Lago Paranoá.
-                        </p>
-                        <Button
-                            onClick={openWhatsApp}
-                            size="lg"
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold text-lg px-10 py-8 rounded-full shadow-2xl hover:scale-105 transition-transform"
+                <div className="container mx-auto px-4 relative z-10">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+                        {/* Coluna de Texto */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-center lg:text-left text-white"
                         >
-                            <MessageCircle className="mr-2 w-6 h-6" />
-                            Garantir Vaga
-                        </Button>
-                    </motion.div>
+                            <Badge className="bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 text-sm px-3 py-1 mb-6 shadow-lg inline-flex items-center gap-2">
+                                <Sun className="w-4 h-4" /> Inscrições Abertas - 2026
+                            </Badge>
+
+                            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 leading-tight">
+                                Colônia de <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">Férias 2026</span>
+                            </h1>
+
+                            <p className="text-lg sm:text-xl text-blue-100 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
+                                Garanta semanas de diversão, esporte e natureza para seu filho(a) na ASSTJ - Setor de Clubes Sul.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                <Button
+                                    onClick={openWhatsApp}
+                                    size="lg"
+                                    className="bg-[#25D366] hover:bg-[#1da851] text-white font-bold text-lg px-8 py-7 rounded-full shadow-xl hover:scale-105 transition-transform flex items-center gap-2"
+                                >
+                                    <MessageCircle className="w-6 h-6" />
+                                    Inscrever Agora
+                                </Button>
+                            </div>
+
+                            {/* Mini Info */}
+                            <div className="mt-10 grid grid-cols-2 gap-6 border-t border-white/20 pt-8">
+                                <div>
+                                    <p className="text-yellow-400 font-bold uppercase text-sm tracking-wider">Período</p>
+                                    <p className="text-xl font-semibold">12 a 23 de Jan</p>
+                                </div>
+                                <div>
+                                    <p className="text-yellow-400 font-bold uppercase text-sm tracking-wider">Idade</p>
+                                    <p className="text-xl font-semibold">5 a 14 anos</p>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Coluna da Imagem (O Cartaz) */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="relative mx-auto lg:mr-0 w-full max-w-md lg:max-w-full"
+                        >
+                            <div className="absolute -inset-4 bg-white/20 rounded-[2.5rem] blur-xl -z-10" />
+
+                            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 transform hover:rotate-1 transition-transform duration-500 cursor-pointer" onClick={() => setSelectedImage('/servicos/COLONIA/coloniaBg.png')}>
+                                <Image
+                                    src="/servicos/COLONIA/coloniaBg.png"
+                                    alt="Cartaz Colônia de Férias 2026"
+                                    width={600}
+                                    height={800}
+                                    className="w-full h-auto object-cover"
+                                    priority 
+                                    sizes="(max-width: 768px) 100vw, 50vw" 
+                                />
+                                <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors flex items-center justify-center group">
+                                    <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity w-12 h-12 drop-shadow-lg" />
+                                </div>
+                            </div>
+                        </motion.div>
+
+                    </div>
+                </div>
+            </section>
+
+            {/* --- CARDS DE DETALHES --- */}
+            <section className="py-12 bg-white relative z-20">
+                <div className="container mx-auto px-4 -mt-20">
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            {
+                                icon: Calendar,
+                                title: 'Datas Confirmadas',
+                                desc: '12 a 23 de Janeiro de 2026',
+                                details: 'Duas semanas de muita atividade!',
+                                color: 'text-blue-600', bg: 'bg-blue-50'
+                            },
+                            {
+                                icon: MapPin,
+                                title: 'Local Exclusivo',
+                                desc: 'ASSTJ - Setor de Clubes Sul',
+                                details: 'Acesso seguro ao Lago Paranoá.',
+                                color: 'text-orange-600', bg: 'bg-orange-50'
+                            },
+                            {
+                                icon: Users,
+                                title: 'Faixa Etária',
+                                desc: 'Crianças de 5 a 14 anos',
+                                details: 'Turmas divididas por idade.',
+                                color: 'text-green-600', bg: 'bg-green-50'
+                            },
+                        ].map((item, index) => (
+                            <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-all duration-300">
+                                <CardContent className="p-8 flex flex-col items-center text-center">
+                                    <div className={`p-4 rounded-full ${item.bg} ${item.color} mb-4`}>
+                                        <item.icon size={32} />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-slate-800 mb-2">{item.title}</h3>
+                                    <p className="text-lg font-semibold text-slate-700 mb-1">{item.desc}</p>
+                                    <p className="text-sm text-slate-500">{item.details}</p>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
             </section>
 
             {/* --- SOBRE A COLÔNIA (BENEFÍCIOS) --- */}
-            <section className="py-20 px-4 container mx-auto relative z-20 -mt-20">
-                <div className="grid md:grid-cols-3 gap-6">
+            <section className="py-20 px-4 container mx-auto">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-4">
+                        Por que escolher a nossa Colônia?
+                    </h2>
+                    <div className="w-20 h-1.5 bg-yellow-400 mx-auto rounded-full" />
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-8">
                     {[
-                        { icon: Anchor, title: 'Atividades Náuticas', desc: 'Canoa Havaiana, Caiaque e SUP com instrutores especializados.', color: 'text-blue-500', bg: 'bg-blue-50' },
-                        { icon: Users, title: 'Socialização', desc: 'Gincanas e brincadeiras que estimulam o trabalho em equipe e novas amizades.', color: 'text-orange-500', bg: 'bg-orange-50' },
-                        { icon: Shield, title: 'Segurança Total', desc: 'Uso obrigatório de coletes e monitoramento constante em todas as atividades.', color: 'text-green-500', bg: 'bg-green-50' },
+                        { icon: Anchor, title: 'Atividades Náuticas', desc: 'Canoa Havaiana, Caiaque e SUP com instrutores especializados e experientes.', color: 'text-blue-500' },
+                        { icon: Users, title: 'Socialização', desc: 'Gincanas e brincadeiras lúdicas que estimulam o trabalho em equipe, a autonomia e novas amizades.', color: 'text-orange-500' },
+                        { icon: Shield, title: 'Segurança Total', desc: 'Uso obrigatório de coletes salva-vidas e monitoramento constante em todas as atividades.', color: 'text-green-500' },
                     ].map((item, index) => (
                         <motion.div
                             key={index}
@@ -127,29 +216,28 @@ export default function ColoniaDeFeriasPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.2 }}
                             viewport={{ once: true }}
+                            className="bg-slate-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl transition-all border border-slate-100"
                         >
-                            <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
-                                <CardContent className="p-8 flex flex-col items-center text-center">
-                                    <div className={`p-4 rounded-2xl ${item.bg} ${item.color} mb-6`}>
-                                        <item.icon size={40} />
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-slate-800 mb-3">{item.title}</h3>
-                                    <p className="text-slate-600 leading-relaxed">{item.desc}</p>
-                                </CardContent>
-                            </Card>
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center bg-white shadow-sm mb-6 ${item.color}`}>
+                                <item.icon size={32} />
+                            </div>
+                            <h3 className="text-2xl font-bold text-slate-800 mb-3">{item.title}</h3>
+                            <p className="text-slate-600 leading-relaxed">{item.desc}</p>
                         </motion.div>
                     ))}
                 </div>
             </section>
 
             {/* --- GALERIA DE MOMENTOS --- */}
-            <section className="py-16 bg-white">
+            <section className="py-16 bg-white border-y border-slate-100">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-5xl font-black text-slate-800 mb-4">
-                            Momentos <span className="text-blue-500">Inesquecíveis</span>
-                        </h2>
-                        <p className="text-slate-500 text-lg">Um pouquinho do que rola nas nossas temporadas</p>
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                        <div>
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-800 mb-2">
+                                Momentos <span className="text-blue-600">Inesquecíveis</span>
+                            </h2>
+                            <p className="text-slate-500 text-lg">Confira a alegria das últimas temporadas</p>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
@@ -170,7 +258,10 @@ export default function ColoniaDeFeriasPage() {
                                         alt={photo.alt}
                                         fill
                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        // AQUI: Ajuste do sizes para otimização
                                         sizes={isLarge ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                                        // AQUI: Prioridade para as 4 primeiras imagens
+                                        priority={index < 4}
                                     />
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                                         <div className="bg-white/30 backdrop-blur-sm p-3 rounded-full text-white">
@@ -186,73 +277,55 @@ export default function ColoniaDeFeriasPage() {
 
             {/* --- INFORMAÇÕES E FAQ --- */}
             <section className="py-20 container mx-auto px-4">
-                <div className="grid lg:grid-cols-2 gap-16 items-start">
-
-                    {/* Infos Gerais */}
-                    <div className="space-y-8">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
-                            Tudo o que você <br /> precisa saber
+                <div className="max-w-4xl mx-auto">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+                            Perguntas Frequentes
                         </h2>
-                        <p className="text-slate-600 text-lg leading-relaxed">
-                            Nossa colônia é projetada para conectar as crianças com a natureza através do esporte, desenvolvendo autonomia e confiança.
-                        </p>
-
-                        <div className="space-y-6">
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-yellow-100 text-yellow-600 rounded-xl"><Calendar size={24} /></div>
-                                <div>
-                                    <h4 className="font-bold text-slate-800 text-lg">Período</h4>
-                                    <p className="text-slate-600">Janeiro e Julho (Consulte datas exatas no WhatsApp)</p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-purple-100 text-purple-600 rounded-xl"><Clock size={24} /></div>
-                                <div>
-                                    <h4 className="font-bold text-slate-800 text-lg">Horário</h4>
-                                    <p className="text-slate-600">Turno vespertino: 14h às 18h</p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-pink-100 text-pink-600 rounded-xl"><MapPin size={24} /></div>
-                                <div>
-                                    <h4 className="font-bold text-slate-800 text-lg">Local</h4>
-                                    <p className="text-slate-600">Escola Fernanda Rachid - Setor de Clubes Sul</p>
-                                </div>
-                            </div>
-                        </div>
+                        <p className="text-slate-600">Tire suas dúvidas e prepare-se para a diversão</p>
                     </div>
 
-                    {/* Accordion FAQ */}
                     <div className="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-slate-100">
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="item-1">
-                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg">Qual a faixa etária?</AccordionTrigger>
-                                <AccordionContent className="text-slate-600">
-                                    Atendemos crianças e adolescentes de 05 a 14 anos, divididos em grupos por idade para melhor aproveitamento das atividades.
+                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg hover:text-blue-600">
+                                    Qual a faixa etária e o horário?
+                                </AccordionTrigger>
+                                <AccordionContent className="text-slate-600 text-base leading-relaxed">
+                                    Atendemos crianças e adolescentes de <strong>5 a 14 anos</strong>. As atividades ocorrem no turno vespertino (tarde). Para horários exatos, consulte-nos no WhatsApp.
                                 </AccordionContent>
                             </AccordionItem>
+
                             <AccordionItem value="item-2">
-                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg">Precisa saber nadar?</AccordionTrigger>
-                                <AccordionContent className="text-slate-600">
-                                    Não é obrigatório, mas é recomendável que a criança tenha afinidade com água. O uso do colete salva-vidas (fornecido por nós) é <strong>obrigatório</strong> em 100% das atividades aquáticas.
+                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg hover:text-blue-600">
+                                    Precisa saber nadar?
+                                </AccordionTrigger>
+                                <AccordionContent className="text-slate-600 text-base leading-relaxed">
+                                    Não é obrigatório saber nadar, mas é recomendável que a criança tenha afinidade com água. A segurança é nossa prioridade: o uso do <strong>colete salva-vidas é obrigatório</strong> em 100% das atividades aquáticas e fornecido por nós.
                                 </AccordionContent>
                             </AccordionItem>
+
                             <AccordionItem value="item-3">
-                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg">O que levar na mochila?</AccordionTrigger>
-                                <AccordionContent className="text-slate-600">
-                                    <ul className="list-disc pl-5 space-y-1">
-                                        <li>Roupa de banho (com proteção UV recomendada)</li>
-                                        <li>Toalha e muda de roupa seca</li>
-                                        <li>Protetor solar e repelente</li>
-                                        <li>Garrafinha de água</li>
-                                        <li>Lanche reforçado</li>
+                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg hover:text-blue-600">
+                                    O que levar na mochila?
+                                </AccordionTrigger>
+                                <AccordionContent className="text-slate-600 text-base leading-relaxed">
+                                    <ul className="list-disc pl-5 space-y-2">
+                                        <li>Roupa de banho (sunga, maiô, biquíni) - recomendamos com proteção UV.</li>
+                                        <li>Toalha e uma muda de roupa seca para a volta.</li>
+                                        <li>Protetor solar e repelente.</li>
+                                        <li>Garrafinha de água identificada.</li>
+                                        <li>Lanche reforçado (individual).</li>
                                     </ul>
                                 </AccordionContent>
                             </AccordionItem>
+
                             <AccordionItem value="item-4">
-                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg">Inclusão de Lanche?</AccordionTrigger>
-                                <AccordionContent className="text-slate-600">
-                                    Para garantir a segurança alimentar devido a possíveis alergias, pedimos que cada criança traga seu próprio lanche. Fazemos um momento de piquenique coletivo super divertido!
+                                <AccordionTrigger className="text-left font-bold text-slate-700 text-lg hover:text-blue-600">
+                                    O lanche está incluso?
+                                </AccordionTrigger>
+                                <AccordionContent className="text-slate-600 text-base leading-relaxed">
+                                    Para garantir a segurança alimentar devido a possíveis restrições e alergias individuais, pedimos que cada criança traga seu próprio lanche. Realizamos um momento de piquenique coletivo que é super divertido!
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
@@ -261,23 +334,22 @@ export default function ColoniaDeFeriasPage() {
             </section>
 
             {/* --- CTA FINAL --- */}
-            <section className="py-20 bg-blue-600 text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-400/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+            <section className="py-20 bg-blue-900 text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
                 <div className="container mx-auto px-4 text-center relative z-10">
-                    <Heart className="w-12 h-12 text-yellow-400 mx-auto mb-6 animate-bounce" />
-                    <h2 className="text-3xl md:text-5xl font-black mb-6">Prontos para a aventura?</h2>
+                    <Heart className="w-16 h-16 text-yellow-400 mx-auto mb-6 animate-pulse" />
+                    <h2 className="text-3xl md:text-5xl font-black mb-6">As vagas são limitadas!</h2>
                     <p className="text-blue-100 text-xl max-w-2xl mx-auto mb-10">
-                        As vagas são limitadas para garantir a segurança e a qualidade da experiência. Não deixe para última hora!
+                        Não deixe para a última hora. Garanta a vaga do seu filho(a) na colônia mais divertida do Lago Paranoá.
                     </p>
                     <Button
                         onClick={openWhatsApp}
                         size="lg"
-                        variant="secondary"
-                        className="text-blue-700 font-bold text-lg px-10 py-8 rounded-full shadow-2xl hover:scale-105 transition-transform"
+                        className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold text-xl px-12 py-8 rounded-full shadow-2xl hover:scale-105 transition-transform"
                     >
-                        Falar com a Fernanda
+                        Falar com a Tia Fernanda
                     </Button>
                 </div>
             </section>
