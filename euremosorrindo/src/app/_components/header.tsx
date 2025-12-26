@@ -21,6 +21,10 @@ export default function Header() {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
     const [hoverDropdown, setHoverDropdown] = useState<string | null>(null)
+
+    // Novo estado para controlar o hover do item Colônia
+    const [hoverColonia, setHoverColonia] = useState(false)
+
     const pathname = usePathname()
 
     useEffect(() => {
@@ -55,19 +59,15 @@ export default function Header() {
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             const target = e.target as HTMLElement
-
-            // Não fecha se o clique for dentro do menu mobile
             if (target.closest('[data-mobile-menu]')) return
-
             setActiveDropdown(null)
             setHoverDropdown(null)
         }
-
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
     }, [])
 
-
+    // --- NOVOS MENUS ADICIONADOS ---
     const navItems = [
         {
             href: '/fernanda',
@@ -77,21 +77,18 @@ export default function Header() {
                 { href: '/fernanda/curriculo-atleta', label: 'Currículo de atleta' }
             ]
         },
-        {
-            href: '/estrutura', label: 'Serviços'
-        },
-        {
-            href: '/remadas', label: 'Aulas'
-        },
-        {
-            href: '/movimentos',
-            label: 'Projetos'
-        },
+        { href: '/estrutura', label: 'Serviços' },
+        { href: '/remadas', label: 'Aulas' },
+
+        // Item especial com propriedade shortLabel para o efeito desktop
+        { href: '/colonia-de-ferias', label: 'Colônia de Férias', shortLabel: 'Colônia' },
+
+        { href: '/guarderia', label: 'Guarderia' },
+        { href: '/movimentos', label: 'Projetos' },
         { href: '/planos', label: 'Parceiros' },
         { href: '/agenda', label: 'Eventos' },
-        {
-            href: '/produtos', label: 'Loja Oficial',
-        },
+        { href: '/fotos', label: 'Fotos' },
+        { href: '/produtos', label: 'Loja Oficial' },
         { href: '/contatos', label: 'Contato' },
     ]
 
@@ -138,12 +135,9 @@ export default function Header() {
                 }`}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 md:py-4">
-                {/* Logo */}
-                <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="z-50"
-                >
+
+                {/* Logo - Sem animação de hover/tap, apenas scroll */}
+                <motion.div className="z-50">
                     <Link href="/" className="block">
                         <Image
                             src="/logoeuremo.png"
@@ -158,21 +152,98 @@ export default function Header() {
                 </motion.div>
 
                 {/* Menu Desktop */}
-                <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-                    {navItems.map((item) => (
-                        <div
-                            key={item.href}
-                            className="relative"
-                            onMouseEnter={() => item.submenu && handleMouseEnter(item.label)}
-                            onMouseLeave={handleMouseLeave}
-                        >
-                            {item.submenu ? (
-                                <div className="relative">
-                                    <button
-                                        onClick={(e) => handleDropdownToggle(e, item.label)}
-                                        onMouseEnter={() => handleMouseEnter(item.label)}
+                {/* Ajustei o gap para caber os novos itens sem quebrar */}
+                <nav className="hidden lg:flex items-center gap-1">
+                    {navItems.map((item) => {
+
+                        // Lógica específica para o botão "Colônia" no Desktop
+                        if (item.shortLabel) {
+                            return (
+                                <div key={item.href} className="relative">
+                                    <Link
+                                        href={item.href}
+                                        onMouseEnter={() => setHoverColonia(true)}
+                                        onMouseLeave={() => setHoverColonia(false)}
                                         className={`
-                                            flex items-center gap-1 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300
+                                            flex items-center justify-center px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300
+                                            ${isActiveLink(item.href)
+                                                ? 'text-blue-600 bg-blue-50/80'
+                                                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                            }
+                                        `}
+                                    >
+                                        {/* Mostra "Colônia" ou "Colônia de Férias" dependendo do hover */}
+                                        <span className="whitespace-nowrap">
+                                            {hoverColonia ? item.label : item.shortLabel}
+                                        </span>
+                                    </Link>
+                                </div>
+                            )
+                        }
+
+                        // Itens normais e Dropdowns
+                        return (
+                            <div
+                                key={item.href}
+                                className="relative"
+                                onMouseEnter={() => item.submenu && handleMouseEnter(item.label)}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                {item.submenu ? (
+                                    <div className="relative">
+                                        <button
+                                            onClick={(e) => handleDropdownToggle(e, item.label)}
+                                            onMouseEnter={() => handleMouseEnter(item.label)}
+                                            className={`
+                                                flex items-center gap-1 px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300
+                                                ${isActiveLink(item.href)
+                                                    ? 'text-blue-600 bg-blue-50/80'
+                                                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                                }
+                                            `}
+                                        >
+                                            {item.label}
+                                            <motion.div
+                                                animate={{ rotate: isDropdownOpen(item.label) ? 180 : 0 }}
+                                                transition={{ duration: 0.2 }}
+                                            >
+                                                <ChevronDown className="h-4 w-4" />
+                                            </motion.div>
+                                        </button>
+
+                                        <AnimatePresence>
+                                            {isDropdownOpen(item.label) && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    transition={{ duration: 0.2, ease: "easeOut" }}
+                                                    className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/50 py-2 z-50"
+                                                    onMouseEnter={() => handleMouseEnter(item.label)}
+                                                    onMouseLeave={handleMouseLeave}
+                                                >
+                                                    {item.submenu.map((subItem) => (
+                                                        <Link
+                                                            key={subItem.href}
+                                                            href={subItem.href}
+                                                            className="block px-4 py-3 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200 first:rounded-t-2xl last:rounded-b-2xl"
+                                                            onClick={() => {
+                                                                setActiveDropdown(null)
+                                                                setHoverDropdown(null)
+                                                            }}
+                                                        >
+                                                            {subItem.label}
+                                                        </Link>
+                                                    ))}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                ) : (
+                                    <Link
+                                        href={item.href}
+                                        className={`
+                                            block px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300
                                             ${isActiveLink(item.href)
                                                 ? 'text-blue-600 bg-blue-50/80'
                                                 : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
@@ -180,74 +251,14 @@ export default function Header() {
                                         `}
                                     >
                                         {item.label}
-                                        <motion.div
-                                            animate={{ rotate: isDropdownOpen(item.label) ? 180 : 0 }}
-                                            transition={{ duration: 0.2 }}
-                                        >
-                                            <ChevronDown className="h-4 w-4" />
-                                        </motion.div>
-                                    </button>
-
-                                    <AnimatePresence>
-                                        {isDropdownOpen(item.label) && (
-                                            <motion.div
-                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                transition={{ duration: 0.2, ease: "easeOut" }}
-                                                className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/50 py-2 z-50"
-                                                onMouseEnter={() => handleMouseEnter(item.label)}
-                                                onMouseLeave={handleMouseLeave}
-                                            >
-                                                {item.submenu.map((subItem) => (
-                                                    <Link
-                                                        key={subItem.href}
-                                                        href={subItem.href}
-                                                        className="block px-4 py-3 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200 first:rounded-t-2xl last:rounded-b-2xl"
-                                                        onClick={() => {
-                                                            setActiveDropdown(null)
-                                                            setHoverDropdown(null)
-                                                        }}
-                                                    >
-                                                        {subItem.label}
-                                                    </Link>
-                                                ))}
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
-                            ) : (
-                                <Link
-                                    href={item.href}
-                                    className={`
-                                        block px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300
-                                        ${isActiveLink(item.href)
-                                            ? 'text-blue-600 bg-blue-50/80'
-                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
-                                        }
-                                    `}
-                                >
-                                    {item.label}
-                                </Link>
-                            )}
-                        </div>
-                    ))}
+                                    </Link>
+                                )}
+                            </div>
+                        )
+                    })}
                 </nav>
 
-                {/* CTA Button Desktop */}
-                <div className="hidden lg:block">
-                    <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <Button
-                            onClick={openWhatsApp}
-                            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
-                        >
-                            Vamos Conversar
-                        </Button>
-                    </motion.div>
-                </div>
+                {/* BOTÃO CTA DESKTOP REMOVIDO AQUI CONFORME SOLICITADO */}
 
                 {/* Menu Mobile */}
                 <div className="lg:hidden z-50">
@@ -367,6 +378,7 @@ export default function Header() {
                                                         : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
                                                         }`}
                                                 >
+                                                    {/* No mobile mostra sempre o label completo */}
                                                     {item.label}
                                                 </Link>
                                             )}

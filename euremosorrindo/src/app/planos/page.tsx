@@ -211,19 +211,6 @@ export default function ParceirosPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-cyan-700/30" />
 
-                {/* Logo Eu Remo Sorrindo */}
-                <div className="absolute top-6 left-6 z-20">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 border border-white/20">
-                        <Image
-                            src="/logoeuremo.png"
-                            alt="Eu Remo Sorrindo"
-                            width={160}
-                            height={60}
-                            className="object-contain"
-                        />
-                    </div>
-                </div>
-
                 {/* Conteúdo */}
                 <div className="relative z-10 flex h-full items-center justify-center px-4">
                     <motion.div
@@ -232,15 +219,6 @@ export default function ParceirosPage() {
                         transition={{ duration: 0.8 }}
                         className="max-w-5xl text-center text-white"
                     >
-                        <motion.span
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: 0.3, duration: 0.5 }}
-                            className="inline-block mb-8 rounded-full bg-gradient-to-r from-white/20 to-white/10 px-8 py-3 text-base font-semibold backdrop-blur-lg border border-white/30"
-                        >
-                            <Sparkles className="inline-block w-4 h-4 mr-2" />
-                            Parcerias que Transformam
-                        </motion.span>
 
                         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-8 tracking-tight">
                             <span className="bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent">
@@ -253,7 +231,7 @@ export default function ParceirosPage() {
                         </h1>
 
                         <p className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
-                            Marcas visionárias que acreditam no poder transformador do esporte
+                            Marcas que acreditam no poder transformador do esporte
                         </p>
 
                         <motion.div
