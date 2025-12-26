@@ -7,18 +7,78 @@ import {
 } from "@phosphor-icons/react/dist/ssr"
 import { MapPin, Phone } from "lucide-react"
 
-import ascadeLogo from "../../../public/rumo.webp"
-import canoMAMALogo from "../../../public/bauminas.jpg"
-import RemoLogo from "../../../public/remobrasilia.jpg"
-import CanoeLogo from "../../../public/canoe.jpg"
-import SaluteLogo from "../../../public/salute.jpg"
-
+// A lista de brands agora usa caminhos diretos (strings), removendo a necessidade de imports manuais
 const brands = [
-  { name: "Rumo", logo: ascadeLogo },
-  { name: "Fundação Baúminas", logo: canoMAMALogo },
-  { name: "Remo Brasília", logo: RemoLogo },
-  { name: "Canoe Brasil", logo: CanoeLogo },
-  { name: "Salute Nutrição Esportiva", logo: SaluteLogo },
+  {
+    name: "Rumo Custom Paddles",
+    logo: "/rumo.webp",
+    description: "Empresa especializada em equipamentos esportivos aquáticos de alta performance",
+    category: "Equipamentos",
+    url: "https://www.rumobrasil.com.br/"
+  },
+  {
+    name: "Fundação Baúminas",
+    logo: "/bauminas.jpg",
+    description: "Fundação dedicada ao desenvolvimento esportivo, cultural e social",
+    category: "Social",
+    url: "https://fundacaobauminas.org.br/"
+  },
+  {
+    name: "Canoe Brasil",
+    logo: "/canoe.jpg",
+    description: "Fabricante nacional referência em caiaques e canoas",
+    category: "Equipamentos",
+    url: "https://www.canoe.com.br/"
+  },
+  {
+    name: "Salute Nutrição Esportiva",
+    logo: "/salute.jpg",
+    description: "Consultoria em nutrição para atletas",
+    category: "Saúde",
+    url: "#"
+  },
+  {
+    name: "Nenutrição",
+    logo: "/nen.jpg",
+    description: "Nutrição especializada para alta performance e saúde",
+    category: "Saúde",
+    url: "https://www.nenutricao.com.br/"
+  },
+  {
+    name: "ACKC Brasília",
+    logo: "/ackc.jpg",
+    description: "Associação de Canoagem Caiakagem Brasília - Fomento ao esporte local",
+    category: "Esportivo",
+    url: "https://www.instagram.com/caiakagem/"
+  },
+  {
+    name: "ASSTJ",
+    logo: "/asstj.png",
+    description: "Associação dos Servidores do Superior Tribunal de Justiça e do Conselho da Justiça Federal",
+    category: "Institucional",
+    url: "https://www.asstj.org.br/index.html"
+  },
+  {
+    name: "Cerrado Experience",
+    logo: "/cerrado.png",
+    description: "Experiências únicas de ecoturismo no Cerrado",
+    category: "Turismo",
+    url: "https://cerradoexperience.com.br/"
+  },
+  {
+    name: "Remo Brasília",
+    logo: "/remobrasilia.jpg",
+    description: "Clube de remo tradicional de Brasília",
+    category: "Esportivo",
+    url: "#"
+  },
+  {
+    name: "APAE-DF",
+    logo: "/apae.jpg",
+    description: "Associação de Pais e Amigos dos Excepcionais do Distrito Federal",
+    category: "Social",
+    url: "https://apaedf.org.br/"
+  }
 ]
 
 export function Footer() {
@@ -151,7 +211,7 @@ export function Footer() {
         </footer>
       </div>
 
-      {/* Google Maps - Atualizado */}
+      {/* Google Maps */}
       <div className="w-full h-[300px] md:h-[400px] lg:h-[450px] relative">
         <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent z-10 pointer-events-none"></div>
         <iframe

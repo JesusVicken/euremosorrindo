@@ -1,3 +1,5 @@
+
+
 'use client'
 
 import Image from 'next/image'
@@ -7,7 +9,7 @@ import 'aos/dist/aos.css'
 import { useEffect, useState } from 'react'
 import {
     Check, MessageCircle, ChevronRight, X, Sun, Droplets,
-    ChevronLeft, CreditCard, ShoppingBag, Palette
+    ChevronLeft, CreditCard, ShoppingBag, Palette, Shirt
 } from 'lucide-react'
 
 // --- DADOS DOS REMOS ---
@@ -86,6 +88,18 @@ const capasData = {
         { item: 'Grande (1 remo)', valor: 'R$ 220,00' },
         { item: 'Grande (2 remos)', valor: 'R$ 300,00' },
         { item: 'Pequena (somente pá)', valor: 'R$ 100,00' },
+    ]
+}
+
+// --- DADOS UNIFORMES ---
+const uniformesData = {
+    titulo: 'Uniformes Oficiais',
+    descricao: 'Vista a camisa do time! Nossos uniformes são desenvolvidos com tecido tecnológico de alta qualidade, leve e com proteção UV, ideais para a prática de esportes ao ar livre com conforto e estilo.',
+    imagem: '/produtos/uniforme.jpg',
+    precos: [
+        { item: 'Manga Longa', valor: 'R$ 100,00' },
+        { item: 'Manga Curta', valor: 'R$ 70,00' },
+        { item: 'Regata', valor: 'R$ 60,00' },
     ]
 }
 
@@ -251,8 +265,8 @@ export default function EquipamentosPage() {
                                         key={produto.id}
                                         onClick={() => setProdutoSelecionado(produto)}
                                         className={`flex flex-col items-center gap-2 p-1.5 rounded-xl border-2 transition-all min-w-[70px] ${produtoSelecionado.id === produto.id
-                                                ? 'border-blue-600 bg-blue-50'
-                                                : 'border-transparent hover:bg-gray-50'
+                                            ? 'border-blue-600 bg-blue-50'
+                                            : 'border-transparent hover:bg-gray-50'
                                             }`}
                                     >
                                         <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border border-gray-200">
@@ -328,9 +342,7 @@ export default function EquipamentosPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {produtosColetes.map((colete) => (
                             <div key={colete.id} className="group bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all border border-gray-100 flex flex-col">
-                                {/* ALTERADO AQUI: aspect-square para 600x600 */}
                                 <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-4 bg-gray-100">
-                                    {/* Imagem Frente (Padrão) */}
                                     <Image
                                         src={colete.imgFrente}
                                         alt={`${colete.nome} Frente`}
@@ -338,7 +350,6 @@ export default function EquipamentosPage() {
                                         className="object-cover opacity-100 transition-opacity duration-300 group-hover:opacity-0"
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     />
-                                    {/* Imagem Costas (Hover) */}
                                     <Image
                                         src={colete.imgCostas}
                                         alt={`${colete.nome} Costas`}
@@ -408,7 +419,59 @@ export default function EquipamentosPage() {
                     </div>
                 </div>
 
-                {/* --- SEÇÃO 4: SUN TECH --- */}
+                {/* --- SEÇÃO 4: UNIFORMES (ATUALIZADA COM ESTILO SUNTECH) --- */}
+                <div className="bg-blue-50 rounded-[2.5rem] p-6 sm:p-10 lg:p-12 overflow-hidden relative">
+                    {/* Efeito de fundo sutil (bolha azul) */}
+                    <div className="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
+                        {/* Conteúdo Uniformes (Esquerda) */}
+                        <div className="order-2 lg:order-1">
+                            <div className="flex items-center gap-2 mb-4 text-blue-600 font-bold tracking-wide uppercase text-sm">
+                                <Shirt size={20} />
+                                <span>Vestuário</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 sm:mb-6">{uniformesData.titulo}</h2>
+                            <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8">
+                                {uniformesData.descricao}
+                            </p>
+
+                            {/* Tabela de Preços (Estilo Card Branco) */}
+                            <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden mb-8">
+                                {uniformesData.precos.map((item, idx) => (
+                                    <div key={idx} className="flex justify-between items-center p-4 border-b border-blue-100 last:border-0 hover:bg-blue-50 transition-colors">
+                                        <span className="font-medium text-gray-700 text-sm sm:text-base">{item.item}</span>
+                                        <span className="font-bold text-blue-700 text-base sm:text-lg">{item.valor}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => handleWhatsApp(`Olá! Tenho interesse no uniforme oficial.`)}
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-md hover:shadow-blue-500/30"
+                            >
+                                <ShoppingBag size={20} />
+                                Encomendar Uniforme
+                            </button>
+                        </div>
+
+                        {/* Imagem Uniformes (Direita - ESTILO FLUTUANTE SUNTECH) */}
+                        {/* Apliquei rounded-3xl, shadow-2xl e uma leve rotação negativa para diferenciar */}
+                        <div className="order-1 lg:order-2 relative h-[300px] sm:h-[400px] lg:h-[500px] w-full rounded-3xl overflow-hidden shadow-2xl lg:-rotate-1 lg:hover:rotate-0 transition-all duration-500">
+                            <Image
+                                src={uniformesData.imagem}
+                                alt="Uniformes Oficiais"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
+                            {/* Gradiente sutil na parte inferior */}
+                            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/40 to-transparent h-1/3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* --- SEÇÃO 5: SUN TECH --- */}
                 <div className="bg-orange-50 rounded-[2.5rem] p-6 sm:p-10 lg:p-12 overflow-hidden relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-300 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
 
