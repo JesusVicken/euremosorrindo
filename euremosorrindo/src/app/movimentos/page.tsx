@@ -20,7 +20,7 @@ import {
 
 gsap.registerPlugin(ScrollTrigger)
 
-// --- DADOS DOS PROJETOS ---
+// --- DADOS DOS PROJETOS (TEXTOS ATUALIZADOS) ---
 const projetos = [
     {
         id: 'apae-df',
@@ -29,14 +29,29 @@ const projetos = [
         icone: Sparkles,
         cor: 'text-rose-500',
         bgcor: 'bg-rose-500/10',
-        bgImage: '/apae.jpg', // Fallback caso o vídeo falhe (opcional)
-        video: '/apae.mp4',   // <--- ADICIONADO: Caminho do vídeo
+        bgImage: '/apae.jpg', // Fallback
+        video: '/apae.mp4',   // Vídeo de fundo
         instagramUrl: 'https://instagram.com/apaedf',
         texto: [
-            "O projeto \"Remando Juntos com a APAE/DF\" é uma iniciativa de inclusão social e esportiva que transforma a vida de pessoas com deficiência intelectual e múltipla no Distrito Federal. Fruto da parceria entre a APAE do Distrito Federal e a Escola de Canoagem e Va'a Fernanda Rachid.",
-            "Patrocinado pelo Grupo Bauminas por meio do Programa da Lei de Incentivo do Ministério do Esporte, as atividades de canoagem e VA'A (canoa havaiana) são realizadas no Lago Paranoá e atendem os assistidos das quatro unidades da APAE/DF: Sobradinho, Asa Norte, Ceilândia e Guará.",
+            "O projeto \"Remando Juntos com a APAE/DF\" é uma iniciativa de inclusão social e esportiva que transforma a vida de pessoas com deficiência intelectual e múltipla no Distrito Federal. Fruto da parceria entre a APAE do Distrito Federal e a Escola de Canoagem e Va'a Fernanda Rachid, conhecida como Eu Remo Sorrindo.",
+            "O projeto é patrocinado pelo Grupo Bauminas por meio do Programa da Lei de Incentivo do Ministério do Esporte. As atividades de canoagem e VA'A (canoa havaiana) são realizadas no Lago Paranoá e atendem os assistidos das quatro unidades da APAE/DF: Sobradinho, Asa Norte, Ceilândia e Guará.",
             "Mais do que lazer, o projeto oferece reabilitação e desenvolvimento motor, social e emocional, preparando os participantes para a superação e, em alguns casos, para competições nacionais, como detalhado em reportagem do Correio Braziliense.",
-            "Acompanhe a jornada de inclusão e superação do projeto em seus canais de divulgação. Você pode conferir vídeos e a cobertura completa no YouTube da APAE/DF."
+            "Acompanhe a jornada de inclusão e superação do projeto em seus canais de divulgação. Você pode conferir vídeos e a cobertura completa no YouTube da APAE/DF, além de fotos e atualizações diárias no Instagram da APAE/DF e no Instagram Eu Remo Sorrindo."
+        ]
+    },
+    {
+        id: 'pais-filhos',
+        titulo: 'Pais e Filhos',
+        subtitulo: 'Remando Juntos',
+        icone: HeartHandshake,
+        cor: 'text-blue-500',
+        bgcor: 'bg-blue-500/10',
+        bgImage: '/paisefilhos.jpg',
+        instagramUrl: 'https://instagram.com/euremosorrindo',
+        texto: [
+            "Iniciado em 2019, o projeto surgiu quando Fernanda Rachid conciliava a carreira de atleta de canoagem com a atuação como professora da Secretaria de Educação do DF em classes especiais.",
+            "Nos horários alternados às aulas, passou a levar seus alunos — crianças e adolescentes com deficiência intelectual e TEA — para remar junto com seus familiares.",
+            "A vivência revelou importantes benefícios nos campos cognitivo, sensório-motor, emocional, relacional e comportamental, percebidos tanto na rotina escolar quanto nos relatos das famílias. Essa experiência foi decisiva para a fundação da Escola Eu Remo Sorrindo."
         ]
     },
     {
@@ -51,20 +66,6 @@ const projetos = [
         texto: [
             "Movimento socioambiental de canoagem iniciado em 2019, a Ecoremada surgiu para sensibilizar sobre a preservação do Rio Pomba, em Cataguases/MG e região.",
             "Com ações recorrentes, promove educação socioambiental e o esporte consciente por meio de oficinas, workshops, palestras, ações solidárias, limpeza de rios e espelhos d’água, além de festivais, travessias e campeonatos de canoagem."
-        ]
-    },
-    {
-        id: 'pais-filhos',
-        titulo: 'Pais e Filhos',
-        subtitulo: 'Fortalecimento de vínculos',
-        icone: HeartHandshake,
-        cor: 'text-blue-500',
-        bgcor: 'bg-blue-500/10',
-        bgImage: '/paisefilhos.jpg',
-        instagramUrl: 'https://instagram.com/euremosorrindo',
-        texto: [
-            "Iniciado em 2019, o projeto surgiu quando Fernanda Rachid conciliava a carreira de atleta de canoagem com a atuação como professora da Secretaria de Educação do DF em classes especiais.",
-            "Nos horários alternados às aulas, passou a levar seus alunos — crianças e adolescentes com deficiência intelectual e TEA — para remar junto com seus familiares. A vivência revelou importantes benefícios nos campos cognitivo, sensório-motor, emocional, relacional e comportamental, percebidos tanto na rotina escolar quanto nos relatos das famílias. Essa experiência foi decisiva para a fundação da Escola Eu Remo Sorrindo."
         ]
     },
     {
@@ -131,7 +132,7 @@ export default function InfoProjetos() {
     const [ativo, setAtivo] = useState<string | null>('apae-df')
     const [bgAtual, setBgAtual] = useState<any>(projetos[0])
     const containerRef = useRef<HTMLDivElement>(null)
-    const mediaContainerRef = useRef<HTMLDivElement>(null) // Renomeado para ser genérico (Video ou Imagem)
+    const mediaContainerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (ativo) {
@@ -144,19 +145,18 @@ export default function InfoProjetos() {
 
     // --- ANIMAÇÃO GSAP PARA O BACKGROUND (VÍDEO OU IMAGEM) ---
     useGSAP(() => {
-        // Sempre que bgAtual mudar, essa animação roda
         if (mediaContainerRef.current) {
             gsap.fromTo(mediaContainerRef.current,
                 {
                     opacity: 0,
-                    scale: 1.1, // Começa com zoom
-                    yPercent: 10, // Começa de baixo
+                    scale: 1.1,
+                    yPercent: 10,
                     filter: "blur(10px)"
                 },
                 {
                     opacity: 1,
                     scale: 1,
-                    yPercent: 0, // Sobe
+                    yPercent: 0,
                     filter: "blur(0px)",
                     duration: 1.2,
                     ease: "power2.out",
@@ -196,14 +196,12 @@ export default function InfoProjetos() {
 
             {/* --- BACKGROUND FIXO (VÍDEO OU IMAGEM) --- */}
             <div className="absolute inset-0 z-0 overflow-hidden">
-                {/* Overlay Escuro */}
                 <div className="absolute inset-0 bg-gray-950/60 z-10" />
 
-                {/* Container de Mídia (Animado pelo GSAP) */}
                 <div ref={mediaContainerRef} className="absolute inset-0 w-full h-full transform-gpu">
                     {bgAtual.video ? (
                         <video
-                            key={bgAtual.id} // Key força o React a remontar o elemento para o GSAP pegar a troca
+                            key={bgAtual.id}
                             src={bgAtual.video}
                             autoPlay
                             loop
@@ -224,7 +222,6 @@ export default function InfoProjetos() {
                     )}
                 </div>
 
-                {/* Gradiente inferior */}
                 <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-gray-950 via-gray-950/80 to-transparent z-10" />
             </div>
 
@@ -233,11 +230,11 @@ export default function InfoProjetos() {
 
                 {/* Cabeçalho */}
                 <div className="w-full max-w-4xl text-center text-white header-content shrink-0 mb-6 py-10 md:py-16">
-                    <h2 className="text-4xl md:text-6xl font-black mb-6 pb-2 tracking-tighter drop-shadow-2xl bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400">
-                        Projetos e Movimentos
+                    <h2 className="text-4xl md:text-6xl font-black mb-4 pb-4 tracking-tighter drop-shadow-2xl bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400 leading-tight">
+                        Esporte com Propósito
                     </h2>
-                    <p className="text-gray-200 text-sm md:text-lg max-w-lg mx-auto leading-relaxed font-light drop-shadow-md">
-                        Cada projeto representa um capítulo da nossa dedicação à preservação ambiental e ao esporte.
+                    <p className="text-gray-200 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed font-light drop-shadow-md">
+                        Na <span className="font-semibold text-white">Eu Remo Sorrindo</span>, cada remada conta uma história. Conheça as iniciativas onde unimos a canoagem, a inclusão social e o amor pela natureza para impactar vidas.
                     </p>
                 </div>
 

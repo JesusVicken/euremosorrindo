@@ -1,4 +1,3 @@
-
 'use client'
 
 import Image from "next/image"
@@ -19,36 +18,49 @@ const brands = [
         name: "Rumo",
         logo: "/rumo.webp",
         description: "Empresa especializada em equipamentos esportivos aquáticos",
-        category: "Equipamentos",
-        since: "2020"
+        category: "Equipamentos"
     },
     {
         name: "Fundação Baúminas",
         logo: "/bauminas.jpg",
         description: "Fundação dedicada ao desenvolvimento esportivo e social",
-        category: "Social",
-        since: "2019"
+        category: "Social"
     },
     {
         name: "Remo Brasília",
         logo: "/remobrasilia.jpg",
         description: "Clube de remo tradicional de Brasília",
-        category: "Esportivo",
-        since: "2018"
+        category: "Esportivo"
     },
     {
         name: "Canoe Brasil",
         logo: "/canoe.jpg",
         description: "Fabricante nacional de caiaques e canoas",
-        category: "Equipamentos",
-        since: "2021"
+        category: "Equipamentos"
     },
     {
         name: "Salute Nutrição Esportiva",
         logo: "/salute.jpg",
         description: "Consultoria em nutrição para atletas",
-        category: "Saúde",
-        since: "2022"
+        category: "Saúde"
+    },
+    {
+        name: "ACKC",
+        logo: "/ackc.jpg",
+        description: "Associação de Canoagem Caiakagem Brasília",
+        category: "Esportivo"
+    },
+    {
+        name: "ASSTJ",
+        logo: "/asstj.png",
+        description: "Associação dos Servidores do Superior Tribunal de Justiça e do Conselho da Justiça Federal",
+        category: "Institucional"
+    },
+    {
+        name: "APAE-DF",
+        logo: "/apae.jpg",
+        description: "Associação de Pais e Amigos dos Excepcionais do Distrito Federal",
+        category: "Social"
     }
 ]
 
@@ -175,19 +187,6 @@ export default function ParceirosPage() {
                 {/* Overlays */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-cyan-700/30" />
-
-                {/* Logo Eu Remo Sorrindo */}
-                <div className="absolute top-6 left-6 z-20">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 border border-white/20">
-                        <Image
-                            src="/logoeuremo.png"
-                            alt="Eu Remo Sorrindo"
-                            width={160}
-                            height={60}
-                            className="object-contain"
-                        />
-                    </div>
-                </div>
 
                 {/* Conteúdo */}
                 <div className="relative z-10 flex h-full items-center justify-center px-4">
@@ -324,11 +323,11 @@ export default function ParceirosPage() {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {brands.map(brand => (
                         <div key={brand.name} className="partner-card">
-                            <Card className="rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 border border-slate-200 overflow-hidden">
-                                <CardContent className="p-8">
-                                    <div className="flex flex-col items-center text-center">
+                            <Card className="rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 border border-slate-200 overflow-hidden h-full">
+                                <CardContent className="p-8 h-full flex flex-col">
+                                    <div className="flex flex-col items-center text-center h-full">
                                         {/* Logo Container */}
-                                        <div className="relative w-48 h-24 mb-8">
+                                        <div className="relative w-48 h-24 mb-8 shrink-0">
                                             <Image
                                                 src={brand.logo}
                                                 alt={brand.name}
@@ -338,27 +337,26 @@ export default function ParceirosPage() {
                                             />
                                         </div>
 
-                                        {/* Badges */}
-                                        <div className="flex gap-2 mb-6">
+                                        {/* Badges (SEM O SINCE) */}
+                                        <div className="flex justify-center mb-6 shrink-0">
                                             <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                                                 {brand.category}
-                                            </span>
-                                            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                                                Desde {brand.since}
                                             </span>
                                         </div>
 
                                         {/* Content */}
                                         <h3 className="text-2xl font-bold text-slate-800 mb-3">{brand.name}</h3>
-                                        <p className="text-slate-600 mb-6 leading-relaxed">{brand.description}</p>
+                                        <p className="text-slate-600 mb-6 leading-relaxed flex-grow">{brand.description}</p>
 
                                         {/* Rating */}
-                                        <div className="flex items-center justify-center gap-1 text-amber-500 mb-2">
-                                            {[...Array(5)].map((_, i) => (
-                                                <Star key={i} className="w-5 h-5 fill-current" />
-                                            ))}
+                                        <div className="flex flex-col items-center mt-auto">
+                                            <div className="flex items-center justify-center gap-1 text-amber-500 mb-2">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Star key={i} className="w-5 h-5 fill-current" />
+                                                ))}
+                                            </div>
+                                            <span className="text-sm text-slate-500">Parceria 5 estrelas</span>
                                         </div>
-                                        <span className="text-sm text-slate-500">Parceria 5 estrelas</span>
                                     </div>
                                 </CardContent>
                             </Card>
