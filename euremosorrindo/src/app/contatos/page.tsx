@@ -8,20 +8,85 @@ import {
     YoutubeLogo,
     WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr"
-import { MapPin, Phone, Clock, ArrowRight } from "lucide-react"
+import { MapPin, Phone, Clock, ArrowRight, ExternalLink } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useEffect } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-// Logos dos parceiros
+// --- DADOS DOS PARCEIROS ATUALIZADOS ---
 const brands = [
-    { name: "Rumo", logo: "/rumo.webp" },
-    { name: "Fundação Baúminas", logo: "/bauminas.jpg" },
-    { name: "Remo Brasília", logo: "/remobrasilia.jpg" },
-    { name: "Canoe Brasil", logo: "/canoe.jpg" },
-    { name: "Salute Nutrição Esportiva", logo: "/salute.jpg" },
+    {
+        name: "Rumo Custom Paddles",
+        logo: "/rumo.webp",
+        description: "Empresa especializada em equipamentos esportivos aquáticos de alta performance",
+        category: "Equipamentos",
+        url: "https://www.rumobrasil.com.br/"
+    },
+    {
+        name: "Fundação Baúminas",
+        logo: "/bauminas.jpg",
+        description: "Fundação dedicada ao desenvolvimento esportivo, cultural e social",
+        category: "Social",
+        url: "https://fundacaobauminas.org.br/"
+    },
+    {
+        name: "Canoe Brasil",
+        logo: "/canoe.jpg",
+        description: "Fabricante nacional referência em caiaques e canoas",
+        category: "Equipamentos",
+        url: "https://www.canoe.com.br/"
+    },
+    {
+        name: "Salute Nutrição Esportiva",
+        logo: "/salute.jpg",
+        description: "Consultoria em nutrição para atletas",
+        category: "Saúde",
+        url: "#"
+    },
+    {
+        name: "Nenutrição",
+        logo: "/nen.jpg",
+        description: "Nutrição especializada para alta performance e saúde",
+        category: "Saúde",
+        url: "https://www.nenutricao.com.br/"
+    },
+    {
+        name: "ACKC Brasília",
+        logo: "/ackc.jpg",
+        description: "Associação de Canoagem Caiakagem Brasília - Fomento ao esporte local",
+        category: "Esportivo",
+        url: "https://www.instagram.com/caiakagem/"
+    },
+    {
+        name: "ASSTJ",
+        logo: "/asstj.png",
+        description: "Associação dos Servidores do Superior Tribunal de Justiça e do Conselho da Justiça Federal",
+        category: "Institucional",
+        url: "https://www.asstj.org.br/index.html"
+    },
+    {
+        name: "Cerrado Experience",
+        logo: "/cerrado.png",
+        description: "Experiências únicas de ecoturismo no Cerrado",
+        category: "Turismo",
+        url: "https://cerradoexperience.com.br/"
+    },
+    {
+        name: "Remo Brasília",
+        logo: "/remobrasilia.jpg",
+        description: "Clube de remo tradicional de Brasília",
+        category: "Esportivo",
+        url: "#"
+    },
+    {
+        name: "APAE-DF",
+        logo: "/apae.jpg",
+        description: "Associação de Pais e Amigos dos Excepcionais do Distrito Federal",
+        category: "Social",
+        url: "https://apaedf.org.br/"
+    }
 ]
 
 export default function ContatoPage() {
@@ -98,7 +163,7 @@ export default function ContatoPage() {
                 </div>
             </div>
 
-            {/* 3. CARDS INTERATIVOS (ATUALIZADO: ÍCONES MAIORES) */}
+            {/* 3. CARDS INTERATIVOS */}
             <section className="py-20 px-4 -mt-10 relative z-20">
                 <div className="container mx-auto max-w-6xl">
                     <div className="grid md:grid-cols-3 gap-6">
@@ -110,7 +175,6 @@ export default function ContatoPage() {
                         >
                             <Card className="h-full bg-white border-2 border-transparent hover:border-green-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
                                 <CardContent className="p-8 flex flex-col items-center text-center">
-                                    {/* Ícone Aumentado e Margem Reduzida */}
                                     <div className="w-24 h-24 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300 shadow-sm">
                                         <WhatsappLogo size={56} weight="fill" />
                                     </div>
@@ -130,7 +194,6 @@ export default function ContatoPage() {
                         >
                             <Card className="h-full bg-white border-2 border-transparent hover:border-blue-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
                                 <CardContent className="p-8 flex flex-col items-center text-center">
-                                    {/* Ícone Aumentado e Margem Reduzida */}
                                     <div className="w-24 h-24 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
                                         <MapPin size={56} />
                                     </div>
@@ -150,7 +213,6 @@ export default function ContatoPage() {
                         >
                             <Card className="h-full bg-white border-2 border-transparent hover:border-orange-500 shadow-xl rounded-3xl overflow-hidden transition-all duration-300 group">
                                 <CardContent className="p-8 flex flex-col items-center text-center">
-                                    {/* Ícone Aumentado e Margem Reduzida */}
                                     <div className="w-24 h-24 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 mb-4 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300 shadow-sm">
                                         <Clock size={56} />
                                     </div>
@@ -167,7 +229,7 @@ export default function ContatoPage() {
                 </div>
             </section>
 
-            {/* 4. MAPA GRANDE + DETALHES (ATUALIZADO: LOGOS) */}
+            {/* 4. MAPA GRANDE + DETALHES */}
             <section className="pb-20 px-4" id="mapa-container">
                 <div className="container mx-auto max-w-6xl">
                     <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100 grid lg:grid-cols-2">
@@ -177,7 +239,6 @@ export default function ContatoPage() {
                                 <MapPin size={16} /> Ponto de Encontro
                             </div>
 
-                            {/* SUBSTITUIÇÃO DO TÍTULO PELAS LOGOS */}
                             <div className="flex items-center gap-6 mb-4">
                                 <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0">
                                     <Image
@@ -243,7 +304,7 @@ export default function ContatoPage() {
                 </div>
             </section>
 
-            {/* 5. PARCEIROS */}
+            {/* 5. PARCEIROS (ATUALIZADO) */}
             <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
                     <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
@@ -272,19 +333,47 @@ export default function ContatoPage() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className="group"
+                                className="group relative"
                             >
-                                <div className="bg-white p-6 rounded-2xl w-52 h-32 flex items-center justify-center hover:scale-105 transition-all duration-300 shadow-lg shadow-black/20">
-                                    <div className="relative w-full h-full">
-                                        <Image
-                                            src={item.logo}
-                                            alt={item.name}
-                                            fill
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                            className="object-contain"
-                                        />
+                                {/* Renderização Condicional: Link ou Div */}
+                                {item.url && item.url !== '#' ? (
+                                    <a
+                                        href={item.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block cursor-pointer"
+                                    >
+                                        <div className="bg-white p-6 rounded-2xl w-52 h-32 flex items-center justify-center hover:scale-105 transition-all duration-300 shadow-lg shadow-black/20 relative overflow-hidden">
+                                            {/* Ícone de link externo no hover */}
+                                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-slate-400">
+                                                <ExternalLink size={16} />
+                                            </div>
+
+                                            <div className="relative w-full h-full">
+                                                <Image
+                                                    src={item.logo}
+                                                    alt={item.name}
+                                                    fill
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        </div>
+                                    </a>
+                                ) : (
+                                    <div className="bg-white p-6 rounded-2xl w-52 h-32 flex items-center justify-center shadow-lg shadow-black/20">
+                                        <div className="relative w-full h-full">
+                                            <Image
+                                                src={item.logo}
+                                                alt={item.name}
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                className="object-contain"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                )}
+
                                 <p className="mt-3 text-sm text-slate-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                                     {item.name}
                                 </p>

@@ -1,8 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, ChevronDown } from 'lucide-react' // Removi X, Phone, Instagram não usados aqui diretamente se não forem necessários, mas mantive imports
+
+// UI Components
 import { Button } from '@/components/ui/button'
 import {
     Sheet,
@@ -10,64 +15,22 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
+    SheetClose
 } from '@/components/ui/sheet'
-import { Separator } from '@/components/ui/separator'
-import Image from 'next/image'
-import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+import { Phone, Instagram } from 'lucide-react' // Re-adicionando se foram usados no mobile menu
 
 export default function Header() {
-    const [isScrolled, setIsScrolled] = useState(false)
-    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
     const [hoverDropdown, setHoverDropdown] = useState<string | null>(null)
-
-    // Novo estado para controlar o hover do item Colônia
     const [hoverColonia, setHoverColonia] = useState(false)
-
     const pathname = usePathname()
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrolled = window.scrollY > 20
-            setIsScrolled(scrolled)
-        }
-
-        let ticking = false
-        const updateScroll = () => {
-            handleScroll()
-            ticking = false
-        }
-
-        const onScroll = () => {
-            if (!ticking) {
-                requestAnimationFrame(updateScroll)
-                ticking = true
-            }
-        }
-
-        window.addEventListener('scroll', onScroll, { passive: true })
-        return () => window.removeEventListener('scroll', onScroll)
-    }, [])
-
-    useEffect(() => {
-        setMobileMenuOpen(false)
-        setActiveDropdown(null)
-        setHoverDropdown(null)
-    }, [pathname])
-
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            const target = e.target as HTMLElement
-            if (target.closest('[data-mobile-menu]')) return
-            setActiveDropdown(null)
-            setHoverDropdown(null)
-        }
-        document.addEventListener('click', handleClickOutside)
-        return () => document.removeEventListener('click', handleClickOutside)
-    }, [])
-
-    // --- NOVOS MENUS ADICIONADOS ---
+    // Configuração dos itens do menu
     const navItems = [
         {
             href: '/fernanda',
@@ -79,10 +42,7 @@ export default function Header() {
         },
         { href: '/estrutura', label: 'Serviços' },
         { href: '/remadas', label: 'Aulas' },
-
-        // Item especial com propriedade shortLabel para o efeito desktop
         { href: '/colonia-de-ferias', label: 'Colônia de Férias', shortLabel: 'Colônia' },
-
         { href: '/guarderia', label: 'Guarderia' },
         { href: '/movimentos', label: 'Projetos' },
         { href: '/planos', label: 'Parceiros' },
@@ -99,64 +59,40 @@ export default function Header() {
         window.open(url, '_blank')
     }
 
-    const handleDropdownToggle = (e: React.MouseEvent, label: string) => {
-        e.stopPropagation()
-        setActiveDropdown(activeDropdown === label ? null : label)
-    }
-
-    const handleMouseEnter = (label: string) => {
-        setHoverDropdown(label)
-    }
-
-    const handleMouseLeave = () => {
-        setHoverDropdown(null)
-    }
-
     const isActiveLink = (href: string) => {
+        if (href === '/') return pathname === '/'
         return pathname === href || pathname.startsWith(href + '/')
     }
 
-    const isDropdownOpen = (label: string) => {
-        return activeDropdown === label || hoverDropdown === label
-    }
-
-    const handleMobileDropdownToggle = (label: string) => {
-        setActiveDropdown(activeDropdown === label ? null : label)
-    }
-
     return (
-        <motion.header
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
-                ? 'bg-white/95 shadow-lg backdrop-blur-xl border-b border-gray-100/50'
-                : 'bg-transparent'
-                }`}
-        >
-            <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 md:py-4">
+        <header className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-100 shadow-sm transition-all duration-300">
+            {/* AJUSTE AQUI: 
+               Reduzi a altura de h-24/h-28 para h-20 (80px) no mobile e h-24 (96px) no desktop.
+               Isso diminui o "padding" visual vertical.
+            */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 md:h-24 flex items-center justify-between">
 
-                {/* Logo - Sem animação de hover/tap, apenas scroll */}
-                <motion.div className="z-50">
-                    <Link href="/" className="block">
+                {/* --- LOGO --- */}
+                <Link href="/" className="relative z-50 block shrink-0 mr-6">
+                    {/* AJUSTE AQUI: 
+                       Ajustei o container da logo para caber na nova altura sem ficar pequena.
+                       w-36 h-16 (mobile) e w-48 h-20 (desktop).
+                    */}
+                    <div className="relative w-36 h-16 md:w-48 md:h-20">
                         <Image
                             src="/logoeuremo.png"
-                            alt="Logo Eu remo sorrindo"
-                            width={180}
-                            height={180}
-                            className={`object-contain transition-all duration-500 ${isScrolled ? 'h-14 md:h-16' : 'h-16 md:h-20'
-                                } w-auto`}
+                            alt="Eu Remo Sorrindo"
+                            fill
+                            className="object-contain object-left"
                             priority
+                            sizes="(max-width: 768px) 144px, 192px"
                         />
-                    </Link>
-                </motion.div>
+                    </div>
+                </Link>
 
-                {/* Menu Desktop */}
-                {/* Ajustei o gap para caber os novos itens sem quebrar */}
-                <nav className="hidden lg:flex items-center gap-1">
+                {/* --- DESKTOP NAVIGATION --- */}
+                <nav className="hidden xl:flex items-center justify-end flex-1 gap-1">
                     {navItems.map((item) => {
-
-                        // Lógica específica para o botão "Colônia" no Desktop
                         if (item.shortLabel) {
                             return (
                                 <div key={item.href} className="relative">
@@ -167,12 +103,11 @@ export default function Header() {
                                         className={`
                                             flex items-center justify-center px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300
                                             ${isActiveLink(item.href)
-                                                ? 'text-blue-600 bg-blue-50/80'
-                                                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                                ? 'text-blue-600 bg-blue-50'
+                                                : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
                                             }
                                         `}
                                     >
-                                        {/* Mostra "Colônia" ou "Colônia de Férias" dependendo do hover */}
                                         <span className="whitespace-nowrap">
                                             {hoverColonia ? item.label : item.shortLabel}
                                         </span>
@@ -181,56 +116,43 @@ export default function Header() {
                             )
                         }
 
-                        // Itens normais e Dropdowns
                         return (
                             <div
                                 key={item.href}
-                                className="relative"
-                                onMouseEnter={() => item.submenu && handleMouseEnter(item.label)}
-                                onMouseLeave={handleMouseLeave}
+                                className="relative group"
+                                onMouseEnter={() => item.submenu && setHoverDropdown(item.label)}
+                                onMouseLeave={() => setHoverDropdown(null)}
                             >
                                 {item.submenu ? (
                                     <div className="relative">
                                         <button
-                                            onClick={(e) => handleDropdownToggle(e, item.label)}
-                                            onMouseEnter={() => handleMouseEnter(item.label)}
                                             className={`
                                                 flex items-center gap-1 px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300
                                                 ${isActiveLink(item.href)
-                                                    ? 'text-blue-600 bg-blue-50/80'
-                                                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                                    ? 'text-blue-600 bg-blue-50'
+                                                    : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
                                                 }
                                             `}
                                         >
                                             {item.label}
-                                            <motion.div
-                                                animate={{ rotate: isDropdownOpen(item.label) ? 180 : 0 }}
-                                                transition={{ duration: 0.2 }}
-                                            >
-                                                <ChevronDown className="h-4 w-4" />
-                                            </motion.div>
+                                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${hoverDropdown === item.label ? 'rotate-180' : ''}`} />
                                         </button>
 
                                         <AnimatePresence>
-                                            {isDropdownOpen(item.label) && (
+                                            {hoverDropdown === item.label && (
                                                 <motion.div
                                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                                     transition={{ duration: 0.2, ease: "easeOut" }}
-                                                    className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/50 py-2 z-50"
-                                                    onMouseEnter={() => handleMouseEnter(item.label)}
-                                                    onMouseLeave={handleMouseLeave}
+                                                    className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50"
                                                 >
                                                     {item.submenu.map((subItem) => (
                                                         <Link
                                                             key={subItem.href}
                                                             href={subItem.href}
-                                                            className="block px-4 py-3 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200 first:rounded-t-2xl last:rounded-b-2xl"
-                                                            onClick={() => {
-                                                                setActiveDropdown(null)
-                                                                setHoverDropdown(null)
-                                                            }}
+                                                            className="block px-4 py-3 text-sm text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 first:rounded-t-2xl last:rounded-b-2xl"
+                                                            onClick={() => setHoverDropdown(null)}
                                                         >
                                                             {subItem.label}
                                                         </Link>
@@ -245,8 +167,8 @@ export default function Header() {
                                         className={`
                                             block px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300
                                             ${isActiveLink(item.href)
-                                                ? 'text-blue-600 bg-blue-50/80'
-                                                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
+                                                ? 'text-blue-600 bg-blue-50'
+                                                : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
                                             }
                                         `}
                                     >
@@ -258,150 +180,101 @@ export default function Header() {
                     })}
                 </nav>
 
-                {/* BOTÃO CTA DESKTOP REMOVIDO AQUI CONFORME SOLICITADO */}
-
-                {/* Menu Mobile */}
-                <div className="lg:hidden z-50">
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                    >
-                        <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                            <SheetTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    aria-label="Abrir menu"
-                                    className={`relative ${isScrolled
-                                        ? 'text-gray-700 hover:bg-gray-100/80'
-                                        : 'text-white hover:bg-white/20'
-                                        } transition-all duration-300`}
-                                >
-                                    <AnimatePresence mode="wait">
-                                        {isMobileMenuOpen ? (
-                                            <motion.div
-                                                key="close"
-                                                initial={{ rotate: -90, opacity: 0 }}
-                                                animate={{ rotate: 0, opacity: 1 }}
-                                                exit={{ rotate: 90, opacity: 0 }}
-                                                transition={{ duration: 0.2 }}
-                                            >
-                                                <X className="h-6 w-6" />
-                                            </motion.div>
-                                        ) : (
-                                            <motion.div
-                                                key="menu"
-                                                initial={{ rotate: 90, opacity: 0 }}
-                                                animate={{ rotate: 0, opacity: 1 }}
-                                                exit={{ rotate: -90, opacity: 0 }}
-                                                transition={{ duration: 0.2 }}
-                                            >
-                                                <Menu className="h-6 w-6" />
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent
-                                side="right"
-                                data-mobile-menu
-                                className="w-[85vw] max-w-sm bg-white/95 backdrop-blur-xl border-l border-gray-100/50"
+                {/* --- MOBILE MENU --- */}
+                <div className="xl:hidden">
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="text-slate-800 hover:bg-slate-100 rounded-full"
                             >
-
-                                <SheetHeader className="text-left">
-                                    <SheetTitle className="flex items-center gap-3">
+                                <Menu className="w-6 h-6" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent
+                            side="right"
+                            className="w-[85vw] max-w-sm bg-white border-l border-gray-100"
+                        >
+                            <SheetHeader className="text-left border-b border-gray-100 pb-4 mb-4">
+                                <SheetTitle className="flex items-center gap-3">
+                                    <div className="relative w-32 h-16">
                                         <Image
                                             src="/logoeuremo.png"
                                             alt="Logo"
-                                            width={180}
-                                            height={180}
-                                            className="h-12 w-auto"
+                                            fill
+                                            className="object-contain object-left"
                                         />
-                                        <span className="text-lg font-bold text-gray-900">Menu</span>
-                                    </SheetTitle>
-                                </SheetHeader>
+                                    </div>
+                                </SheetTitle>
+                            </SheetHeader>
 
-                                <Separator className="my-4 bg-gray-200" />
-
-                                <nav className="flex flex-col space-y-1">
-                                    {navItems.map((item) => (
-                                        <div key={item.href} className="border-b border-gray-100/50 last:border-0">
-                                            {item.submenu ? (
-                                                <div className="py-2">
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            handleMobileDropdownToggle(item.label)
-                                                        }}
-
-                                                        className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-gray-900 hover:bg-gray-50/80 transition-colors"
-                                                    >
-                                                        <span className="font-semibold text-gray-900 text-sm">
-                                                            {item.label}
-                                                        </span>
-                                                        <motion.div
-                                                            animate={{ rotate: activeDropdown === item.label ? 180 : 0 }}
-                                                            transition={{ duration: 0.2 }}
-                                                        >
-                                                            <ChevronDown className="h-4 w-4 text-gray-500" />
-                                                        </motion.div>
-                                                    </button>
-                                                    <AnimatePresence>
-                                                        {activeDropdown === item.label && (
-                                                            <motion.div
-                                                                initial={{ opacity: 0, height: 0 }}
-                                                                animate={{ opacity: 1, height: 'auto' }}
-                                                                exit={{ opacity: 0, height: 0 }}
-                                                                transition={{ duration: 0.2 }}
-                                                                className="pl-4 mt-1 space-y-1 overflow-hidden"
-                                                            >
-                                                                {item.submenu.map((subItem) => (
+                            <div className="flex flex-col h-full">
+                                <nav className="flex-1 overflow-y-auto pr-2">
+                                    <Accordion type="single" collapsible className="w-full">
+                                        {navItems.map((item, index) => (
+                                            item.submenu ? (
+                                                <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
+                                                    <AccordionTrigger className="py-3 px-2 text-base font-medium text-slate-700 hover:text-blue-600 hover:no-underline">
+                                                        {item.label}
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="pb-2">
+                                                        <div className="flex flex-col gap-1 pl-4 border-l-2 border-slate-100 ml-2">
+                                                            {item.submenu.map((sub) => (
+                                                                <SheetClose key={sub.href} asChild>
                                                                     <Link
-                                                                        key={subItem.href}
-                                                                        href={subItem.href}
-                                                                        onClick={() => setMobileMenuOpen(false)}
-                                                                        className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                                                                        href={sub.href}
+                                                                        className="py-2 px-3 text-sm text-slate-600 hover:text-blue-600 rounded-lg hover:bg-blue-50 block transition-colors"
                                                                     >
-                                                                        {subItem.label}
+                                                                        {sub.label}
                                                                     </Link>
-                                                                ))}
-                                                            </motion.div>
-                                                        )}
-                                                    </AnimatePresence>
-                                                </div>
+                                                                </SheetClose>
+                                                            ))}
+                                                        </div>
+                                                    </AccordionContent>
+                                                </AccordionItem>
                                             ) : (
-                                                <Link
-                                                    href={item.href}
-                                                    onClick={() => setMobileMenuOpen(false)}
-                                                    className={`block px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink(item.href)
-                                                        ? 'text-blue-600 bg-blue-50/80 font-semibold'
-                                                        : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50/80'
-                                                        }`}
-                                                >
-                                                    {/* No mobile mostra sempre o label completo */}
-                                                    {item.label}
-                                                </Link>
-                                            )}
-                                        </div>
-                                    ))}
+                                                <SheetClose key={item.href} asChild>
+                                                    <Link
+                                                        href={item.href}
+                                                        className={`
+                                                            block py-3 px-2 text-base font-medium transition-colors rounded-lg
+                                                            ${isActiveLink(item.href)
+                                                                ? 'text-blue-600 bg-blue-50'
+                                                                : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
+                                                            }
+                                                        `}
+                                                    >
+                                                        {item.label}
+                                                    </Link>
+                                                </SheetClose>
+                                            )
+                                        ))}
+                                    </Accordion>
                                 </nav>
 
-                                <div className="absolute bottom-6 left-4 right-4">
+                                <div className="pt-6 pb-8 border-t border-gray-100 mt-auto">
                                     <Button
-                                        onClick={() => {
-                                            openWhatsApp()
-                                            setMobileMenuOpen(false)
-                                        }}
-                                        className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                                        onClick={openWhatsApp}
+                                        className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 mb-3"
                                     >
-                                        Vamos Conversar
+                                        <Phone className="w-5 h-5" />
+                                        WhatsApp
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => window.open('https://instagram.com/euremosorrindo', '_blank')}
+                                        className="w-full border-slate-200 text-slate-600 hover:bg-slate-50 py-6 rounded-xl flex items-center justify-center gap-2"
+                                    >
+                                        <Instagram className="w-5 h-5" />
+                                        Instagram
                                     </Button>
                                 </div>
-                            </SheetContent>
-                        </Sheet>
-                    </motion.div>
+                            </div>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
-        </motion.header>
+        </header>
     )
 }
