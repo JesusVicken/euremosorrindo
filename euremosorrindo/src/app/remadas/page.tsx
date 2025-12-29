@@ -102,7 +102,7 @@ const services = [
         title: "Loja Oficial",
         description: "Remos, acessórios e equipamentos de proteção solar. Leve o estilo da canoagem com você.",
         href: "/produtos",
-        images: ["/suntech.jpg"],
+        images: ["/LojaOficial.jpg"],
         color: "bg-slate-500",
         badge: "Novidade"
     }
