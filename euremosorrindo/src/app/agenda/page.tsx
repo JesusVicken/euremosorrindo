@@ -3,16 +3,15 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CaretLeft, CaretRight, CalendarCheck, MapPin, Clock } from '@phosphor-icons/react/dist/ssr'
+import { CaretLeft, CaretRight, MapPin, Clock, CalendarBlank } from '@phosphor-icons/react/dist/ssr'
 
-// Função auxiliar para gerar datas de um intervalo (para o Recesso e Colônia)
+// --- FUNÇÕES AUXILIARES (MANTIDAS) ---
 const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: string, local: string, hora: string) => {
     const lista = []
     let atual = new Date(inicio)
     const final = new Date(fim)
 
     while (atual <= final) {
-        // Ajuste para fuso horário local para evitar problemas de dia anterior
         const dataFormatada = atual.toISOString().split('T')[0]
         lista.push({ date: dataFormatada, titulo, imagem, local, hora })
         atual.setDate(atual.getDate() + 1)
@@ -20,7 +19,7 @@ const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: str
     return lista
 }
 
-// --- BANCO DE DADOS DE EVENTOS ---
+// --- BANCO DE DADOS DE EVENTOS (MANTIDO) ---
 const eventosFixos = [
     // --- LUA CHEIA (Dezembro) ---
     { date: '2025-12-03', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Pontão', hora: '19:30' },
@@ -35,7 +34,7 @@ const eventosFixos = [
     { date: '2025-12-20', titulo: 'Remada Pôr do Sol', imagem: '/DEZ - 2025/pordosol.png', local: 'Deck Norte', hora: '17:30' },
 
     // --- REMADA ASTRAL (Dezembro) ---
-    { date: '2025-12-12', titulo: 'Remada Astral', imagem: '/DEZ - 2025/astral.png', local: 'Clube', hora: '16:00' }, // Dia com 2 eventos
+    { date: '2025-12-12', titulo: 'Remada Astral', imagem: '/DEZ - 2025/astral.png', local: 'Clube', hora: '16:00' },
     { date: '2025-12-18', titulo: 'Remada Astral', imagem: '/DEZ - 2025/astral.png', local: 'Clube', hora: '16:00' },
 
     // --- OUTROS (Dezembro) ---
@@ -43,12 +42,10 @@ const eventosFixos = [
     { date: '2025-12-21', titulo: 'Confraternização', imagem: '/DEZ - 2025/confraternizacao.png', local: 'Restaurante', hora: '12:00' },
 ]
 
-// Gerando períodos longos automaticamente
 const recessoDezembro = gerarIntervalo('2025-12-22', '2025-12-31', 'Recesso', '/recesso.png', '-', 'Off')
 const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-05', 'Recesso', '/recesso.png', '-', 'Off')
 const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'ASSTJ', '14:00')
 
-// Combinando tudo
 const eventosDB = [
     ...eventosFixos,
     ...recessoDezembro,
@@ -91,46 +88,71 @@ export default function AgendaMensal() {
         : []
 
     return (
-        <section className="relative w-full py-24 bg-slate-50 text-slate-800" id="agenda">
-            <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+        <section className="relative w-full bg-slate-50 text-slate-800 pb-24" id="agenda">
 
-                <div className="flex flex-col items-center mb-12 space-y-4 text-center">
-                    <span className="text-blue-600 font-bold tracking-wider text-sm uppercase flex items-center justify-center gap-2">
-                        <CalendarCheck className="w-5 h-5" /> Programação Oficial
-                    </span>
-                    <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
-                        Agenda de Eventos
-                    </h2>
-                    <p className="text-slate-500 max-w-lg">
-                        Selecione um dia no calendário para ver os detalhes (Dezembro e Janeiro).
-                    </p>
+            {/* --- HERO BANNER --- */}
+            <div className="relative h-[50vh] min-h-[400px] w-full flex items-center justify-center overflow-hidden">
+                <Image
+                    src="/bgEventos.jpg"
+                    alt="Banner Eventos"
+                    fill
+                    className="object-cover"
+                    priority
+                />
+                {/* Overlay Gradiente para leitura do texto */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-slate-50" />
+
+                <div className="relative z-10 text-center px-4 max-w-4xl mt-10">
+                    <motion.h1
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight drop-shadow-lg"
+                    >
+                        Nossos Eventos e Remadas
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="text-xl md:text-2xl text-slate-200 font-medium tracking-wide drop-shadow-md"
+                    >
+                        Selecione a sua próxima aventura
+                    </motion.p>
                 </div>
+            </div>
 
+            <div className="container mx-auto px-4 md:px-6 max-w-7xl -mt-20 relative z-20">
                 <div className="grid lg:grid-cols-12 gap-8 items-start">
 
                     {/* --- CALENDÁRIO --- */}
-                    <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100">
+                    <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-[2.5rem] p-6 md:p-8 shadow-2xl shadow-slate-200/50 border border-slate-100">
                         <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-2xl font-bold capitalize text-slate-800">{monthName}</h3>
-                            <div className="flex gap-2">
-                                <button onClick={prevMonth} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-600">
-                                    <CaretLeft size={24} />
+                            <h3 className="text-2xl font-bold capitalize text-slate-800 flex items-center gap-2">
+                                <CalendarBlank weight="duotone" className="text-blue-600" size={32} />
+                                {monthName}
+                            </h3>
+                            <div className="flex gap-2 bg-slate-100 p-1 rounded-full">
+                                <button onClick={prevMonth} className="p-2 hover:bg-white hover:shadow-sm rounded-full transition-all text-slate-600">
+                                    <CaretLeft size={20} weight="bold" />
                                 </button>
-                                <button onClick={nextMonth} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-600">
-                                    <CaretRight size={24} />
+                                <button onClick={nextMonth} className="p-2 hover:bg-white hover:shadow-sm rounded-full transition-all text-slate-600">
+                                    <CaretRight size={20} weight="bold" />
                                 </button>
                             </div>
                         </div>
 
+                        {/* Cabeçalho Dias da Semana */}
                         <div className="grid grid-cols-7 mb-4">
                             {diasSemana.map((dia, index) => (
-                                <div key={index} className="text-center text-sm font-semibold text-slate-400 py-2">
+                                <div key={index} className="text-center text-xs font-bold text-slate-400 uppercase tracking-wider py-2">
                                     {dia}
                                 </div>
                             ))}
                         </div>
 
-                        <div className="grid grid-cols-7 gap-2 md:gap-4">
+                        {/* Grid de Dias */}
+                        <div className="grid grid-cols-7 gap-2 md:gap-3">
                             {calendarDays.map((day, index) => {
                                 if (!day) return <div key={index} className="aspect-square" />
 
@@ -145,12 +167,12 @@ export default function AgendaMensal() {
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => setSelectedDate(dateKey)}
                                         className={`
-                                            relative aspect-square rounded-2xl flex flex-col items-center justify-center text-sm md:text-base font-medium transition-all duration-300 border-2
+                                            relative aspect-square rounded-2xl flex flex-col items-center justify-center text-sm md:text-lg font-semibold transition-all duration-300
                                             ${isSelected
-                                                ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200'
+                                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30 ring-2 ring-blue-600 ring-offset-2'
                                                 : hasEvent
-                                                    ? 'bg-white border-blue-200 text-blue-900 hover:border-blue-400'
-                                                    : 'bg-transparent border-transparent text-slate-600 hover:bg-slate-100'
+                                                    ? 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                                                    : 'bg-transparent text-slate-500 hover:bg-slate-50'
                                             }
                                         `}
                                     >
@@ -166,61 +188,89 @@ export default function AgendaMensal() {
 
                     {/* --- LISTA DE EVENTOS DO DIA --- */}
                     <div className="lg:col-span-5 xl:col-span-4 h-full">
-                        <div className="bg-slate-100/50 rounded-3xl p-6 md:p-8 h-full border border-slate-200 min-h-[400px]">
-                            <h4 className="text-lg font-bold text-slate-500 mb-6 uppercase tracking-wider text-sm">
+                        <div className="bg-white/80 backdrop-blur-md rounded-[2.5rem] p-6 h-full border border-slate-200 min-h-[400px] flex flex-col">
+                            <h4 className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-6 text-center">
                                 {selectedDate
-                                    ? `Eventos em ${new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}`
-                                    : 'Selecione um dia'}
+                                    ? `Programação para ${new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}`
+                                    : 'Detalhes do Evento'}
                             </h4>
 
-                            <div className="space-y-4">
+                            <div className="flex-1 overflow-y-auto custom-scrollbar pr-1">
                                 <AnimatePresence mode='wait'>
                                     {selectedEvents.length > 0 ? (
-                                        selectedEvents.map((evento, idx) => (
-                                            <motion.div
-                                                key={idx}
-                                                initial={{ opacity: 0, x: 20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                exit={{ opacity: 0, x: -20 }}
-                                                transition={{ duration: 0.3, delay: idx * 0.1 }}
-                                                className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex gap-4 items-center"
-                                            >
-                                                <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-slate-200">
-                                                    <Image
-                                                        src={evento.imagem}
-                                                        alt={evento.titulo}
-                                                        fill
-                                                        className="object-cover"
-                                                    />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <h5 className="font-bold text-slate-800 text-lg leading-tight mb-2">{evento.titulo}</h5>
-                                                    <div className="flex flex-col gap-1 text-xs text-slate-500">
-                                                        <span className="flex items-center gap-1.5">
-                                                            <Clock weight="bold" className="text-blue-500" /> {evento.hora}
-                                                        </span>
-                                                        <span className="flex items-center gap-1.5">
-                                                            <MapPin weight="bold" className="text-orange-500" /> {evento.local}
-                                                        </span>
+                                        <div className="space-y-6">
+                                            {selectedEvents.map((evento, idx) => (
+                                                <motion.div
+                                                    key={idx}
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: -20 }}
+                                                    transition={{ duration: 0.4, delay: idx * 0.1 }}
+                                                    className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100"
+                                                >
+                                                    {/* Imagem Grande (AJUSTADA AQUI PARA SER MAIOR E RESPONSIVA) */}
+                                                    <div className="relative h-56 md:h-64 w-full overflow-hidden">
+                                                        <Image
+                                                            src={evento.imagem}
+                                                            alt={evento.titulo}
+                                                            fill
+                                                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                                        />
+                                                        {/* Gradiente sobre a imagem para o título */}
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
+
+                                                        <div className="absolute bottom-4 left-4 right-4">
+                                                            <h5 className="font-black text-white text-2xl leading-tight mb-1 drop-shadow-md">
+                                                                {evento.titulo}
+                                                            </h5>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </motion.div>
-                                        ))
+
+                                                    {/* Detalhes (Clean UI) */}
+                                                    <div className="p-5 flex items-center justify-between bg-white">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+                                                                <Clock weight="bold" size={20} />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-xs text-slate-400 font-bold uppercase">Horário</p>
+                                                                <p className="text-slate-800 font-semibold">{evento.hora}</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="w-px h-8 bg-slate-100 mx-2"></div>
+
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="p-2.5 bg-orange-50 text-orange-600 rounded-xl">
+                                                                <MapPin weight="bold" size={20} />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-xs text-slate-400 font-bold uppercase">Local</p>
+                                                                <p className="text-slate-800 font-semibold">{evento.local}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            ))}
+                                        </div>
                                     ) : (
+                                        // Estado Vazio (Empty State)
                                         <motion.div
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            className="text-center py-12 text-slate-400"
+                                            className="h-full flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50"
                                         >
                                             {selectedDate ? (
                                                 <>
-                                                    <p className="text-4xl mb-2">😴</p>
-                                                    <p>Nenhum evento agendado.</p>
+                                                    <div className="text-5xl mb-4 opacity-50">😴</div>
+                                                    <p className="text-slate-500 font-medium">Nenhum evento agendado para este dia.</p>
+                                                    <p className="text-sm text-slate-400 mt-2">Aproveite para descansar!</p>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <p className="text-4xl mb-2">📅</p>
-                                                    <p>Clique nas datas marcadas para ver os detalhes.</p>
+                                                    <div className="text-5xl mb-4 animate-bounce">👆</div>
+                                                    <p className="text-slate-800 font-bold text-lg">Escolha uma data</p>
+                                                    <p className="text-slate-500 mt-1">Clique no calendário para ver a programação.</p>
                                                 </>
                                             )}
                                         </motion.div>

@@ -37,7 +37,7 @@ const services = [
     {
         id: 'canoagem',
         title: "Aulas de Canoagem",
-        description: "Oferecemos aulas de canoagem em caiaques individuais e duplos, atendendo desde praticantes iniciantes até níveis avançados. Aprendizagem progressiva e segura.",
+        description: "Oferecemos aulas de canoagem em caiaques individuais e duplos, atendendo desde praticantes iniciantes até níveis avançados. As atividades utilizam diversos modelos de embarcações, permitindo uma aprendizagem progressiva, segura e adequada às diferentes idades, objetivos e níveis de experiência.",
         href: "https://escolafernandarachid.com.br/c/aulas-de-canoagem-caiaque",
         images: imagesCaiaque,
         color: "bg-blue-600",
@@ -46,7 +46,7 @@ const services = [
     {
         id: 'vaa',
         title: "Aulas de Canoa Havaiana VA'A",
-        description: "As aulas acontecem em embarcações estáveis para até 12 pessoas, promovendo integração e ritmo coletivo. Conexão entre corpo, mente e a energia das águas.",
+        description: "As aulas de canoa havaiana acontecem em embarcações estáveis, com capacidade para até 12 pessoas remando simultaneamente, promovendo integração, cooperação e ritmo coletivo. A prática fortalece a conexão entre corpo e mente, em sintonia com a energia das águas.",
         href: "https://escolafernandarachid.com.br/c/aulas-de-vaa-canoa-havaiana",
         images: imagesCanoa,
         color: "bg-cyan-500",
@@ -55,7 +55,7 @@ const services = [
     {
         id: 'juvenil',
         title: "Turmas Infanto Juvenil",
-        description: "Turmas exclusivas para crianças e adolescentes. Atividades adaptadas em caiaques ou canoas que estimulam o desenvolvimento físico e social de forma lúdica.",
+        description: "Turmas exclusivas para crianças e adolescentes, realizadas em caiaques ou canoas havaianas, com atividades adaptadas que estimulam o desenvolvimento físico, social e emocional de forma segura e lúdica.",
         href: "https://escolafernandarachid.com.br/c/aulas-kids-teen-canoagem-e-vaa",
         images: imagesJuvenil,
         color: "bg-orange-500",
@@ -64,7 +64,7 @@ const services = [
     {
         id: 'avulsas',
         title: "Aulas Avulsas",
-        description: "Experimente a alegria de remar sem compromisso mensal. Agende sua aula experimental na canoa havaiana ou no caiaque e viva essa experiência.",
+        description: "Aulas avulsas para você experimentar a alegria de remar em grupo ou individualmente. Agende sua aula experimental na canoa havaiana ou no caiaque e viva essa experiência única na água.",
         href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais",
         images: ["/remandojunto.jpg", "/bgremo.webp"],
         color: "bg-purple-500",
@@ -73,16 +73,16 @@ const services = [
     {
         id: 'colonia',
         title: "Colônia de Férias",
-        description: "Diversão garantida e contato direto com a natureza nas férias escolares. Atividades monitoradas e seguras.",
+        description: "Indicadas para grupos e organizações corporativas, as vivências são planejadas de acordo com os objetivos de cada grupo, explorando a cultura dos povos tradicionais e o simbolismo das canoas polinésias, fortalecendo a conexão, cooperação e propósito coletivo",
         href: "https://escolafernandarachid.com.br/c/colonia-de-ferias",
-        images: ["/colonia.png"],
+        images: ["/colonia1.png"],
         color: "bg-yellow-500",
         badge: "Vagas Limitadas"
     },
     {
         id: 'remando',
         title: "Remando Juntos",
-        description: "Projeto inclusivo focado em experiências em grupo, desenvolvimento social e superação através do esporte.",
+        description: "O Remando Juntos é um projeto inclusivo e personalizado voltado para pessoas neuro divergentes e/ou em situação de vulnerabilidade e grupos, que utiliza a canoagem em caiaques e canoas havaianas, como ferramenta pedagógica.",
         href: "https://escolafernandarachid.com.br/c/remando-juntos",
         images: ["/caiaquecomunitario.jpg"],
         color: "bg-pink-500",
