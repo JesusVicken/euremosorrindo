@@ -36,7 +36,7 @@ const imagesJuvenil = [
 const services = [
     {
         id: 'canoagem',
-        title: "Canoagem",
+        title: "Aulas de Canoagem",
         description: "Oferecemos aulas de canoagem em caiaques individuais e duplos, atendendo desde praticantes iniciantes até níveis avançados. Aprendizagem progressiva e segura.",
         href: "https://escolafernandarachid.com.br/c/aulas-de-canoagem-caiaque",
         images: imagesCaiaque,
@@ -45,7 +45,7 @@ const services = [
     },
     {
         id: 'vaa',
-        title: "Aulas de Canoa Havaiana",
+        title: "Aulas de Canoa Havaiana VA'A",
         description: "As aulas acontecem em embarcações estáveis para até 12 pessoas, promovendo integração e ritmo coletivo. Conexão entre corpo, mente e a energia das águas.",
         href: "https://escolafernandarachid.com.br/c/aulas-de-vaa-canoa-havaiana",
         images: imagesCanoa,
@@ -54,7 +54,7 @@ const services = [
     },
     {
         id: 'juvenil',
-        title: "Infanto Juvenil",
+        title: "Turmas Infanto Juvenil",
         description: "Turmas exclusivas para crianças e adolescentes. Atividades adaptadas em caiaques ou canoas que estimulam o desenvolvimento físico e social de forma lúdica.",
         href: "https://escolafernandarachid.com.br/c/aulas-kids-teen-canoagem-e-vaa",
         images: imagesJuvenil,

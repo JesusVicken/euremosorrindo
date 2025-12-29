@@ -109,7 +109,7 @@ export default function FernandaPage() {
         {
             id: 'oceanica',
             title: 'Canoagem Oceânica',
-            icon: Waves,
+            icon: Waves, // O ícone ainda existe no objeto, mas não será renderizado
             description: 'Modalidade desafiadora em águas marinhas, exigindo navegação precisa e resistência.',
             details: 'Utiliza-se o Surfski, caiaque rápido e estável projetado para surfar ondas em mar aberto.',
             image: '/oceanica.jpg',
@@ -264,15 +264,17 @@ export default function FernandaPage() {
                 >
                     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-12">
 
-                        <div className="flex justify-center">
-                            <TabsList className="grid grid-cols-3 w-full max-w-md p-1 bg-slate-200/50 rounded-full">
-                                {['sobre', 'formacao', 'atleta'].map((tab) => (
+                        {/* MENU DE ABAS REFATORADO PARA RESPONSIVIDADE E ESPAÇO */}
+                        <div className="flex justify-center w-full px-4">
+                            <TabsList className="flex w-full max-w-3xl h-auto p-1 bg-slate-200/50 rounded-full">
+                                {['sobre', 'formacao', 'atleta', 'servicos'].map((tab) => (
                                     <TabsTrigger
                                         key={tab}
                                         value={tab}
-                                        className="rounded-full capitalize data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 transition-all"
+                                        className="flex-1 rounded-full capitalize data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 transition-all py-2 md:py-3 px-2 text-xs md:text-sm whitespace-normal md:whitespace-nowrap leading-tight"
                                     >
-                                        {tab === 'formacao' ? 'Formação' : tab}
+                                        {/* Lógica para exibir os nomes corretos */}
+                                        {tab === 'formacao' ? 'Jornada Acadêmica e Profissional' : tab === 'servicos' ? 'Serviços' : tab}
                                     </TabsTrigger>
                                 ))}
                             </TabsList>
@@ -433,14 +435,10 @@ export default function FernandaPage() {
                                         </div>
 
                                         <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
-                                            <div className="flex items-center gap-3 mb-4">
-                                                <div className={`p-2.5 rounded-xl ${modality.accent}`}>
-                                                    <modality.icon size={22} />
-                                                </div>
-                                                <h3 className="text-xl font-bold text-slate-800 leading-tight">
-                                                    {modality.title}
-                                                </h3>
-                                            </div>
+                                            {/* ÍCONE REMOVIDO AQUI */}
+                                            <h3 className="text-xl font-bold text-slate-800 leading-tight mb-4">
+                                                {modality.title}
+                                            </h3>
                                             <p className="text-slate-600 text-sm leading-relaxed mb-4">
                                                 {modality.description}
                                             </p>
@@ -456,6 +454,17 @@ export default function FernandaPage() {
                                     </motion.div>
                                 ))}
                             </div>
+                        </TabsContent>
+
+                        {/* --- ABA SERVIÇOS --- */}
+                        <TabsContent value="servicos">
+                            <Card className="border-none shadow-xl bg-white rounded-3xl overflow-hidden min-h-[400px] flex items-center justify-center">
+                                <CardContent>
+                                    <h2 className="text-3xl font-bold text-slate-300 uppercase tracking-widest">
+                                        serviços
+                                    </h2>
+                                </CardContent>
+                            </Card>
                         </TabsContent>
 
                     </Tabs>
