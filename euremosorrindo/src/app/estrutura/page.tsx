@@ -63,6 +63,7 @@ const servicesData = [
         icon: Users,
         description: "Indicadas para grupos e organizações corporativas, as vivências são planejadas de acordo com os objetivos de cada grupo, explorando a cultura dos povos tradicionais e o simbolismo das canoas polinésias, fortalecendo conexão e propósito coletivo.",
         images: [
+            "/vivenciacanoa.jpg",
             "/bgfernanda2.webp",
             "/parceria.jpg",
             "/fernanda.webp",
