@@ -76,8 +76,12 @@ const servicesData = [
         icon: Mic,
         description: "Fernanda Rachid reúne formação acadêmica e trajetória inspiradora. Suas palestras abordam a carreira iniciada no esporte aos 34 anos, empreendedorismo social, a criação de uma escola ao ar livre e o impacto do Projeto Remando Juntos.",
         images: [
-            "/images/servicos/eventos.jpg",
-            "/images/servicos/palestras.jpg",
+            "/servicos/PALESTRAS/palestra1.jpg",
+            "/servicos/PALESTRAS/palestra2.jpg",
+            "/servicos/PALESTRAS/palestra3.jpg",
+            "/servicos/PALESTRAS/palestra4.jpg",
+            "/servicos/PALESTRAS/palestra5.jpg",
+            "/servicos/PALESTRAS/palestra6.jpg",
         ],
         action: "Contratar Palestra"
     },
@@ -100,7 +104,18 @@ const servicesData = [
             "/servicos/COLONIA/colonia11.png"
         ],
         action: "Ver Próxima Turma"
-    }
+    },
+    {
+        id: "FacilitacaoModeracao",
+        title: "Facilitação e Moderação",
+        icon: Users,
+        description: "Criamos experiências únicas de facilitação e moderação para transformar a dinâmica de sua equipe. Utilizando metodologias colaborativas e vivências simbólicas, construímos ambientes seguros e catalisadores que promovem o alinhamento, fortalecem a confiança e despertam um propósito coletivo claro e engajador. Mais do que um workshop, é um processo estratégico para navegar desafios e alcançar objetivos comuns.",
+        images: [
+            "/images/servicos/eventos.jpg",
+            "/images/servicos/palestras.jpg",
+        ],
+        action: "Criar uma Experiência Única"
+    },
 ]
 
 // --- COMPONENTE DO CARD DE SERVIÇO ---

@@ -6,17 +6,19 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Trophy, Calendar, MapPin, Star, Award, Target, Users, Clock } from 'lucide-react'
+import { Trophy, Award, MapPin, Star, Target, Users, Clock } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// Registrar plugin do GSAP
+// Registrar plugin do GSAP (Segurança para Server-Side Rendering)
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger)
 }
 
 export default function CurriculoEsportivo() {
     const [activeImage, setActiveImage] = useState(0)
+
+    // Estados para os contadores animados
     const [counterValues, setCounterValues] = useState({
         competitions: 0,
         medals: 0,
@@ -24,23 +26,21 @@ export default function CurriculoEsportivo() {
         experience: 0
     })
 
-    // CORREÇÃO: Especificar o tipo do useRef
-    const sectionRef = useRef<HTMLDivElement>(null)
-    const galleryRef = useRef<HTMLDivElement>(null)
+    // Refs para Scopo do GSAP
+    const containerRef = useRef<HTMLDivElement>(null)
     const heroRef = useRef<HTMLDivElement>(null)
 
-    const { ref: sectionInViewRef, inView: sectionInView } = useInView({
-        threshold: 0.2,
+    // Observer para disparar a contagem numérica
+    const { ref: counterRef, inView: counterInView } = useInView({
+        threshold: 0, // Dispara assim que um pixel aparecer
+        rootMargin: "-50px 0px", // Margem de segurança para mobile
         triggerOnce: true
     })
 
-    // CORREÇÃO: Usar a ref diretamente sem função de combinação
-    // Remover a função setSectionRef e usar sectionInViewRef diretamente no elemento
-
-    // Efeito de contagem
+    // Lógica do Contador Numérico
     useEffect(() => {
-        if (sectionInView) {
-            const duration = 2000 // 2 segundos
+        if (counterInView) {
+            const duration = 2000
             const steps = 60
             const interval = duration / steps
 
@@ -56,26 +56,98 @@ export default function CurriculoEsportivo() {
             const timer = setInterval(() => {
                 currentStep++
                 const progress = currentStep / steps
+                // Easing function simples para suavizar o final
+                const ease = (t: number) => 1 - Math.pow(1 - t, 3)
+                const adjustedProgress = ease(progress)
 
                 setCounterValues({
-                    competitions: Math.floor(targetValues.competitions * progress),
-                    medals: Math.floor(targetValues.medals * progress),
-                    countries: Math.floor(targetValues.countries * progress),
-                    experience: Math.floor(targetValues.experience * progress)
+                    competitions: Math.floor(targetValues.competitions * adjustedProgress),
+                    medals: Math.floor(targetValues.medals * adjustedProgress),
+                    countries: Math.floor(targetValues.countries * adjustedProgress),
+                    experience: Math.floor(targetValues.experience * adjustedProgress)
                 })
 
                 if (currentStep >= steps) {
                     clearInterval(timer)
-                    // Garantir valores exatos no final
-                    setCounterValues(targetValues)
+                    setCounterValues(targetValues) // Garante valor final exato
                 }
             }, interval)
 
             return () => clearInterval(timer)
         }
-    }, [sectionInView])
+    }, [counterInView])
 
-    // Dados do currículo esportivo
+    // --- ANIMAÇÕES GSAP ROBUSTAS ---
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // 1. Parallax Hero
+            if (heroRef.current) {
+                gsap.to(".hero-bg", {
+                    yPercent: 30,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: heroRef.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                })
+            }
+
+            // 2. Cards de Estatística (Fade Up)
+            gsap.fromTo('.stat-card',
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: '.stat-grid',
+                        start: "top 85%"
+                    }
+                }
+            )
+
+            // 3. Cards de Conquista (Slide In)
+            gsap.fromTo('.achievement-card',
+                { opacity: 0, x: -30 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.achievement-list',
+                        start: "top 80%"
+                    }
+                }
+            )
+
+            // 4. Metodologia (Scale Up)
+            gsap.fromTo('.training-card',
+                { opacity: 0, scale: 0.9 },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.6,
+                    stagger: 0.2,
+                    ease: "back.out(1.7)",
+                    scrollTrigger: {
+                        trigger: '.training-grid',
+                        start: "top 80%"
+                    }
+                }
+            )
+
+        }, containerRef) // Scopo para limpeza automática
+
+        return () => ctx.revert()
+    }, [])
+
+    // --- DADOS ---
     const achievements = [
         {
             year: '2023',
@@ -115,432 +187,135 @@ export default function CurriculoEsportivo() {
     ]
 
     const statistics = [
-        {
-            icon: Trophy,
-            label: 'Competições',
-            value: counterValues.competitions,
-            suffix: '+',
-            description: 'Participações em eventos nacionais e internacionais'
-        },
-        {
-            icon: Award,
-            label: 'Medalhas',
-            value: counterValues.medals,
-            suffix: '+',
-            description: 'Ouros, pratas e bronzes conquistados'
-        },
-        {
-            icon: MapPin,
-            label: 'Países',
-            value: counterValues.countries,
-            suffix: '',
-            description: 'Competições realizadas internacionalmente'
-        },
-        {
-            icon: Clock,
-            label: 'Experiência',
-            value: counterValues.experience,
-            suffix: '+ anos',
-            description: 'Dedicação ao esporte de alto rendimento'
-        }
+        { icon: Trophy, label: 'Competições', value: counterValues.competitions, suffix: '+', description: 'Nacionais e Internacionais' },
+        { icon: Award, label: 'Medalhas', value: counterValues.medals, suffix: '+', description: 'Ouros, Pratas e Bronzes' },
+        { icon: MapPin, label: 'Países', value: counterValues.countries, suffix: '', description: 'Competições pelo mundo' },
+        { icon: Clock, label: 'Experiência', value: counterValues.experience, suffix: '+ anos', description: 'Alto rendimento' }
     ]
 
     const trainingData = [
-        {
-            area: 'Treinamento Físico',
-            details: ['Preparação física específica', 'Condicionamento cardiovascular', 'Fortalecimento muscular', 'Flexibilidade e mobilidade']
-        },
-        {
-            area: 'Técnica Especializada',
-            details: ['Técnica de remada avançada', 'Navegação em águas abertas', 'Estratégia de competição', 'Controle embarcação']
-        },
-        {
-            area: 'Preparação Mental',
-            details: ['Gestão de pressão competitiva', 'Foco e concentração', 'Resiliência emocional', 'Visualização de performance']
-        }
+        { area: 'Treinamento Físico', details: ['Preparação física específica', 'Condicionamento cardiovascular', 'Fortalecimento muscular', 'Mobilidade articular'] },
+        { area: 'Técnica Especializada', details: ['Técnica de remada avançada', 'Navegação em águas abertas', 'Estratégia de competição', 'Leitura de maré e vento'] },
+        { area: 'Preparação Mental', details: ['Foco e concentração', 'Gestão de ansiedade', 'Resiliência competitiva', 'Visualização de prova'] }
     ]
 
     const photos = [
-        {
-            src: '/fernanda2.jpg',
-            alt: 'Fernanda no pódio recebendo medalha',
-            caption: 'Cerimônia de Pódio - 2022',
-            aspect: 'aspect-[3/4]'
-        },
-        {
-            src: '/fernanda3.jpg',
-            alt: 'Fernanda treinando velocidade',
-            caption: 'Treino de Velocidade - 2021',
-            aspect: 'aspect-[4/3]'
-        },
-        {
-            src: '/fernanda4.jpg',
-            alt: 'Fernanda em competição internacional',
-            caption: 'Competição Internacional - 2020',
-            aspect: 'aspect-[16/9]'
-        },
-        {
-            src: '/fernanda5.jpg',
-            alt: 'Fernanda com equipamentos de canoagem',
-            caption: 'Preparação Técnica - 2019',
-            aspect: 'aspect-[3/2]'
-        }
+        { src: '/fernanda2.jpg', alt: 'Pódio', caption: 'Cerimônia de Pódio - 2022', aspect: 'aspect-[3/4]' },
+        { src: '/fernanda3.jpg', alt: 'Treino', caption: 'Treino de Velocidade - 2021', aspect: 'aspect-[4/3]' },
+        { src: '/fernanda4.jpg', alt: 'Competição', caption: 'Competição Internacional - 2020', aspect: 'aspect-[16/9]' },
+        { src: '/fernanda5.jpg', alt: 'Equipamentos', caption: 'Preparação Técnica - 2019', aspect: 'aspect-[3/2]' }
     ]
 
-    // Animações GSAP
-    useEffect(() => {
-        // CORREÇÃO: Adicionar verificações de null
-        if (heroRef.current) {
-            gsap.to(heroRef.current, {
-                yPercent: -20,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: heroRef.current,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            })
-        }
-
-        // Animação dos cards de conquistas
-        gsap.fromTo('.achievement-card',
-            {
-                opacity: 0,
-                x: -50,
-                scale: 0.9
-            },
-            {
-                opacity: 1,
-                x: 0,
-                scale: 1,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: "back.out(1.2)",
-                scrollTrigger: {
-                    trigger: '.achievement-card',
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        )
-
-        // Animação das estatísticas
-        gsap.fromTo('.stat-card',
-            {
-                opacity: 0,
-                y: 50,
-                scale: 0.8
-            },
-            {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.6,
-                stagger: 0.1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: '.stat-card',
-                    start: "top 90%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        )
-
-        // Animação da galeria
-        gsap.fromTo('.gallery-item',
-            {
-                opacity: 0,
-                y: 30,
-                rotationY: 10
-            },
-            {
-                opacity: 1,
-                y: 0,
-                rotationY: 0,
-                duration: 0.7,
-                stagger: 0.2,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: '.gallery-item',
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        )
-
-        // Animação dos dados de treinamento
-        gsap.fromTo('.training-card',
-            {
-                opacity: 0,
-                x: 50,
-                scale: 0.9
-            },
-            {
-                opacity: 1,
-                x: 0,
-                scale: 1,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "back.out(1.3)",
-                scrollTrigger: {
-                    trigger: '.training-card',
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        )
-
-    }, [])
-
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
-            {/* Hero Section do Currículo */}
-            <section ref={heroRef} className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900/90 to-cyan-700/90">
-                {/* Imagem de fundo - fernanda1.jpg com ajuste para mostrar o rosto */}
-                <div className="absolute inset-0">
+        <div ref={containerRef} className="min-h-screen bg-slate-50">
+
+            {/* --- HERO SECTION --- */}
+            <section ref={heroRef} className="relative h-[60vh] lg:h-[70vh] flex items-center justify-center overflow-hidden bg-slate-900">
+                <div className="absolute inset-0 w-full h-[120%] -top-[10%] hero-bg">
                     <Image
                         src="/fernanda/fer7.jpg"
-                        alt="Fernanda Rachid - Atleta profissional"
+                        alt="Fernanda Rachid Hero"
                         fill
-                        className="object-cover"
-                        style={{ objectPosition: '50% 30%' }} // Ajustado para mostrar mais o rosto
+                        className="object-cover opacity-60"
+                        style={{ objectPosition: '50% 30%' }}
                         priority
                         sizes="100vw"
                     />
-                    {/* Overlay gradiente moderno */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-cyan-700/70" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
                 </div>
+                {/* Overlay Gradiente */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-black/30" />
 
-                {/* Conteúdo do Hero */}
-                <div className="relative z-20 text-center text-white px-4 max-w-6xl mx-auto w-full">
+                <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="mb-8"
                     >
                         <Image
                             src="/logoescola.png"
-                            alt="Fernanda Rachid"
-                            width={400}
-                            height={120}
-                            className="mx-auto w-full max-w-xs md:max-w-sm lg:max-w-md h-auto drop-shadow-2xl"
-                            priority
+                            alt="Logo Fernanda Rachid"
+                            width={200}
+                            height={200}
+                            className="mx-auto w-32 md:w-48 h-auto drop-shadow-2xl mb-6 opacity-90 brightness-200 grayscale"
                         />
-                    </motion.div>
-
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 text-white drop-shadow-2xl"
-                    >
-                        Currículo Esportivo
-                    </motion.h1>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="text-lg md:text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-lg"
-                    >
-                        Trajetória de excelência, conquistas e dedicação na canoagem de alto rendimento
-                    </motion.p>
-
-                    {/* Scroll indicator */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.8 }}
-                        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                    >
-                        <motion.div
-                            animate={{
-                                y: [0, 10, 0]
-                            }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                            className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
-                        >
-                            <motion.div
-                                animate={{
-                                    y: [0, 12, 0]
-                                }}
-                                transition={{
-                                    duration: 2,
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                className="w-1 h-3 bg-white/70 rounded-full mt-2"
-                            />
-                        </motion.div>
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg tracking-tight">
+                            Currículo Esportivo
+                        </h1>
+                        <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto font-light">
+                            Uma trajetória marcada por superação, técnica apurada e conquistas expressivas na canoagem.
+                        </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Conteúdo Principal */}
-            {/* CORREÇÃO: Usar sectionInViewRef diretamente em vez da função setSectionRef */}
-            <section ref={sectionInViewRef} className="py-16 lg:py-24 px-4 max-w-7xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={sectionInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8 }}
-                >
-                    {/* Estatísticas */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16 lg:mb-20">
-                        {statistics.map((stat, index) => (
-                            <div key={stat.label} className="stat-card">
-                                <Card className="bg-white/90 backdrop-blur-sm border border-gray-200 shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                                    <CardContent className="p-4 lg:p-6 text-center">
-                                        <div className="flex justify-center mb-3">
-                                            <div className="p-3 bg-blue-100 rounded-xl">
-                                                <stat.icon className="w-6 h-6 lg:w-8 lg:h-8 text-blue-600" />
+            {/* --- CONTEÚDO PRINCIPAL --- */}
+            <section className="py-16 lg:py-24 px-4 max-w-7xl mx-auto -mt-20 relative z-20">
+
+                {/* 1. ESTATÍSTICAS (Counter) */}
+                <div ref={counterRef} className="stat-grid grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16 lg:mb-24">
+                    {statistics.map((stat) => (
+                        <div key={stat.label} className="stat-card">
+                            <Card className="bg-white border-none shadow-xl h-full rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform duration-300">
+                                <CardContent className="p-6 text-center flex flex-col items-center h-full justify-center">
+                                    <div className="p-3 bg-blue-50 rounded-full mb-3 text-blue-600">
+                                        <stat.icon size={28} strokeWidth={1.5} />
+                                    </div>
+                                    <div className="text-3xl lg:text-4xl font-bold text-slate-800 mb-1">
+                                        {stat.value}{stat.suffix}
+                                    </div>
+                                    <div className="text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">
+                                        {stat.label}
+                                    </div>
+                                    <p className="text-xs text-slate-400">
+                                        {stat.description}
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+
+                    {/* 2. CONQUISTAS (Esquerda) */}
+                    <div className="lg:col-span-7 achievement-list space-y-8">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-amber-100 rounded-lg text-amber-600">
+                                <Trophy size={24} />
+                            </div>
+                            <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Conquistas Destacadas</h2>
+                        </div>
+
+                        <div className="space-y-4">
+                            {achievements.map((achievement) => (
+                                <div key={achievement.year} className="achievement-card">
+                                    <Card className="border border-slate-100 shadow-md hover:shadow-lg transition-shadow bg-white rounded-xl">
+                                        <CardContent className="p-5 md:p-6">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                                                <Badge className="bg-blue-600 hover:bg-blue-700 text-white w-fit">
+                                                    {achievement.year}
+                                                </Badge>
+                                                <div className="flex items-center gap-1 text-amber-500 text-xs font-bold uppercase tracking-wide">
+                                                    <Star size={14} fill="currentColor" />
+                                                    Destaque
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">
-                                            {stat.value}{stat.suffix}
-                                        </div>
-                                        <div className="text-sm lg:text-base font-semibold text-gray-700 mb-2">
-                                            {stat.label}
-                                        </div>
-                                        <div className="text-xs lg:text-sm text-gray-500">
-                                            {stat.description}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 mb-16 lg:mb-20">
-                        {/* Conquistas Principais */}
-                        <div>
-                            <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-8 flex items-center gap-3">
-                                <Trophy className="w-6 h-6 lg:w-7 lg:h-7 text-blue-600" />
-                                Conquistas Destacadas
-                            </h3>
-                            <div className="space-y-6">
-                                {achievements.map((achievement, index) => (
-                                    <div key={achievement.year} className="achievement-card">
-                                        <Card className="bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                                            <CardContent className="p-6">
-                                                <div className="flex items-start justify-between mb-3">
-                                                    <Badge className="bg-blue-600 text-white px-3 py-1 text-sm">
-                                                        {achievement.year}
-                                                    </Badge>
-                                                    <div className="flex items-center gap-1 text-amber-500">
-                                                        <Star className="w-4 h-4 fill-current" />
-                                                        <span className="text-sm font-medium">Destaque</span>
-                                                    </div>
+                                            <h3 className="text-lg md:text-xl font-bold text-slate-800 mb-2">
+                                                {achievement.title}
+                                            </h3>
+                                            <div className="flex flex-wrap gap-4 text-sm text-slate-600 mb-3">
+                                                <div className="flex items-center gap-1 font-semibold text-blue-600">
+                                                    <Award size={16} />
+                                                    {achievement.result}
                                                 </div>
-                                                <h4 className="text-lg lg:text-xl font-semibold text-gray-800 mb-2">
-                                                    {achievement.title}
-                                                </h4>
-                                                <div className="flex items-center gap-2 mb-3">
-                                                    <Award className="w-4 h-4 text-amber-500" />
-                                                    <span className="text-base font-medium text-gray-700">
-                                                        {achievement.result}
-                                                    </span>
+                                                <div className="flex items-center gap-1">
+                                                    <MapPin size={16} />
+                                                    {achievement.location}
                                                 </div>
-                                                <div className="flex items-center gap-2 mb-3">
-                                                    <MapPin className="w-4 h-4 text-gray-500" />
-                                                    <span className="text-sm text-gray-600">
-                                                        {achievement.location}
-                                                    </span>
-                                                </div>
-                                                <p className="text-sm text-gray-600 leading-relaxed">
-                                                    {achievement.description}
-                                                </p>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Galeria de Fotos */}
-                        <div>
-                            <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-8 flex items-center gap-3">
-                                <Target className="w-6 h-6 lg:w-7 lg:h-7 text-blue-600" />
-                                Momentos Marcantes
-                            </h3>
-
-                            {/* Foto Principal - Tamanho Real */}
-                            <div className="mb-6 rounded-2xl overflow-hidden shadow-2xl bg-gray-100">
-                                <div className={`relative ${photos[activeImage].aspect} w-full bg-gray-200`}>
-                                    <Image
-                                        src={photos[activeImage].src}
-                                        alt={photos[activeImage].alt}
-                                        fill
-                                        className="object-contain"
-                                        sizes="(max-width: 768px) 100vw, 50vw"
-                                        priority={activeImage === 0}
-                                    />
-                                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                                        <p className="text-white text-sm font-medium">
-                                            {photos[activeImage].caption}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Miniaturas - Mantendo Proporção */}
-                            <div ref={galleryRef} className="grid grid-cols-4 gap-2">
-                                {photos.map((photo, index) => (
-                                    <div
-                                        key={index}
-                                        className={`gallery-item relative ${photo.aspect} rounded-lg overflow-hidden cursor-pointer transition-all duration-300 ${activeImage === index
-                                            ? 'ring-2 ring-blue-500 ring-offset-2 scale-105 shadow-lg'
-                                            : 'opacity-70 hover:opacity-100 hover:scale-105 shadow-md'
-                                            }`}
-                                        onClick={() => setActiveImage(index)}
-                                    >
-                                        <Image
-                                            src={photo.src}
-                                            alt={photo.alt}
-                                            fill
-                                            className="object-cover"
-                                            sizes="(max-width: 768px) 25vw, 12.5vw"
-                                        />
-                                        {activeImage === index && (
-                                            <div className="absolute inset-0 bg-blue-500/20 border-2 border-blue-400 rounded-lg" />
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Metodologia de Treinamento */}
-                    <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-3xl shadow-2xl p-8 lg:p-12">
-                        <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-8 text-center flex items-center justify-center gap-3">
-                            <Users className="w-6 h-6 lg:w-7 lg:h-7 text-blue-600" />
-                            Metodologia de Treinamento
-                        </h3>
-                        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-                            {trainingData.map((training, index) => (
-                                <div key={training.area} className="training-card">
-                                    <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 shadow-lg rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300">
-                                        <CardContent className="p-6">
-                                            <h4 className="text-xl font-bold text-gray-800 mb-4 text-center">
-                                                {training.area}
-                                            </h4>
-                                            <ul className="space-y-3">
-                                                {training.details.map((detail, detailIndex) => (
-                                                    <li key={detailIndex} className="flex items-start gap-3">
-                                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                                                        <span className="text-gray-700 text-sm lg:text-base leading-relaxed">
-                                                            {detail}
-                                                        </span>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                            </div>
+                                            <p className="text-sm text-slate-500 leading-relaxed">
+                                                {achievement.description}
+                                            </p>
                                         </CardContent>
                                     </Card>
                                 </div>
@@ -548,28 +323,107 @@ export default function CurriculoEsportivo() {
                         </div>
                     </div>
 
-                    {/* Rodapé Inspirador */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={sectionInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.5 }}
-                        className="text-center mt-16 lg:mt-20"
-                    >
-                        <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-8 lg:p-12 rounded-3xl shadow-2xl">
-                            <Trophy className="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4" />
-                            <h4 className="text-2xl lg:text-3xl font-bold mb-4">
-                                Dedicação e Excelência
-                            </h4>
-                            <p className="text-lg lg:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-                                "Cada remada é uma oportunidade de superação. A canoagem não é apenas um esporte,
-                                é um estilo de vida que ensina resiliência, foco e paixão pelo que se faz."
-                            </p>
-                            <div className="mt-6 text-blue-200 font-medium">
-                                - Fernanda Rachid
+                    {/* 3. GALERIA (Direita/Sticky) */}
+                    <div className="lg:col-span-5 space-y-8">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
+                                <Target size={24} />
+                            </div>
+                            <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Momentos</h2>
+                        </div>
+
+                        <div className="bg-white p-4 rounded-3xl shadow-xl border border-slate-100 sticky top-24">
+                            {/* Imagem Grande */}
+                            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-100 mb-4 shadow-inner">
+                                <Image
+                                    src={photos[activeImage].src}
+                                    alt={photos[activeImage].alt}
+                                    fill
+                                    className="object-cover" // Mudado para cover para preencher melhor
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
+                                <div className="absolute bottom-4 left-4 right-4 text-white">
+                                    <p className="font-medium text-lg">{photos[activeImage].caption}</p>
+                                </div>
+                            </div>
+
+                            {/* Thumbnails */}
+                            <div className="grid grid-cols-4 gap-2">
+                                {photos.map((photo, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setActiveImage(index)}
+                                        className={`relative aspect-square rounded-lg overflow-hidden transition-all ${activeImage === index
+                                            ? 'ring-2 ring-blue-600 ring-offset-2 opacity-100'
+                                            : 'opacity-60 hover:opacity-100'
+                                            }`}
+                                    >
+                                        <Image
+                                            src={photo.src}
+                                            alt="Thumbnail"
+                                            fill
+                                            className="object-cover"
+                                            sizes="20vw"
+                                        />
+                                    </button>
+                                ))}
                             </div>
                         </div>
-                    </motion.div>
-                </motion.div>
+                    </div>
+                </div>
+
+                {/* 4. METODOLOGIA */}
+                <div className="mt-20 lg:mt-32">
+                    <div className="text-center mb-12">
+                        <h2 className="text-2xl md:text-3xl font-bold text-slate-800 inline-flex items-center gap-3">
+                            <Users className="text-blue-600" />
+                            Metodologia de Treinamento
+                        </h2>
+                    </div>
+
+                    <div className="training-grid grid md:grid-cols-3 gap-6">
+                        {trainingData.map((training) => (
+                            <div key={training.area} className="training-card h-full">
+                                <Card className="h-full bg-gradient-to-b from-white to-slate-50 border-slate-100 shadow-md hover:shadow-xl transition-all">
+                                    <CardContent className="p-6 md:p-8">
+                                        <h3 className="text-lg font-bold text-slate-800 mb-4 pb-4 border-b border-slate-100 text-center">
+                                            {training.area}
+                                        </h3>
+                                        <ul className="space-y-3">
+                                            {training.details.map((detail, idx) => (
+                                                <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-shrink-0" />
+                                                    {detail}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* 5. CITAÇÃO FINAL */}
+                <div className="mt-20 lg:mt-32 text-center">
+                    <div className="bg-slate-900 text-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-4xl mx-auto relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+                        <div className="absolute bottom-0 right-0 w-32 h-32 bg-cyan-500/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+
+                        <Trophy className="w-12 h-12 mx-auto mb-6 text-yellow-400 opacity-80" />
+
+                        <blockquote className="text-xl md:text-2xl font-light leading-relaxed mb-6 italic">
+                            "Cada remada é uma oportunidade de superação. A canoagem não é apenas um esporte,
+                            é um estilo de vida que ensina resiliência, foco e paixão pelo que se faz."
+                        </blockquote>
+
+                        <div className="text-sm font-bold tracking-widest uppercase text-slate-400">
+                            — Fernanda Rachid
+                        </div>
+                    </div>
+                </div>
+
             </section>
         </div>
     )
