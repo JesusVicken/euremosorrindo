@@ -39,13 +39,6 @@ const brands = [
         url: "https://www.canoe.com.br/"
     },
     {
-        name: "Salute Nutrição Esportiva",
-        logo: "/salute.jpg",
-        description: "Consultoria em nutrição para atletas",
-        category: "Saúde",
-        url: "#"
-    },
-    {
         name: "Nenutrição",
         logo: "/nen.jpg",
         description: "Nutrição especializada para alta performance e saúde",
@@ -74,11 +67,11 @@ const brands = [
         url: "https://cerradoexperience.com.br/"
     },
     {
-        name: "Remo Brasília",
-        logo: "/remobrasilia.jpg",
-        description: "Clube de remo tradicional de Brasília",
+        name: "Retrilhar",
+        logo: "/retrilhar.jpg",
+        description: "Agência de turismo de aventura e ecoturismo em Brasília",
         category: "Esportivo",
-        url: "#"
+        url: "https://retrilhar.com.br/"
     },
     {
         name: "APAE-DF",

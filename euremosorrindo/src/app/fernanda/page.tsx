@@ -267,14 +267,14 @@ export default function FernandaPage() {
                         {/* MENU DE ABAS REFATORADO PARA RESPONSIVIDADE E ESPAÇO */}
                         <div className="flex justify-center w-full px-4">
                             <TabsList className="flex w-full max-w-3xl h-auto p-1 bg-slate-200/50 rounded-full">
-                                {['sobre', 'formacao', 'atleta', 'servicos'].map((tab) => (
+                                {['sobre', 'formacao', 'atleta'].map((tab) => (
                                     <TabsTrigger
                                         key={tab}
                                         value={tab}
                                         className="flex-1 rounded-full capitalize data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 transition-all py-2 md:py-3 px-2 text-xs md:text-sm whitespace-normal md:whitespace-nowrap leading-tight"
                                     >
                                         {/* Lógica para exibir os nomes corretos */}
-                                        {tab === 'formacao' ? 'Jornada Acadêmica e Profissional' : tab === 'servicos' ? 'Serviços' : tab}
+                                        {tab === 'formacao' ? 'Jornada Acadêmica e Profissional' : tab}
                                     </TabsTrigger>
                                 ))}
                             </TabsList>
@@ -455,18 +455,6 @@ export default function FernandaPage() {
                                 ))}
                             </div>
                         </TabsContent>
-
-                        {/* --- ABA SERVIÇOS --- */}
-                        <TabsContent value="servicos">
-                            <Card className="border-none shadow-xl bg-white rounded-3xl overflow-hidden min-h-[400px] flex items-center justify-center">
-                                <CardContent>
-                                    <h2 className="text-3xl font-bold text-slate-300 uppercase tracking-widest">
-                                        serviços
-                                    </h2>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-
                     </Tabs>
                 </motion.div>
             </section>

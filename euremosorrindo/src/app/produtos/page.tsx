@@ -1,5 +1,3 @@
-
-
 'use client'
 
 import Image from 'next/image'
@@ -152,42 +150,61 @@ export default function EquipamentosPage() {
         <section className="relative w-full min-h-screen text-gray-900 overflow-hidden bg-white">
 
             {/* --- HERO BANNER --- */}
-            <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
-                <Image
-                    src="/remoBg.png"
-                    alt="Eu Remo Sorrindo - Loja Oficial"
-                    fill
-                    className="object-cover object-center"
-                    priority
-                    sizes="100vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent"></div>
+            <div className="relative w-full bg-gray-900">
 
-                <div className="absolute inset-0 flex items-center">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="relative w-full h-[600px] lg:h-auto lg:aspect-[3936/1088] overflow-hidden flex items-center">
+
+                    {/* IMAGEM MOBILE */}
+                    <Image
+                        src="/remoBg.png"
+                        alt="Eu Remo Sorrindo - Mobile"
+                        fill
+                        className="object-cover object-center lg:hidden"
+                        priority
+                        sizes="(max-width: 1024px) 100vw, 1vw"
+                    />
+
+                    {/* IMAGEM DESKTOP (A FOTO TODA) */}
+                    <Image
+                        src="/remosBg2.png"
+                        alt="Eu Remo Sorrindo - Desktop"
+                        fill
+                        className="hidden lg:block"
+                        priority
+                        sizes="100vw"
+                    />
+
+                    {/* Gradiente escuro */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10"></div>
+
+                    {/* Conteúdo Centralizado */}
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full h-full flex items-center">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="max-w-2xl lg:max-w-3xl"
+                            className="max-w-2xl lg:max-w-3xl pt-32"
                         >
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 sm:mb-6 leading-tight drop-shadow-xl">
-                                Loja Oficial <br /> Eu Remo Sorrindo
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-xl">
+                                Loja Oficial <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-200">
+                                    Eu Remo Sorrindo
+                                </span>
                             </h1>
-                            <div className="border-l-4 border-orange-500 pl-4 sm:pl-6 mb-6 sm:mb-8">
-                                <p className="text-base sm:text-lg md:text-xl text-white font-light drop-shadow-md leading-relaxed">
-                                    Nossa loja oferece produtos à pronta entrega e também sob encomenda,
-                                    com itens selecionados para quem vive e ama a canoagem,
-                                    garantindo qualidade, praticidade e estilo dentro e fora da água.
+
+                            <div className="border-l-4 border-orange-500 pl-6 mb-8 bg-black/30 backdrop-blur-sm p-4 rounded-r-xl max-w-xl">
+                                <p className="text-lg sm:text-xl text-gray-100 font-light leading-relaxed">
+                                    Equipamentos de alta performance e estilo para quem vive a canoagem.
+                                    Pronta entrega e encomendas personalizadas.
                                 </p>
                             </div>
 
                             <button
                                 onClick={() => document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' })}
-                                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold bg-orange-500 text-white hover:bg-orange-600 transition-all shadow-lg hover:shadow-orange-500/30 text-sm sm:text-base"
+                                className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold bg-orange-600 text-white hover:bg-orange-700 transition-all shadow-lg hover:shadow-orange-600/40 text-lg group"
                             >
                                 Ver Produtos
-                                <ChevronRight className="w-5 h-5" />
+                                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
                         </motion.div>
                     </div>
@@ -456,7 +473,6 @@ export default function EquipamentosPage() {
                         </div>
 
                         {/* Imagem Uniformes (Direita - ESTILO FLUTUANTE SUNTECH) */}
-                        {/* Apliquei rounded-3xl, shadow-2xl e uma leve rotação negativa para diferenciar */}
                         <div className="order-1 lg:order-2 relative h-[300px] sm:h-[400px] lg:h-[500px] w-full rounded-3xl overflow-hidden shadow-2xl lg:-rotate-1 lg:hover:rotate-0 transition-all duration-500">
                             <Image
                                 src={uniformesData.imagem}

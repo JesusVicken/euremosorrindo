@@ -37,15 +37,8 @@ const brands = [
         url: "https://www.canoe.com.br/"
     },
     {
-        name: "Salute Nutrição Esportiva",
-        logo: "/salute.jpg",
-        description: "Consultoria em nutrição para atletas",
-        category: "Saúde",
-        url: "#"
-    },
-    {
         name: "Nenutrição",
-        logo: "/nenutricao.webp", 
+        logo: "/nenutricao.webp",
         description: "Nutrição especializada para alta performance e saúde",
         category: "Saúde",
         url: "https://www.nenutricao.com.br/"
@@ -66,17 +59,17 @@ const brands = [
     },
     {
         name: "Cerrado Experience",
-        logo: "/cerrado.png", 
+        logo: "/cerrado.png",
         description: "Experiências únicas de ecoturismo no Cerrado",
         category: "Turismo",
         url: "https://cerradoexperience.com.br/"
     },
     {
-        name: "Remo Brasília",
-        logo: "/remobrasilia.jpg",
-        description: "Clube de remo tradicional de Brasília",
+        name: "Retrilhar",
+        logo: "/retrilhar.jpg",
+        description: "Agência de turismo de aventura e ecoturismo em Brasília",
         category: "Esportivo",
-        url: "#"
+        url: "https://retrilhar.com.br/"
     },
     {
         name: "APAE-DF",
@@ -262,54 +255,6 @@ export default function ParceirosPage() {
                         <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
                     </div>
                 </motion.div>
-            </section>
-
-            {/* ESTATÍSTICAS MODERNAS */}
-            <section className="py-20 bg-gradient-to-b from-white to-slate-50">
-                <div className="max-w-7xl mx-auto px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
-                            Juntos Fazemos a Diferença
-                        </h2>
-                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                            Números que mostram nosso impacto coletivo no desenvolvimento do esporte nacional
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                        {[{ n: 5, l: 'Parceiros Estratégicos', icon: Users },
-                        { n: 4, l: 'Anos de Excelência', icon: Award },
-                        { n: 50, l: 'Projetos Realizados', icon: Target },
-                        { n: 1000, l: 'Vidas Transformadas', icon: Heart }].map((s, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5, delay: i * 0.1 }}
-                                viewport={{ once: true }}
-                                className="text-center"
-                            >
-                                <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-slate-100">
-                                    <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 rounded-2xl bg-gradient-to-br ${i === 0 ? 'from-blue-500 to-cyan-500' : i === 1 ? 'from-amber-500 to-orange-500' : i === 2 ? 'from-green-500 to-emerald-500' : 'from-rose-500 to-pink-500'} shadow-lg`}>
-                                        <s.icon className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div className="mt-4">
-                                        <div className="text-5xl font-black text-slate-800 mb-2">
-                                            <span className="counter" data-target={s.n}>0</span>+
-                                        </div>
-                                        <p className="text-slate-600 font-medium">{s.l}</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
             </section>
 
             {/* PARCEIROS (COM LINKS) */}

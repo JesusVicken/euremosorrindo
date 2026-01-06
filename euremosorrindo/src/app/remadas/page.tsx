@@ -32,11 +32,21 @@ const imagesJuvenil = [
     "/AULAS/JUVENIL/juvenil7.png"
 ]
 
+
+const imagesRemandoJuntos = [
+
+    "/AULAS/REMANDOJUNTOS/remandojuntos1.jpeg",
+    "/AULAS/REMANDOJUNTOS/remandojuntos2.jpeg",
+    "/AULAS/REMANDOJUNTOS/remandojuntos3.jpeg",
+    "/AULAS/REMANDOJUNTOS/remandojuntos4.jpeg",
+
+]
+
 // --- 2. DADOS DOS SERVIÇOS ---
 const services = [
     {
         id: 'canoagem',
-        title: "Aulas de Canoagem",
+        title: "Canoagem",
         description: "Oferecemos aulas de canoagem em caiaques individuais e duplos, atendendo desde praticantes iniciantes até níveis avançados. As atividades utilizam diversos modelos de embarcações, permitindo uma aprendizagem progressiva, segura e adequada às diferentes idades, objetivos e níveis de experiência.",
         href: "https://escolafernandarachid.com.br/c/aulas-de-canoagem-caiaque",
         images: imagesCaiaque,
@@ -45,7 +55,7 @@ const services = [
     },
     {
         id: 'vaa',
-        title: "Aulas de Canoa Havaiana VA'A",
+        title: "Canoa Havaiana VA'A",
         description: "As aulas de canoa havaiana acontecem em embarcações estáveis, com capacidade para até 12 pessoas remando simultaneamente, promovendo integração, cooperação e ritmo coletivo. A prática fortalece a conexão entre corpo e mente, em sintonia com a energia das águas.",
         href: "https://escolafernandarachid.com.br/c/aulas-de-vaa-canoa-havaiana",
         images: imagesCanoa,
@@ -84,7 +94,7 @@ const services = [
         title: "Remando Juntos",
         description: "O Remando Juntos é um projeto inclusivo e personalizado voltado para pessoas neuro divergentes e/ou em situação de vulnerabilidade e grupos, que utiliza a canoagem em caiaques e canoas havaianas, como ferramenta pedagógica.",
         href: "https://escolafernandarachid.com.br/c/remando-juntos",
-        images: ["/caiaquecomunitario.jpg"],
+        images: imagesRemandoJuntos,
         color: "bg-pink-500",
         badge: null
     },
