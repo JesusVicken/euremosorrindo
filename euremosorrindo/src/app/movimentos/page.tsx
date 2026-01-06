@@ -104,7 +104,7 @@ const projetos = [
         icone: Droplets,
         cor: 'text-cyan-500',
         bgcor: 'bg-cyan-500/10',
-        bgImage: '/aguasdocerrado.jpg',
+        bgImage: '/movimentos_matriz.jpg',
         instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
             "Água como Matriz Ecopedagógica é uma metodologia de ensino e aprendizagem em educação ambiental idealizada pelas professoras Vera Catalão e Maria do Socorro Rodrigues.",
