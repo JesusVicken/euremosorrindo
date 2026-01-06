@@ -111,8 +111,10 @@ const servicesData = [
         icon: Users,
         description: "Criamos experiências únicas de facilitação e moderação para transformar a dinâmica de sua equipe. Utilizando metodologias colaborativas e vivências simbólicas, construímos ambientes seguros e catalisadores que promovem o alinhamento, fortalecem a confiança e despertam um propósito coletivo claro e engajador. Mais do que um workshop, é um processo estratégico para navegar desafios e alcançar objetivos comuns.",
         images: [
-            "/images/servicos/eventos.jpg",
-            "/images/servicos/palestras.jpg",
+            "/images/servicos/facilitacao.jpg",
+            "/images/servicos/facilitacao1.jpg",
+            "/images/servicos/facilitacao2.jpg",
+            "/images/servicos/facilitacao3.jpg",
         ],
         action: "Criar uma Experiência Única"
     },
