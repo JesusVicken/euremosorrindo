@@ -217,7 +217,8 @@ export default function CurriculoEsportivo() {
                         alt="Fernanda Rachid Hero"
                         fill
                         className="object-cover opacity-60"
-                        style={{ objectPosition: '50% 30%' }}
+                        // AJUSTE 1: Mudei para '50% 15%' para focar mais na parte de cima (rosto)
+                        style={{ objectPosition: '50% 15%' }}
                         priority
                         sizes="100vw"
                     />
@@ -230,14 +231,23 @@ export default function CurriculoEsportivo() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
+                        className="flex flex-col items-center" // Garante centralização
                     >
-                        <Image
-                            src="/logoescola.png"
-                            alt="Logo Fernanda Rachid"
-                            width={200}
-                            height={200}
-                            className="mx-auto w-32 md:w-48 h-auto drop-shadow-2xl mb-6 opacity-90 brightness-200 grayscale"
-                        />
+                        {/* AJUSTE 2: Hover na Logo */}
+                        <div className="group cursor-pointer mb-6 transition-transform hover:scale-105 duration-500">
+                            <Image
+                                src="/logoescola.png"
+                                alt="Logo Fernanda Rachid"
+                                width={200}
+                                height={200}
+                                // AQUI ESTÁ O TRUQUE:
+                                // grayscale: Começa preto e branco
+                                // group-hover:grayscale-0: Fica colorido ao passar o mouse
+                                // transition-all duration-500: Suaviza a mudança
+                                className="mx-auto w-32 md:w-48 h-auto drop-shadow-2xl opacity-90 brightness-200 grayscale group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500 ease-in-out"
+                            />
+                        </div>
+
                         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg tracking-tight">
                             Currículo Esportivo
                         </h1>
@@ -247,7 +257,6 @@ export default function CurriculoEsportivo() {
                     </motion.div>
                 </div>
             </section>
-
             {/* --- CONTEÚDO PRINCIPAL --- */}
             <section className="py-16 lg:py-24 px-4 max-w-7xl mx-auto -mt-20 relative z-20">
 
@@ -329,7 +338,7 @@ export default function CurriculoEsportivo() {
                             <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
                                 <Target size={24} />
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Momentos</h2>
+                            <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Momentos Marcantes</h2>
                         </div>
 
                         <div className="bg-white p-4 rounded-3xl shadow-xl border border-slate-100 sticky top-24">

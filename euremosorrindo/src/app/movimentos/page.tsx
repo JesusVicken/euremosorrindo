@@ -143,7 +143,6 @@ export default function InfoProjetos() {
         }
     }, [ativo])
 
-    // --- ANIMAÇÃO GSAP PARA O BACKGROUND (VÍDEO OU IMAGEM) ---
     useGSAP(() => {
         if (mediaContainerRef.current) {
             gsap.fromTo(mediaContainerRef.current,
