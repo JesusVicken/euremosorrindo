@@ -61,16 +61,8 @@ export default function EventsGallery() {
             <div className="container mx-auto px-4 md:px-6">
 
                 {/* Cabeçalho */}
-                <div className="flex flex-col items-center text-center mb-12 space-y-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium"
-                    >
-                        <CalendarDays size={16} />
-                        Agenda & Avisos
-                    </motion.div>
+                <div className="flex flex-col items-center text-center mb-12 mt-10 space-y-4">
+                    
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +70,7 @@ export default function EventsGallery() {
                         transition={{ delay: 0.1 }}
                         className="text-3xl md:text-5xl font-bold text-slate-900"
                     >
-                        Mural de Novidades
+                        Eventos e Remadas Especiais
                     </motion.h2>
                 </div>
 
