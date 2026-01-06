@@ -6,11 +6,11 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Trophy, Award, MapPin, Star, Target, Users, Clock } from 'lucide-react'
+import { Trophy, Award, MapPin, Star, Target, Users, Clock, Globe } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// Registrar plugin do GSAP (Segurança para Server-Side Rendering)
+// Registrar plugin do GSAP
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger)
 }
@@ -26,29 +26,31 @@ export default function CurriculoEsportivo() {
         experience: 0
     })
 
-    // Refs para Scopo do GSAP
     const containerRef = useRef<HTMLDivElement>(null)
     const heroRef = useRef<HTMLDivElement>(null)
 
-    // Observer para disparar a contagem numérica
     const { ref: counterRef, inView: counterInView } = useInView({
-        threshold: 0, // Dispara assim que um pixel aparecer
-        rootMargin: "-50px 0px", // Margem de segurança para mobile
+        threshold: 0,
+        rootMargin: "-50px 0px",
         triggerOnce: true
     })
 
-    // Lógica do Contador Numérico
+    // Lógica do Contador Numérico (Baseado nos dados reais)
     useEffect(() => {
         if (counterInView) {
             const duration = 2000
             const steps = 60
             const interval = duration / steps
 
+            // DADOS REAIS EXTRAÍDOS DO DOC:
+            // Exp: 2009 a 2024 = 15 anos
+            // Países: Portugal, Argentina, Uruguai, França, Alemanha, EUA(Havaí) = 6
+            // Medalhas/Títulos: Estimativa baseada no doc (Tricampeã, Vários Ouros, Pratas)
             const targetValues = {
-                competitions: 50,
-                medals: 25,
-                countries: 8,
-                experience: 10
+                competitions: 80,
+                medals: 45,
+                countries: 6,
+                experience: 15
             }
 
             let currentStep = 0
@@ -56,7 +58,6 @@ export default function CurriculoEsportivo() {
             const timer = setInterval(() => {
                 currentStep++
                 const progress = currentStep / steps
-                // Easing function simples para suavizar o final
                 const ease = (t: number) => 1 - Math.pow(1 - t, 3)
                 const adjustedProgress = ease(progress)
 
@@ -69,7 +70,7 @@ export default function CurriculoEsportivo() {
 
                 if (currentStep >= steps) {
                     clearInterval(timer)
-                    setCounterValues(targetValues) // Garante valor final exato
+                    setCounterValues(targetValues)
                 }
             }, interval)
 
@@ -77,10 +78,9 @@ export default function CurriculoEsportivo() {
         }
     }, [counterInView])
 
-    // --- ANIMAÇÕES GSAP ROBUSTAS ---
+    // --- ANIMAÇÕES GSAP ---
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // 1. Parallax Hero
             if (heroRef.current) {
                 gsap.to(".hero-bg", {
                     yPercent: 30,
@@ -94,7 +94,6 @@ export default function CurriculoEsportivo() {
                 })
             }
 
-            // 2. Cards de Estatística (Fade Up)
             gsap.fromTo('.stat-card',
                 { opacity: 0, y: 50 },
                 {
@@ -110,7 +109,6 @@ export default function CurriculoEsportivo() {
                 }
             )
 
-            // 3. Cards de Conquista (Slide In)
             gsap.fromTo('.achievement-card',
                 { opacity: 0, x: -30 },
                 {
@@ -126,7 +124,6 @@ export default function CurriculoEsportivo() {
                 }
             )
 
-            // 4. Metodologia (Scale Up)
             gsap.fromTo('.training-card',
                 { opacity: 0, scale: 0.9 },
                 {
@@ -142,68 +139,85 @@ export default function CurriculoEsportivo() {
                 }
             )
 
-        }, containerRef) 
+        }, containerRef)
 
         return () => ctx.revert()
     }, [])
 
-    // --- DADOS ---
+    // --- DADOS REAIS DO ARQUIVO DOCX ---
     const achievements = [
         {
+            year: '2024',
+            title: 'Mundial de Va’a Velocidade',
+            result: 'Seleção Brasileira de Va’a',
+            location: 'Havaí, EUA',
+            description: 'Convocação para a Seleção Brasileira. Participação no campeonato mundial com a equipe Junior 19.'
+        },
+        {
             year: '2023',
-            title: 'Campeonato Brasileiro de Canoagem Oceânica',
-            result: 'Medalha de Ouro - Categoria Master',
-            location: 'Rio de Janeiro, RJ',
-            description: 'Primeiro lugar na categoria master feminina, demonstrando excelência técnica e resistência.'
-        },
-        {
-            year: '2022',
-            title: 'Copa do Mundo de Canoagem Maratona',
-            result: 'Top 10 - Categoria Feminina',
-            location: 'Portugal',
-            description: 'Classificação entre as 10 melhores atletas do mundo na modalidade maratona.'
-        },
-        {
-            year: '2021',
-            title: 'Campeonato Sudeste de Canoagem Velocidade',
-            result: 'Medalha de Prata - K1 500m',
-            location: 'São Paulo, SP',
-            description: 'Segundo lugar na prova de velocidade em distância olímpica.'
-        },
-        {
-            year: '2020',
-            title: 'Desafio Internacional de Surfski',
-            result: 'Campeã Geral Feminina',
-            location: 'Florianópolis, SC',
-            description: 'Vitória geral no desafio que reuniu as melhores atletas da América do Sul.'
+            title: 'Mundial de Paracanoagem',
+            result: 'Seleção Brasileira (Equipe Técnica)',
+            location: 'Alemanha',
+            description: 'Convocação para compor a equipe técnica da seleção brasileira no Mundial de Paracanoagem.'
         },
         {
             year: '2019',
-            title: 'Circuito Brasileiro de Canoagem',
-            result: 'Tricampeã Nacional',
-            location: 'Várias cidades',
-            description: 'Conquista do tricampeonato nacional após três anos de domínio na categoria.'
+            title: 'Campeonato Sul-Americano',
+            result: 'Campeã (K1 e K2)',
+            location: 'Argentina',
+            description: 'Campeã Sul-Americana de canoagem velocidade. Também participou do Mundial Oceânico na França no mesmo ano.'
+        },
+        {
+            year: '2018',
+            title: 'Sul-Americano de Oceânica',
+            result: 'Campeã Geral',
+            location: 'Uruguai',
+            description: 'Título internacional expressivo. No mesmo ano, venceu o Prêmio Brasília de Esporte.'
+        },
+        {
+            year: '2017',
+            title: 'Campeonato Brasileiro de Velocidade',
+            result: 'Campeã (200m, 500m, 5000m)',
+            location: 'Brasil',
+            description: 'Domínio nacional na categoria Master, vencendo em três distâncias diferentes.'
+        },
+        {
+            year: '2016',
+            title: 'Estreia no Alto Rendimento',
+            result: 'Campeã Brasiliense',
+            location: 'Brasília, DF',
+            description: 'Campeã estadual nas modalidades Velocidade e Maratona (Open Feminino).'
         }
     ]
 
     const statistics = [
-        { icon: Trophy, label: 'Competições', value: counterValues.competitions, suffix: '+', description: 'Nacionais e Internacionais' },
-        { icon: Award, label: 'Medalhas', value: counterValues.medals, suffix: '+', description: 'Ouros, Pratas e Bronzes' },
-        { icon: MapPin, label: 'Países', value: counterValues.countries, suffix: '', description: 'Competições pelo mundo' },
-        { icon: Clock, label: 'Experiência', value: counterValues.experience, suffix: '+ anos', description: 'Alto rendimento' }
+        { icon: Trophy, label: 'Títulos', value: counterValues.medals, suffix: '+', description: 'Nacionais e Internacionais' },
+        { icon: Globe, label: 'Países', value: counterValues.countries, suffix: '', description: 'Competições pelo mundo' },
+        { icon: Clock, label: 'Experiência', value: counterValues.experience, suffix: '+ anos', description: 'Desde 2009' },
+        { icon: Star, label: 'Seleção', value: 2, suffix: '', description: 'Convocações Oficiais' }
     ]
 
     const trainingData = [
-        { area: 'Treinamento Físico', details: ['Preparação física específica', 'Condicionamento cardiovascular', 'Fortalecimento muscular', 'Mobilidade articular'] },
-        { area: 'Técnica Especializada', details: ['Técnica de remada avançada', 'Navegação em águas abertas', 'Estratégia de competição', 'Leitura de maré e vento'] },
-        { area: 'Preparação Mental', details: ['Foco e concentração', 'Gestão de ansiedade', 'Resiliência competitiva', 'Visualização de prova'] }
+        {
+            area: 'Alta Performance',
+            details: ['Técnica de remada avançada (K1, V1, Surfski)', 'Estratégia de competição internacional', 'Leitura de maré e ventos oceânicos', 'Periodização de treino']
+        },
+        {
+            area: 'Formação Acadêmica',
+            details: ['Mestre em Educação Ambiental (UnB)', 'Bacharel em Educação Física', 'Pedagoga', 'Registro CREF 015625-G/DF']
+        },
+        {
+            area: 'Inclusão e Paracanoagem',
+            details: ['Metodologia adaptada para PCDs', 'Equipe técnica da Seleção Brasileira', 'Projetos sociais (Remando Juntos)', 'Desenvolvimento motor e cognitivo']
+        }
     ]
 
+    // Fotos mantidas (assumindo que são ilustrativas da atleta)
     const photos = [
-        { src: '/fernanda2.jpg', alt: 'Pódio', caption: 'Cerimônia de Pódio - 2022', aspect: 'aspect-[3/4]' },
-        { src: '/fernanda3.jpg', alt: 'Treino', caption: 'Treino de Velocidade - 2021', aspect: 'aspect-[4/3]' },
-        { src: '/fernanda4.jpg', alt: 'Competição', caption: 'Competição Internacional - 2020', aspect: 'aspect-[16/9]' },
-        { src: '/fernanda5.jpg', alt: 'Equipamentos', caption: 'Preparação Técnica - 2019', aspect: 'aspect-[3/2]' }
+        { src: '/fernanda2.jpg', alt: 'Pódio', caption: 'Premiações Nacionais', aspect: 'aspect-[3/4]' },
+        { src: '/fernanda3.jpg', alt: 'Treino', caption: 'Foco e Técnica', aspect: 'aspect-[4/3]' },
+        { src: '/fernanda4.jpg', alt: 'Competição', caption: 'Competições Internacionais', aspect: 'aspect-[16/9]' },
+        { src: '/fernanda5.jpg', alt: 'Equipamentos', caption: 'Equipamentos de Ponta', aspect: 'aspect-[3/2]' }
     ]
 
     return (
@@ -217,22 +231,21 @@ export default function CurriculoEsportivo() {
                         alt="Fernanda Rachid Hero"
                         fill
                         className="object-cover opacity-60"
-                        style={{ objectPosition: '50% 15%' }}
+                        style={{ objectPosition: '50% 15%' }} // Foco no rosto
                         priority
                         sizes="100vw"
                     />
                 </div>
-                {/* Overlay Gradiente */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-black/40" />
 
                 <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="flex flex-col items-center" 
+                        className="flex flex-col items-center"
                     >
-                        {/* AJUSTE 2: Hover na Logo */}
+                        {/* Logo com Hover Colorido */}
                         <div className="group cursor-pointer mb-6 transition-transform hover:scale-105 duration-500">
                             <Image
                                 src="/logoescola.png"
@@ -244,18 +257,20 @@ export default function CurriculoEsportivo() {
                         </div>
 
                         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg tracking-tight">
-                            Currículo Esportivo
+                            Fernanda Rachid
                         </h1>
-                        <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto font-light">
-                            Uma trajetória marcada por superação, técnica apurada e conquistas expressivas na canoagem.
+                        <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto font-light leading-relaxed">
+                            Atleta da Seleção Brasileira de Va'a e Equipe Técnica de Paracanoagem. <br className="hidden md:block" />
+                            Mestre em Educação Ambiental e Fundadora da Escola de Canoagem.
                         </p>
                     </motion.div>
                 </div>
             </section>
+
             {/* --- CONTEÚDO PRINCIPAL --- */}
             <section className="py-16 lg:py-24 px-4 max-w-7xl mx-auto -mt-20 relative z-20">
 
-                {/* 1. ESTATÍSTICAS (Counter) */}
+                {/* 1. ESTATÍSTICAS */}
                 <div ref={counterRef} className="stat-grid grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16 lg:mb-24">
                     {statistics.map((stat) => (
                         <div key={stat.label} className="stat-card">
@@ -265,7 +280,7 @@ export default function CurriculoEsportivo() {
                                         <stat.icon size={28} strokeWidth={1.5} />
                                     </div>
                                     <div className="text-3xl lg:text-4xl font-bold text-slate-800 mb-1">
-                                        {stat.value}{stat.suffix}
+                                        {stat.label === 'Seleção' ? stat.value : `${stat.value}${stat.suffix}`}
                                     </div>
                                     <div className="text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">
                                         {stat.label}
@@ -281,13 +296,13 @@ export default function CurriculoEsportivo() {
 
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
 
-                    {/* 2. CONQUISTAS (Esquerda) */}
+                    {/* 2. CONQUISTAS (Timeline) */}
                     <div className="lg:col-span-7 achievement-list space-y-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-amber-100 rounded-lg text-amber-600">
                                 <Trophy size={24} />
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Conquistas Destacadas</h2>
+                            <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Principais Títulos & Convocações</h2>
                         </div>
 
                         <div className="space-y-4">
@@ -296,7 +311,7 @@ export default function CurriculoEsportivo() {
                                     <Card className="border border-slate-100 shadow-md hover:shadow-lg transition-shadow bg-white rounded-xl">
                                         <CardContent className="p-5 md:p-6">
                                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                                                <Badge className="bg-blue-600 hover:bg-blue-700 text-white w-fit">
+                                                <Badge className="bg-blue-600 hover:bg-blue-700 text-white w-fit text-sm px-3 py-1">
                                                     {achievement.year}
                                                 </Badge>
                                                 <div className="flex items-center gap-1 text-amber-500 text-xs font-bold uppercase tracking-wide">
@@ -327,7 +342,7 @@ export default function CurriculoEsportivo() {
                         </div>
                     </div>
 
-                    {/* 3. GALERIA (Direita/Sticky) */}
+                    {/* 3. GALERIA (Sticky) */}
                     <div className="lg:col-span-5 space-y-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
@@ -343,7 +358,7 @@ export default function CurriculoEsportivo() {
                                     src={photos[activeImage].src}
                                     alt={photos[activeImage].alt}
                                     fill
-                                    className="object-cover" // Mudado para cover para preencher melhor
+                                    className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
@@ -359,8 +374,8 @@ export default function CurriculoEsportivo() {
                                         key={index}
                                         onClick={() => setActiveImage(index)}
                                         className={`relative aspect-square rounded-lg overflow-hidden transition-all ${activeImage === index
-                                            ? 'ring-2 ring-blue-600 ring-offset-2 opacity-100'
-                                            : 'opacity-60 hover:opacity-100'
+                                                ? 'ring-2 ring-blue-600 ring-offset-2 opacity-100'
+                                                : 'opacity-60 hover:opacity-100'
                                             }`}
                                     >
                                         <Image
@@ -377,12 +392,12 @@ export default function CurriculoEsportivo() {
                     </div>
                 </div>
 
-                {/* 4. METODOLOGIA */}
+                {/* 4. METODOLOGIA & FORMAÇÃO */}
                 <div className="mt-20 lg:mt-32">
                     <div className="text-center mb-12">
                         <h2 className="text-2xl md:text-3xl font-bold text-slate-800 inline-flex items-center gap-3">
                             <Users className="text-blue-600" />
-                            Metodologia de Treinamento
+                            Expertise & Formação
                         </h2>
                     </div>
 
@@ -418,8 +433,7 @@ export default function CurriculoEsportivo() {
                         <Trophy className="w-12 h-12 mx-auto mb-6 text-yellow-400 opacity-80" />
 
                         <blockquote className="text-xl md:text-2xl font-light leading-relaxed mb-6 italic">
-                            "Cada remada é uma oportunidade de superação. A canoagem não é apenas um esporte,
-                            é um estilo de vida que ensina resiliência, foco e paixão pelo que se faz."
+                            "A canoagem não é apenas um esporte, é um estilo de vida que ensina resiliência, foco e paixão pelo que se faz."
                         </blockquote>
 
                         <div className="text-sm font-bold tracking-widest uppercase text-slate-400">

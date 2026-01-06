@@ -92,8 +92,6 @@ export default function GuarderiaSection() {
                         </div>
                     </motion.div>
 
-                    {/* --- COLUNA VISUAL (IMAGEM) --- */}
-                    {/* Order-1 no mobile para a foto aparecer antes dos detalhes técnicos, ou Order-last para padrão */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -101,15 +99,12 @@ export default function GuarderiaSection() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="relative w-full order-1 lg:order-2"
                     >
-                        {/* Elemento Decorativo de Fundo (Glow) */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-gradient-to-tr from-blue-100/50 to-cyan-100/50 rounded-full blur-3xl -z-10" />
 
-                        {/* Container da Imagem com Aspect Ratio Otimizado */}
                         <div className="relative w-full aspect-[4/3] lg:aspect-[3/4] xl:aspect-square rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
 
-                            {/* Imagem Real (com fallback visual) */}
                             <Image
-                                src="/guarderia.jpg" // Certifique-se que esta imagem existe em public/
+                                src="/guarderia.jpg" 
                                 alt="Espaço da Guarderia Eu Remo Sorrindo"
                                 fill
                                 className="object-cover hover:scale-105 transition-transform duration-700"
