@@ -424,7 +424,7 @@ export default function CurriculoEsportivo() {
                     </div>
                 </div>
 
-                {/* 5. CITAÇÃO FINAL */}
+                
                 <div className="mt-20 lg:mt-32 text-center">
                     <div className="bg-slate-900 text-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-4xl mx-auto relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
