@@ -191,7 +191,7 @@ export function Footer() {
                 <FacebookLogo className="w-6 h-6 text-white" />
               </a>
               <a
-                href="https://www.youtube.com/@euremosorrindo"
+                href="https://youtube.com/@euremosorrindo537?si=ouHGoaBLR9DNuU3s"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"

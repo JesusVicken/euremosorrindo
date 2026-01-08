@@ -149,7 +149,7 @@ export default function ContatoPage() {
                         <a href="https://facebook.com/euremosorrindo" target="_blank" className="bg-blue-600 text-white p-2.5 rounded-lg hover:scale-110 transition-transform shadow-md">
                             <FacebookLogo size={24} weight="bold" />
                         </a>
-                        <a href="https://youtube.com/@euremosorrindo" target="_blank" className="bg-red-600 text-white p-2.5 rounded-lg hover:scale-110 transition-transform shadow-md">
+                        <a href="https://youtube.com/@euremosorrindo537?si=ouHGoaBLR9DNuU3s" target="_blank" className="bg-red-600 text-white p-2.5 rounded-lg hover:scale-110 transition-transform shadow-md">
                             <YoutubeLogo size={24} weight="bold" />
                         </a>
                     </div>

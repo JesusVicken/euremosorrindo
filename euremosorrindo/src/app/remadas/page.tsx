@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState, useEffect } from 'react'
+import { X, FileText, CheckCircle } from 'lucide-react' // Adicionei ícones novos
 
 // --- 1. DEFINIÇÃO MANUAL DAS IMAGENS ---
 const imagesCaiaque = [
@@ -23,7 +24,6 @@ const imagesCanoa = [
 ]
 
 const imagesJuvenil = [
-    // "/AULAS/JUVENIL/juvenil1.png",
     "/AULAS/JUVENIL/juvenil2.png",
     "/AULAS/JUVENIL/juvenil3.png",
     "/AULAS/JUVENIL/juvenil4.png",
@@ -32,14 +32,11 @@ const imagesJuvenil = [
     "/AULAS/JUVENIL/juvenil7.png"
 ]
 
-
 const imagesRemandoJuntos = [
-
     "/AULAS/REMANDOJUNTOS/remandojuntos1.jpeg",
     "/AULAS/REMANDOJUNTOS/remandojuntos2.jpeg",
     "/AULAS/REMANDOJUNTOS/remandojuntos3.jpeg",
     "/AULAS/REMANDOJUNTOS/remandojuntos4.jpeg",
-
 ]
 
 // --- 2. DADOS DOS SERVIÇOS ---
@@ -123,14 +120,11 @@ function SalesCard({ service }: { service: typeof services[0] }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const isExternal = service.href.startsWith('http')
 
-    // Troca de imagem automática (Slideshow)
     useEffect(() => {
         if (!service.images || service.images.length <= 1) return
-
         const interval = setInterval(() => {
             setCurrentImageIndex((prev) => (prev + 1) % service.images.length)
         }, 4000)
-
         return () => clearInterval(interval)
     }, [service.images])
 
@@ -143,7 +137,6 @@ function SalesCard({ service }: { service: typeof services[0] }) {
             rel={isExternal ? "noopener noreferrer" : undefined}
             className="group relative block h-[500px] w-full overflow-hidden rounded-[2rem] bg-slate-900 border border-slate-800 hover:border-cyan-500/50 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10"
         >
-            {/* Badge (Etiqueta) */}
             {service.badge && (
                 <div className="absolute top-4 left-4 z-40">
                     <span className={`
@@ -157,7 +150,6 @@ function SalesCard({ service }: { service: typeof services[0] }) {
                 </div>
             )}
 
-            {/* --- IMAGEM DE FUNDO (SLIDESHOW) --- */}
             <div className="absolute inset-0 h-full w-full bg-slate-800 transition-transform duration-700 group-hover:scale-110">
                 <AnimatePresence mode="wait">
                     {currentImage && (
@@ -181,7 +173,6 @@ function SalesCard({ service }: { service: typeof services[0] }) {
                     )}
                 </AnimatePresence>
 
-                {/* Indicadores de Slide (Dots) */}
                 {service.images && service.images.length > 1 && (
                     <div className="absolute top-4 right-4 z-30 flex justify-end gap-1.5">
                         {service.images.map((_, idx) => (
@@ -194,28 +185,18 @@ function SalesCard({ service }: { service: typeof services[0] }) {
                 )}
             </div>
 
-            {/* --- GRADIENTE DE FUNDO --- */}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent opacity-60 group-hover:opacity-90 group-hover:via-slate-950/80 transition-all duration-500 z-10" />
 
-            {/* --- CONTEÚDO COM ANIMAÇÃO "SLIDE UP" --- */}
             <div className="absolute inset-0 flex flex-col justify-end p-6 z-20">
-
-                {/* Container que desliza */}
                 <div className="transform translate-y-[80px] group-hover:translate-y-0 transition-transform duration-500 ease-out will-change-transform">
-
-                    {/* Título */}
                     <h3 className="text-2xl font-bold text-white mb-3 leading-tight group-hover:text-cyan-300 transition-colors duration-300 drop-shadow-lg">
                         {service.title}
                     </h3>
-
-                    {/* Descrição */}
                     <div className="overflow-hidden max-h-0 opacity-0 group-hover:max-h-[250px] group-hover:opacity-100 transition-all duration-500 ease-in-out delay-75">
                         <p className="text-sm text-slate-200 leading-relaxed pb-6 drop-shadow-md">
                             {service.description}
                         </p>
                     </div>
-
-                    {/* Botão */}
                     <div className="w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                         <div className="w-full bg-white text-slate-900 hover:bg-cyan-400 font-bold py-3.5 px-4 rounded-xl text-sm uppercase tracking-wide text-center transition-all shadow-lg hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]">
                             {service.id === 'loja' ? 'Ver Produtos' : 'Reservar Agora'}
@@ -230,6 +211,7 @@ function SalesCard({ service }: { service: typeof services[0] }) {
 // --- COMPONENTE PRINCIPAL ---
 export default function StoreGrid() {
     const sectionRef = useRef(null)
+    const [isPlanosOpen, setIsPlanosOpen] = useState(false) // Estado para o modal de planos
 
     // Configuração do Scroll
     const { scrollYProgress } = useScroll({
@@ -256,19 +238,17 @@ export default function StoreGrid() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/80 to-slate-950" />
                 </motion.div>
-
                 <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-950 to-transparent z-10" />
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto">
 
-                {/* --- CABEÇALHO DA SEÇÃO (ALTERADO) --- */}
+                {/* --- CABEÇALHO --- */}
                 <div className="text-center mb-20 pt-10">
                     <h2 className="flex flex-col items-center justify-center">
                         <span className="block text-slate-400 text-lg md:text-xl font-bold uppercase tracking-[0.2em] mb-2 drop-shadow-md">
                             Conecte-se com
                         </span>
-
                         <span className="relative block text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter drop-shadow-2xl leading-none z-10">
                             A NATUREZA <br className="md:hidden" />
                             <span className="relative whitespace-nowrap">
@@ -277,7 +257,6 @@ export default function StoreGrid() {
                             </span>
                         </span>
                     </h2>
-
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -310,18 +289,98 @@ export default function StoreGrid() {
                     </AnimatePresence>
                 </div>
 
+                {/* --- SEÇÃO DE PLANOS E VALORES (NOVA) --- */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="mt-20 max-w-4xl mx-auto"
+                >
+                    <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 p-8 md:p-12 text-center shadow-2xl">
+                        {/* Efeito de brilho no fundo */}
+                        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
+
+                        <div className="relative z-10 flex flex-col items-center">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-sm font-bold uppercase tracking-wider mb-6">
+                                <FileText size={16} />
+                                Transparência Total
+                            </div>
+
+                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                Confira nossos Planos e Valores
+                            </h3>
+
+                            <p className="text-slate-300 text-lg max-w-xl mx-auto mb-8">
+                                Temos opções flexíveis para você começar hoje mesmo.
+                                Mensalidades, aulas avulsas e pacotes especiais para grupos.
+                            </p>
+
+                            <button
+                                onClick={() => setIsPlanosOpen(true)}
+                                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-900 rounded-xl font-bold text-lg hover:bg-cyan-50 transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]"
+                            >
+                                Ver Tabela de Preços
+                                <span className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center group-hover:bg-cyan-600 transition-colors">
+                                    →
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </motion.div>
+
                 {/* --- RODAPÉ DA SEÇÃO --- */}
                 <div className="mt-20 text-center border-t border-white/10 pt-10">
                     <p className="text-slate-400 text-sm flex flex-col sm:flex-row items-center justify-center gap-4">
                         <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full">
+                            <CheckCircle size={16} className="text-cyan-400" />
                             Agendamento online imediato
                         </span>
                         <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full">
+                            <CheckCircle size={16} className="text-cyan-400" />
                             Pagamento seguro via plataforma
                         </span>
                     </p>
                 </div>
             </div>
+
+            {/* --- MODAL / LIGHTBOX DE PLANOS --- */}
+            <AnimatePresence>
+                {isPlanosOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsPlanosOpen(false)} // Fecha ao clicar no fundo
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+                    >
+                        <button
+                            className="absolute top-6 right-6 p-2 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors z-50"
+                            onClick={() => setIsPlanosOpen(false)}
+                        >
+                            <X size={32} />
+                        </button>
+
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            onClick={(e) => e.stopPropagation()} // Evita fechar ao clicar na imagem
+                            className="relative w-full max-w-lg h-[80vh] md:h-[90vh] bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+                        >
+                            <Image
+                                src="/cards/planos.jpeg"
+                                alt="Tabela de Planos e Valores"
+                                fill
+                                className="object-contain"
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                                priority
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
         </section>
     )
 }
