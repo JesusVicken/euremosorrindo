@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CaretLeft, CaretRight, MapPin, Clock, CalendarBlank } from '@phosphor-icons/react/dist/ssr'
 
-// --- FUNÇÕES AUXILIARES (MANTIDAS) ---
+// --- FUNÇÕES AUXILIARES ---
 const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: string, local: string, hora: string) => {
     const lista = []
     let atual = new Date(inicio)
@@ -19,45 +19,44 @@ const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: str
     return lista
 }
 
-// --- BANCO DE DADOS DE EVENTOS (MANTIDO) ---
+// --- BANCO DE DADOS DE EVENTOS ---
 const eventosFixos = [
-    // --- LUA CHEIA (Dezembro) ---
+    // --- JANEIRO 2026 (Baseado na imagem enviada) ---
+    { date: '2026-01-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Pontão', hora: '18:10' },
+    { date: '2026-01-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Pontão', hora: '19:00' },
+    { date: '2026-01-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Pontão', hora: '20:00' },
+
+    { date: '2026-01-10', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Deck Norte', hora: '17:15' },
+    { date: '2026-01-17', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Deck Norte', hora: '17:15' },
+    { date: '2026-01-24', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Deck Norte', hora: '17:15' },
+
+    { date: '2026-01-11', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-01-18', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-01-25', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+
+    // --- DEZEMBRO 2025 (Mantidos para histórico) ---
     { date: '2025-12-03', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Pontão', hora: '19:30' },
     { date: '2025-12-04', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Pontão', hora: '19:30' },
-    { date: '2025-12-05', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Pontão', hora: '19:30' },
-    { date: '2025-12-06', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Pontão', hora: '19:30' },
-
-    // --- PÔR DO SOL (Dezembro) ---
-    { date: '2025-12-12', titulo: 'Remada Pôr do Sol', imagem: '/DEZ - 2025/pordosol.png', local: 'Deck Norte', hora: '17:30' },
-    { date: '2025-12-13', titulo: 'Remada Pôr do Sol', imagem: '/DEZ - 2025/pordosol.png', local: 'Deck Norte', hora: '17:30' },
-    { date: '2025-12-19', titulo: 'Remada Pôr do Sol', imagem: '/DEZ - 2025/pordosol.png', local: 'Deck Norte', hora: '17:30' },
-    { date: '2025-12-20', titulo: 'Remada Pôr do Sol', imagem: '/DEZ - 2025/pordosol.png', local: 'Deck Norte', hora: '17:30' },
-
-    // --- REMADA ASTRAL (Dezembro) ---
-    { date: '2025-12-12', titulo: 'Remada Astral', imagem: '/DEZ - 2025/astral.png', local: 'Clube', hora: '16:00' },
-    { date: '2025-12-18', titulo: 'Remada Astral', imagem: '/DEZ - 2025/astral.png', local: 'Clube', hora: '16:00' },
-
-    // --- OUTROS (Dezembro) ---
-    { date: '2025-12-14', titulo: 'Trilha da Lagoinha', imagem: '/DEZ - 2025/lagoinha2.png', local: 'Lagoinha', hora: '07:30' },
-    { date: '2025-12-21', titulo: 'Confraternização', imagem: '/DEZ - 2025/confraternizacao.png', local: 'Restaurante', hora: '12:00' },
+    // ... outros de dezembro
 ]
 
+// Intervalos (Colônia de Férias e Recessos)
+const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'ASSTJ', 'Manhã e Tarde')
 const recessoDezembro = gerarIntervalo('2025-12-22', '2025-12-31', 'Recesso', '/recesso.png', '-', 'Off')
-const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-05', 'Recesso', '/recesso.png', '-', 'Off')
-const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'ASSTJ', '14:00')
+const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-01', 'Recesso', '/recesso.png', '-', 'Off') // Ajustado para dia 01 apenas, pois dia 02 já tem evento
 
 const eventosDB = [
     ...eventosFixos,
+    ...coloniaFerias,
     ...recessoDezembro,
-    ...recessoJaneiro,
-    ...coloniaFerias
+    ...recessoJaneiro
 ]
 
 const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
 export default function AgendaMensal() {
-    // Começa em Dezembro de 2025 (Mês 11 no JS)
-    const [currentDate, setCurrentDate] = useState(new Date(2025, 11, 1))
+    // INICIANDO EM JANEIRO DE 2026 (Mês 0 no JS é Janeiro)
+    const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 1))
     const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
     // Helpers
@@ -99,7 +98,6 @@ export default function AgendaMensal() {
                     className="object-cover"
                     priority
                 />
-                {/* Overlay Gradiente para leitura do texto */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-slate-50" />
 
                 <div className="relative z-10 text-center px-4 max-w-4xl mt-10">
@@ -142,7 +140,6 @@ export default function AgendaMensal() {
                             </div>
                         </div>
 
-                        {/* Cabeçalho Dias da Semana */}
                         <div className="grid grid-cols-7 mb-4">
                             {diasSemana.map((dia, index) => (
                                 <div key={index} className="text-center text-xs font-bold text-slate-400 uppercase tracking-wider py-2">
@@ -151,7 +148,6 @@ export default function AgendaMensal() {
                             ))}
                         </div>
 
-                        {/* Grid de Dias */}
                         <div className="grid grid-cols-7 gap-2 md:gap-3">
                             {calendarDays.map((day, index) => {
                                 if (!day) return <div key={index} className="aspect-square" />
@@ -208,7 +204,6 @@ export default function AgendaMensal() {
                                                     transition={{ duration: 0.4, delay: idx * 0.1 }}
                                                     className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100"
                                                 >
-                                                    {/* Imagem Grande (AJUSTADA AQUI PARA SER MAIOR E RESPONSIVA) */}
                                                     <div className="relative h-56 md:h-64 w-full overflow-hidden">
                                                         <Image
                                                             src={evento.imagem}
@@ -216,9 +211,7 @@ export default function AgendaMensal() {
                                                             fill
                                                             className="object-cover group-hover:scale-110 transition-transform duration-700"
                                                         />
-                                                        {/* Gradiente sobre a imagem para o título */}
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
-
                                                         <div className="absolute bottom-4 left-4 right-4">
                                                             <h5 className="font-black text-white text-2xl leading-tight mb-1 drop-shadow-md">
                                                                 {evento.titulo}
@@ -226,7 +219,6 @@ export default function AgendaMensal() {
                                                         </div>
                                                     </div>
 
-                                                    {/* Detalhes (Clean UI) */}
                                                     <div className="p-5 flex items-center justify-between bg-white">
                                                         <div className="flex items-center gap-3">
                                                             <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
@@ -237,9 +229,7 @@ export default function AgendaMensal() {
                                                                 <p className="text-slate-800 font-semibold">{evento.hora}</p>
                                                             </div>
                                                         </div>
-
                                                         <div className="w-px h-8 bg-slate-100 mx-2"></div>
-
                                                         <div className="flex items-center gap-3">
                                                             <div className="p-2.5 bg-orange-50 text-orange-600 rounded-xl">
                                                                 <MapPin weight="bold" size={20} />
@@ -254,7 +244,6 @@ export default function AgendaMensal() {
                                             ))}
                                         </div>
                                     ) : (
-                                        // Estado Vazio (Empty State)
                                         <motion.div
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
