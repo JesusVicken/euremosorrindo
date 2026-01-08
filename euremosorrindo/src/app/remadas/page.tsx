@@ -302,11 +302,7 @@ export default function StoreGrid() {
                         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
 
                         <div className="relative z-10 flex flex-col items-center">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-sm font-bold uppercase tracking-wider mb-6">
-                                <FileText size={16} />
-                                Transparência Total
-                            </div>
-
+                          
                             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
                                 Confira nossos Planos e Valores
                             </h3>
