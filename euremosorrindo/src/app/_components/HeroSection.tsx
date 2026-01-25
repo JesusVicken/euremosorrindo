@@ -100,7 +100,7 @@ export default function HeroSection() {
                 playsInline
                 className="absolute inset-0 object-cover object-center w-full h-full -z-10"
             >
-                <source src="/bgfernanda2.mp4" type="video/mp4" />
+                <source src="/bgfernanda.mp4" type="video/mp4" />
                 Seu navegador não suporta vídeos HTML5.
             </video>
 
