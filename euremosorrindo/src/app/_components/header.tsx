@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, ChevronDown } from 'lucide-react' // Removi X, Phone, Instagram não usados aqui diretamente se não forem necessários, mas mantive imports
+import { Menu, ChevronDown } from 'lucide-react' 
 
 // UI Components
 import { Button } from '@/components/ui/button'
@@ -23,7 +23,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Phone, Instagram } from 'lucide-react' // Re-adicionando se foram usados no mobile menu
+import { Phone, Instagram } from 'lucide-react' 
 
 export default function Header() {
     const [hoverDropdown, setHoverDropdown] = useState<string | null>(null)
@@ -46,8 +46,9 @@ export default function Header() {
         { href: '/guarderia', label: 'Guarderia' },
         { href: '/movimentos', label: 'Projetos' },
         { href: '/planos', label: 'Parceiros' },
-        { href: '/agenda', label: 'Eventos' },
-        { href: '/fotos', label: 'Fotos' },
+        { href: '/agenda', label: 'Agenda' },
+        { href: '/fotos', label: 'Passeios' },
+        { href: '/galeria', label: 'Galeria' },
         { href: '/produtos', label: 'Loja Oficial' },
         { href: '/contatos', label: 'Contato' },
     ]
@@ -66,18 +67,12 @@ export default function Header() {
 
     return (
         <header className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-100 shadow-sm transition-all duration-300">
-            {/* AJUSTE AQUI: 
-               Reduzi a altura de h-24/h-28 para h-20 (80px) no mobile e h-24 (96px) no desktop.
-               Isso diminui o "padding" visual vertical.
-            */}
+            
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 md:h-24 flex items-center justify-between">
 
                 {/* --- LOGO --- */}
                 <Link href="/" className="relative z-50 block shrink-0 mr-6">
-                    {/* AJUSTE AQUI: 
-                       Ajustei o container da logo para caber na nova altura sem ficar pequena.
-                       w-36 h-16 (mobile) e w-48 h-20 (desktop).
-                    */}
+                   
                     <div className="relative w-36 h-16 md:w-48 md:h-20">
                         <Image
                             src="/logoeuremo.png"
