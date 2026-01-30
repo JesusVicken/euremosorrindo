@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Waves, Droplets, MapPin, ArrowRight, Clock } from "lucide-react";
+import { ShieldCheck, Waves, Droplets, MapPin, ArrowRight, Clock, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 
 const features = [
@@ -25,6 +25,12 @@ const features = [
         title: "Pronto para Remar",
         description: "Esqueça o rack do carro. Chegue, pegue seu remo e vá para a água em minutos.",
     },
+];
+
+const plans = [
+    { name: "Mensal", price: "220", period: "/mês", highlight: false },
+    { name: "Semestral", price: "180", period: "/mês", highlight: false },
+    { name: "Anual", price: "150", period: "/mês", highlight: true }, // Destaque para o melhor valor
 ];
 
 export default function GuarderiaSection() {
@@ -80,14 +86,51 @@ export default function GuarderiaSection() {
                             ))}
                         </div>
 
+                        {/* === NOVA SEÇÃO DE PREÇOS === */}
+                        <div className="mt-8">
+                            <h4 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <Clock className="w-4 h-4" /> Planos Disponíveis
+                            </h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                {plans.map((plan, index) => (
+                                    <div
+                                        key={index}
+                                        className={`
+                                            relative p-4 rounded-xl border flex flex-col items-center text-center transition-all duration-300
+                                            ${plan.highlight
+                                                ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200 transform sm:-translate-y-2"
+                                                : "bg-white border-slate-200 text-slate-700 hover:border-blue-300"
+                                            }
+                                        `}
+                                    >
+                                        {plan.highlight && (
+                                            <div className="absolute -top-3 bg-cyan-400 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                                Melhor Valor
+                                            </div>
+                                        )}
+                                        <span className={`text-xs font-semibold uppercase mb-1 ${plan.highlight ? "text-blue-100" : "text-slate-400"}`}>
+                                            {plan.name}
+                                        </span>
+                                        <div className="flex items-baseline gap-0.5">
+                                            <span className={`text-xs ${plan.highlight ? "text-blue-200" : "text-slate-400"}`}>R$</span>
+                                            <span className="text-2xl font-bold">{plan.price}</span>
+                                        </div>
+                                        <span className={`text-[10px] ${plan.highlight ? "text-blue-200" : "text-slate-400"}`}>
+                                            {plan.period}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                         {/* Botões de Ação */}
-                        <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                        <div className="mt-6 flex flex-col sm:flex-row gap-4">
                             <button className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold hover:shadow-lg hover:shadow-blue-500/30 transition-all active:scale-95">
                                 Garantir minha Vaga
                                 <ArrowRight size={18} />
                             </button>
                             <button className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all">
-                                Conhecer Planos
+                                Falar no WhatsApp
                             </button>
                         </div>
                     </motion.div>
@@ -104,12 +147,12 @@ export default function GuarderiaSection() {
                         <div className="relative w-full aspect-[4/3] lg:aspect-[3/4] xl:aspect-square rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
 
                             <Image
-                                src="/guarderia.jpg" 
+                                src="/guarderia.jpg"
                                 alt="Espaço da Guarderia Eu Remo Sorrindo"
                                 fill
                                 className="object-cover hover:scale-105 transition-transform duration-700"
                                 sizes="(max-width: 768px) 100vw, 50vw"
-                                priority // Carrega rápido no mobile
+                                priority
                             />
 
                             {/* Overlay Gradiente para legibilidade do card */}
