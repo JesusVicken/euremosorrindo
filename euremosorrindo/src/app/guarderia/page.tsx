@@ -12,7 +12,7 @@ const features = [
     },
     {
         icon: MapPin,
-        title: "Pé na Areia",
+        title: "Pé na Água",
         description: "Localização estratégica. Saia da guarderia e entre direto na água, sem esforço.",
     },
     {
