@@ -3,7 +3,16 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CaretLeft, CaretRight, MapPin, Clock, CalendarBlank } from '@phosphor-icons/react/dist/ssr'
+import {
+    CaretLeft,
+    CaretRight,
+    MapPin,
+    Clock,
+    CalendarBlank,
+    Ticket,
+    ArrowsOutSimple, // Ícone para expandir
+    X // Ícone para fechar
+} from '@phosphor-icons/react/dist/ssr'
 
 // --- FUNÇÕES AUXILIARES ---
 const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: string, local: string, hora: string) => {
@@ -21,45 +30,48 @@ const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: str
 
 // --- BANCO DE DADOS DE EVENTOS ---
 const eventosFixos = [
-    // --- JANEIRO 2026 (Baseado na imagem enviada) ---
-    { date: '2026-01-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Pontão', hora: '18:10' },
-    { date: '2026-01-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Pontão', hora: '19:00' },
-    { date: '2026-01-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Pontão', hora: '20:00' },
-
-    { date: '2026-01-10', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Deck Norte', hora: '17:15' },
-    { date: '2026-01-17', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Deck Norte', hora: '17:15' },
-    { date: '2026-01-24', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Deck Norte', hora: '17:15' },
-
+    // --- JANEIRO 2026 ---
+    { date: '2026-01-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:10' },
+    { date: '2026-01-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
+    { date: '2026-01-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '20:00' },
+    { date: '2026-01-10', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+    { date: '2026-01-17', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+    { date: '2026-01-24', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
     { date: '2026-01-11', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
     { date: '2026-01-18', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
     { date: '2026-01-25', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-01-31', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:50' },
 
-    // --- DEZEMBRO 2025 (Mantidos para histórico) ---
-    { date: '2025-12-03', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Pontão', hora: '19:30' },
-    { date: '2025-12-04', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Pontão', hora: '19:30' },
-    // ... outros de dezembro
+    // --- FEVEREIRO 2026 ---
+    { date: '2026-02-01', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:30' },
+    { date: '2026-02-02', titulo: 'Cortejo para Iemanjá', imagem: '/cards/iemanja.jpeg', local: 'Clube ASSTJ', hora: '08:00 e 12:00' },
+    { date: '2026-02-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:10' },
+    { date: '2026-02-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:50' },
+    { date: '2026-02-07', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:30' },
+    { date: '2026-02-08', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-02-15', titulo: 'Canoa Elétrica (Carnaval)', imagem: '/cards/carnaval.jpeg', local: 'Clube ASSTJ', hora: '10:00' },
+    { date: '2026-02-22', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-02-28', titulo: 'Trilha do Tapicuru', imagem: '/cards/tapicuru.jpeg', local: 'Tapicuru', hora: '09:30' },
+
+    // --- HISTÓRICO ---
+    { date: '2025-12-03', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Clube ASSTJ', hora: '19:30' },
+    { date: '2025-12-04', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Clube ASSTJ', hora: '19:30' },
 ]
 
-// Intervalos (Colônia de Férias e Recessos)
-const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'ASSTJ', 'Manhã e Tarde')
+const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'Clube ASSTJ', 'Manhã e Tarde')
 const recessoDezembro = gerarIntervalo('2025-12-22', '2025-12-31', 'Recesso', '/recesso.png', '-', 'Off')
-const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-01', 'Recesso', '/recesso.png', '-', 'Off') // Ajustado para dia 01 apenas, pois dia 02 já tem evento
+const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-01', 'Recesso', '/recesso.png', '-', 'Off')
 
-const eventosDB = [
-    ...eventosFixos,
-    ...coloniaFerias,
-    ...recessoDezembro,
-    ...recessoJaneiro
-]
-
+const eventosDB = [...eventosFixos, ...coloniaFerias, ...recessoDezembro, ...recessoJaneiro]
 const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
 export default function AgendaMensal() {
-    // INICIANDO EM JANEIRO DE 2026 (Mês 0 no JS é Janeiro)
     const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 1))
     const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
-    // Helpers
+    // NOVO STATE PARA O LIGHTBOX (IMAGEM EM TELA CHEIA)
+    const [previewImage, setPreviewImage] = useState<string | null>(null)
+
     const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate()
     const getFirstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay()
 
@@ -76,21 +88,16 @@ export default function AgendaMensal() {
     const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1))
     const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1))
 
-    const formatDateKey = (day: number) => {
-        return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-    }
-
+    const formatDateKey = (day: number) => `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     const monthName = currentDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
 
-    const selectedEvents = selectedDate
-        ? eventosDB.filter(e => e.date === selectedDate)
-        : []
+    const selectedEvents = selectedDate ? eventosDB.filter(e => e.date === selectedDate) : []
 
     return (
-        <section className="relative w-full bg-slate-50 text-slate-800 pb-24" id="agenda">
+        <section className="relative w-full bg-slate-50 pb-24 font-sans" id="agenda">
 
             {/* --- HERO BANNER --- */}
-            <div className="relative h-[50vh] min-h-[400px] w-full flex items-center justify-center overflow-hidden">
+            <div className="relative h-[45vh] min-h-[400px] w-full flex items-center justify-center overflow-hidden">
                 <Image
                     src="/bgEventos.jpg"
                     alt="Banner Eventos"
@@ -98,43 +105,52 @@ export default function AgendaMensal() {
                     className="object-cover"
                     priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-slate-50" />
-
-                <div className="relative z-10 text-center px-4 max-w-4xl mt-10">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 via-blue-900/40 to-slate-50" />
+                <div className="relative z-10 text-center px-4 max-w-4xl mt-8">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6 }}
+                        className="inline-block mb-3 px-4 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs md:text-sm uppercase tracking-widest font-bold"
+                    >
+                        Agenda & Experiências
+                    </motion.div>
                     <motion.h1
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
                         className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight drop-shadow-lg"
                     >
-                        Nossos Eventos e Remadas
+                        Próximas Aventuras
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl md:text-2xl text-slate-200 font-medium tracking-wide drop-shadow-md"
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        className="text-lg md:text-xl text-slate-200 font-medium max-w-2xl mx-auto"
                     >
-                        Selecione a sua próxima aventura
+                        Confira o calendário completo do Clube ASSTJ e garanta seu lugar.
                     </motion.p>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 md:px-6 max-w-7xl -mt-20 relative z-20">
-                <div className="grid lg:grid-cols-12 gap-8 items-start">
+            <div className="container mx-auto px-4 md:px-6 max-w-7xl -mt-24 relative z-20">
+                <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
 
-                    {/* --- CALENDÁRIO --- */}
-                    <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-[2.5rem] p-6 md:p-8 shadow-2xl shadow-slate-200/50 border border-slate-100">
-                        <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-2xl font-bold capitalize text-slate-800 flex items-center gap-2">
-                                <CalendarBlank weight="duotone" className="text-blue-600" size={32} />
+                    {/* --- COLUNA ESQUERDA: CALENDÁRIO --- */}
+                    <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-[2rem] p-6 md:p-8 shadow-2xl shadow-slate-200/60 border border-slate-100">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                            <h3 className="text-2xl md:text-3xl font-bold capitalize text-slate-800 flex items-center gap-3">
+                                <span className="bg-blue-100 text-blue-600 p-2 rounded-xl">
+                                    <CalendarBlank weight="fill" size={28} />
+                                </span>
                                 {monthName}
                             </h3>
-                            <div className="flex gap-2 bg-slate-100 p-1 rounded-full">
-                                <button onClick={prevMonth} className="p-2 hover:bg-white hover:shadow-sm rounded-full transition-all text-slate-600">
+                            <div className="flex gap-2 bg-slate-50 p-1.5 rounded-full border border-slate-100 self-start md:self-auto">
+                                <button onClick={prevMonth} className="p-2 hover:bg-white hover:shadow-md rounded-full transition-all text-slate-500 hover:text-blue-600">
                                     <CaretLeft size={20} weight="bold" />
                                 </button>
-                                <button onClick={nextMonth} className="p-2 hover:bg-white hover:shadow-sm rounded-full transition-all text-slate-600">
+                                <button onClick={nextMonth} className="p-2 hover:bg-white hover:shadow-md rounded-full transition-all text-slate-500 hover:text-blue-600">
                                     <CaretRight size={20} weight="bold" />
                                 </button>
                             </div>
@@ -142,16 +158,15 @@ export default function AgendaMensal() {
 
                         <div className="grid grid-cols-7 mb-4">
                             {diasSemana.map((dia, index) => (
-                                <div key={index} className="text-center text-xs font-bold text-slate-400 uppercase tracking-wider py-2">
+                                <div key={index} className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest py-2">
                                     {dia}
                                 </div>
                             ))}
                         </div>
 
-                        <div className="grid grid-cols-7 gap-2 md:gap-3">
+                        <div className="grid grid-cols-7 gap-2 md:gap-4">
                             {calendarDays.map((day, index) => {
                                 if (!day) return <div key={index} className="aspect-square" />
-
                                 const dateKey = formatDateKey(day)
                                 const hasEvent = eventosDB.some(e => e.date === dateKey)
                                 const isSelected = selectedDate === dateKey
@@ -163,18 +178,18 @@ export default function AgendaMensal() {
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => setSelectedDate(dateKey)}
                                         className={`
-                                            relative aspect-square rounded-2xl flex flex-col items-center justify-center text-sm md:text-lg font-semibold transition-all duration-300
+                                            relative aspect-square rounded-2xl flex flex-col items-center justify-center text-sm md:text-lg font-semibold transition-all duration-300 group
                                             ${isSelected
-                                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30 ring-2 ring-blue-600 ring-offset-2'
+                                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40'
                                                 : hasEvent
-                                                    ? 'bg-blue-50 text-blue-700 hover:bg-blue-100'
-                                                    : 'bg-transparent text-slate-500 hover:bg-slate-50'
+                                                    ? 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100'
+                                                    : 'bg-transparent text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-100'
                                             }
                                         `}
                                     >
-                                        <span>{day}</span>
+                                        <span className="z-10">{day}</span>
                                         {hasEvent && (
-                                            <div className={`w-1.5 h-1.5 rounded-full mt-1 ${isSelected ? 'bg-white' : 'bg-blue-500'}`} />
+                                            <div className={`absolute bottom-2 md:bottom-3 w-1.5 h-1.5 rounded-full transition-colors ${isSelected ? 'bg-white' : 'bg-blue-500 group-hover:bg-blue-600'}`} />
                                         )}
                                     </motion.button>
                                 )
@@ -182,63 +197,96 @@ export default function AgendaMensal() {
                         </div>
                     </div>
 
-                    {/* --- LISTA DE EVENTOS DO DIA --- */}
-                    <div className="lg:col-span-5 xl:col-span-4 h-full">
-                        <div className="bg-white/80 backdrop-blur-md rounded-[2.5rem] p-6 h-full border border-slate-200 min-h-[400px] flex flex-col">
-                            <h4 className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-6 text-center">
-                                {selectedDate
-                                    ? `Programação para ${new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}`
-                                    : 'Detalhes do Evento'}
-                            </h4>
+                    {/* --- COLUNA DIREITA: LISTA DE EVENTOS --- */}
+                    <div className="lg:col-span-5 xl:col-span-4 h-full min-h-[500px]">
+                        <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 h-full border border-slate-200 flex flex-col shadow-xl shadow-slate-200/40">
 
-                            <div className="flex-1 overflow-y-auto custom-scrollbar pr-1">
+                            <div className="mb-6 flex items-center justify-between">
+                                <h4 className="text-slate-500 font-bold uppercase tracking-widest text-xs">
+                                    {selectedDate ? 'Eventos do Dia' : 'Detalhes'}
+                                </h4>
+                                {selectedDate && (
+                                    <span className="text-xs font-semibold bg-blue-100 text-blue-700 px-2 py-1 rounded-md">
+                                        {new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })}
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto custom-scrollbar pr-1 -mr-1 pl-1 -ml-1">
                                 <AnimatePresence mode='wait'>
                                     {selectedEvents.length > 0 ? (
-                                        <div className="space-y-6">
+                                        <div className="space-y-5">
                                             {selectedEvents.map((evento, idx) => (
                                                 <motion.div
                                                     key={idx}
-                                                    initial={{ opacity: 0, y: 20 }}
+                                                    initial={{ opacity: 0, y: 15 }}
                                                     animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0, y: -20 }}
-                                                    transition={{ duration: 0.4, delay: idx * 0.1 }}
-                                                    className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100"
+                                                    exit={{ opacity: 0, y: -15 }}
+                                                    transition={{ duration: 0.3, delay: idx * 0.1 }}
+                                                    className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100"
                                                 >
-                                                    <div className="relative h-56 md:h-64 w-full overflow-hidden">
+                                                    {/* AREA DA IMAGEM: 
+                                                        - Clique abre o modal (setPreviewImage)
+                                                        - Cursor pointer para indicar clique
+                                                    */}
+                                                    <div
+                                                        className="relative h-64 md:h-72 w-full overflow-hidden cursor-zoom-in"
+                                                        onClick={() => setPreviewImage(evento.imagem)}
+                                                    >
                                                         <Image
                                                             src={evento.imagem}
                                                             alt={evento.titulo}
                                                             fill
-                                                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                                            className="object-cover group-hover:scale-105 transition-transform duration-700"
                                                         />
+
+                                                        {/* Gradiente e Titulo */}
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
-                                                        <div className="absolute bottom-4 left-4 right-4">
-                                                            <h5 className="font-black text-white text-2xl leading-tight mb-1 drop-shadow-md">
+                                                        <div className="absolute bottom-3 left-4 right-12">
+                                                            <h5 className="font-bold text-white text-lg leading-tight drop-shadow-md line-clamp-2">
                                                                 {evento.titulo}
                                                             </h5>
                                                         </div>
+
+                                                        {/* Botão Flutuante de Expandir */}
+                                                        <div className="absolute top-3 right-3 bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white hover:text-blue-600 transition-all shadow-sm border border-white/30">
+                                                            <ArrowsOutSimple size={20} weight="bold" />
+                                                        </div>
                                                     </div>
 
-                                                    <div className="p-5 flex items-center justify-between bg-white">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
-                                                                <Clock weight="bold" size={20} />
+                                                    <div className="p-4 bg-white">
+                                                        <div className="flex flex-col gap-3">
+                                                            <div className="flex items-center gap-3 text-sm">
+                                                                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                                                                    <Clock weight="bold" size={16} />
+                                                                </div>
+                                                                <div className="flex flex-col">
+                                                                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Horário</span>
+                                                                    <span className="font-semibold text-slate-700">{evento.hora}</span>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <p className="text-xs text-slate-400 font-bold uppercase">Horário</p>
-                                                                <p className="text-slate-800 font-semibold">{evento.hora}</p>
+
+                                                            <div className="h-px w-full bg-slate-50" />
+
+                                                            <div className="flex items-center gap-3 text-sm">
+                                                                <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-600 shrink-0">
+                                                                    <MapPin weight="bold" size={16} />
+                                                                </div>
+                                                                <div className="flex flex-col">
+                                                                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Local</span>
+                                                                    <span className="font-semibold text-slate-700">{evento.local}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className="w-px h-8 bg-slate-100 mx-2"></div>
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="p-2.5 bg-orange-50 text-orange-600 rounded-xl">
-                                                                <MapPin weight="bold" size={20} />
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-xs text-slate-400 font-bold uppercase">Local</p>
-                                                                <p className="text-slate-800 font-semibold">{evento.local}</p>
-                                                            </div>
-                                                        </div>
+
+                                                        {/* O botão também pode abrir a imagem se preferir, ou manter link */}
+                                                        <button
+                                                            onClick={() => setPreviewImage(evento.imagem)}
+                                                            className="w-full mt-4 py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold uppercase tracking-wide hover:bg-blue-600 hover:text-white transition-colors duration-300 flex items-center justify-center gap-2"
+                                                        >
+                                                            <Ticket size={16} weight="bold" />
+                                                            Ver Detalhes
+                                                        </button>
                                                     </div>
                                                 </motion.div>
                                             ))}
@@ -247,20 +295,24 @@ export default function AgendaMensal() {
                                         <motion.div
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            className="h-full flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50"
+                                            className="h-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-slate-200 rounded-2xl bg-slate-50/50"
                                         >
                                             {selectedDate ? (
-                                                <>
-                                                    <div className="text-5xl mb-4 opacity-50">😴</div>
-                                                    <p className="text-slate-500 font-medium">Nenhum evento agendado para este dia.</p>
-                                                    <p className="text-sm text-slate-400 mt-2">Aproveite para descansar!</p>
-                                                </>
+                                                <div className="flex flex-col items-center">
+                                                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-3xl mb-3">
+                                                        ☕
+                                                    </div>
+                                                    <p className="text-slate-600 font-semibold">Sem eventos</p>
+                                                    <p className="text-sm text-slate-400 mt-1 max-w-[200px]">Não há programação agendada para este dia no Clube ASSTJ.</p>
+                                                </div>
                                             ) : (
-                                                <>
-                                                    <div className="text-5xl mb-4 animate-bounce">👆</div>
-                                                    <p className="text-slate-800 font-bold text-lg">Escolha uma data</p>
-                                                    <p className="text-slate-500 mt-1">Clique no calendário para ver a programação.</p>
-                                                </>
+                                                <div className="flex flex-col items-center">
+                                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 mb-3 animate-pulse">
+                                                        <CalendarBlank weight="duotone" size={32} />
+                                                    </div>
+                                                    <p className="text-slate-800 font-bold">Explore a Agenda</p>
+                                                    <p className="text-sm text-slate-500 mt-1 max-w-[200px]">Clique em uma data destacada no calendário para ver os detalhes.</p>
+                                                </div>
                                             )}
                                         </motion.div>
                                     )}
@@ -271,6 +323,37 @@ export default function AgendaMensal() {
 
                 </div>
             </div>
+
+            {/* --- LIGHTBOX (MODAL DE IMAGEM) --- */}
+            <AnimatePresence>
+                {previewImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setPreviewImage(null)}
+                        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-10 cursor-zoom-out"
+                    >
+                        {/* Botão Fechar */}
+                        <button
+                            className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-all z-[110]"
+                        >
+                            <X size={32} weight="bold" />
+                        </button>
+
+                        <div className="relative w-full h-full max-w-5xl max-h-[90vh]">
+                            <Image
+                                src={previewImage}
+                                alt="Visualização do Evento"
+                                fill
+                                className="object-contain" // GARANTE QUE A FOTO APAREÇA INTEIRA SEM CORTES
+                                quality={100}
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
         </section>
     )
 }

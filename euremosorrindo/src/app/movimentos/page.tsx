@@ -20,7 +20,7 @@ import {
 
 gsap.registerPlugin(ScrollTrigger)
 
-// --- DADOS DOS PROJETOS ---
+// --- DADOS DOS PROJETOS (TEXTOS COMPLETOS) ---
 const projetos = [
     {
         id: 'apae-df',
@@ -33,9 +33,10 @@ const projetos = [
         video: '/apae.mp4',
         instagramUrl: 'https://instagram.com/apaedf',
         texto: [
-            "O projeto \"Remando Juntos com a APAE/DF\" é uma iniciativa de inclusão social e esportiva que transforma a vida de pessoas com deficiência intelectual e múltipla no Distrito Federal.",
-            "Fruto da parceria entre a APAE-DF e a Escola Eu Remo Sorrindo, patrocinado pelo Grupo Bauminas. As atividades acontecem no Lago Paranoá.",
-            "Mais do que lazer, o projeto oferece reabilitação e desenvolvimento motor, social e emocional."
+            "O projeto \"Remando Juntos com a APAE/DF\" é uma iniciativa de inclusão social e esportiva que transforma a vida de pessoas com deficiência intelectual e múltipla no Distrito Federal. Fruto da parceria entre a APAE do Distrito Federal e a Escola de Canoagem e Va'a Fernanda Rachid, conhecida como Eu Remo Sorrindo.",
+            "O projeto é patrocinado pelo Grupo Bauminas por meio do Programa da Lei de Incentivo do Ministério do Esporte. As atividades de canoagem e VA'A (canoa havaiana) são realizadas no Lago Paranoá e atendem os assistidos das quatro unidades da APAE/DF: Sobradinho, Asa Norte, Ceilândia e Guará.",
+            "Mais do que lazer, o projeto oferece reabilitação e desenvolvimento motor, social e emocional, preparando os participantes para a superação e, em alguns casos, para competições nacionais, como detalhado em reportagem do Correio Braziliense.",
+            "Acompanhe a jornada de inclusão e superação do projeto em seus canais de divulgação. Você pode conferir vídeos e a cobertura completa no YouTube da APAE/DF, além de fotos e atualizações diárias no Instagram da APAE/DF e no Instagram Eu Remo Sorrindo."
         ]
     },
     {
@@ -48,8 +49,9 @@ const projetos = [
         bgImage: '/paisefilhos.jpg',
         instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
-            "Iniciado em 2019, Fernanda Rachid levou seus alunos de classes especiais para remar junto com seus familiares.",
-            "A vivência revelou importantes benefícios nos campos cognitivo, sensório-motor e emocional, sendo decisiva para a fundação da escola."
+            "Iniciado em 2019, o projeto surgiu quando Fernanda Rachid conciliava a carreira de atleta de canoagem com a atuação como professora da Secretaria de Educação do DF em classes especiais.",
+            "Nos horários alternados às aulas, passou a levar seus alunos — crianças e adolescentes com deficiência intelectual e TEA — para remar junto com seus familiares.",
+            "A vivência revelou importantes benefícios nos campos cognitivo, sensório-motor, emocional, relacional e comportamental, percebidos tanto na rotina escolar quanto nos relatos das famílias. Essa experiência foi decisiva para a fundação da Escola Eu Remo Sorrindo."
         ]
     },
     {
@@ -62,8 +64,8 @@ const projetos = [
         bgImage: '/ecoremada.jpg',
         instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
-            "Movimento socioambiental iniciado em 2019 para sensibilizar sobre a preservação do Rio Pomba.",
-            "Promove educação socioambiental, limpeza de rios e o esporte consciente."
+            "Movimento socioambiental de canoagem iniciado em 2019, a Ecoremada surgiu para sensibilizar sobre a preservação do Rio Pomba, em Cataguases/MG e região.",
+            "Com ações recorrentes, promove educação socioambiental e o esporte consciente por meio de oficinas, workshops, palestras, ações solidárias, limpeza de rios e espelhos d’água, além de festivais, travessias e campeonatos de canoagem."
         ]
     },
     {
@@ -76,8 +78,9 @@ const projetos = [
         bgImage: '/caiaquecomunitario.jpg',
         instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
-            "Projeto desenvolvido na UnB. Entre 2009 e 2014, ofereceu aulas de canoagem para mais de 6 mil pessoas.",
-            "Em 2023, a iniciativa foi retomada em parceria com a Escola Fernanda Rachid."
+            "Projeto desenvolvido na Universidade de Brasília pelo Decanato de Assuntos Comunitários e pela Diretoria de Esportes, Arte e Cultura, na gestão de Lucila Rondon, mentora da iniciativa. Fernanda Rachid foi coautora e participou de todo o planejamento e implementação.",
+            "Entre 2009 e 2014, o projeto ofereceu aulas regulares de canoagem e oficinas de educação socioambiental para a comunidade acadêmica e o público externo, atendendo mais de 6 mil pessoas.",
+            "Em 2023, a iniciativa foi retomada por um ano por meio da parceria entre a Escola Fernanda Rachid e a UnB. Atualmente, estão em andamento as tratativas para o retorno das atividades."
         ]
     },
     {
@@ -90,7 +93,8 @@ const projetos = [
         bgImage: '/cucaUnb.jpg',
         instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
-            "O Clube foi revitalizado em 2010 com uma nova proposta pedagógica e técnica, retomando a participação em campeonatos nacionais."
+            "O Clube foi fundado na década de 1988. Em 2010, o grupo de professores e participantes do Projeto Caiaque Comunitário revitalizou o clube com uma nova proposta pedagógica e técnica.",
+            "Com treinos regulares, foi possível retomar a participação da equipe nos campeonatos regionais e nacionais."
         ]
     },
     {
@@ -103,7 +107,8 @@ const projetos = [
         bgImage: '/movimentos_matriz.jpg',
         instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
-            "Metodologia de ensino e aprendizagem em educação ambiental para reconhecimento das bacias hidrográficas e do cerrado."
+            "Água como Matriz Ecopedagógica é uma metodologia de ensino e aprendizagem em educação ambiental idealizada pelas professoras Vera Catalão e Maria do Socorro Rodrigues.",
+            "Reconhecimento das bacias hidrográficas e do cerrado, por meio de cursos, atividades lúdico pedagógicas e vivências."
         ]
     },
     {
@@ -117,7 +122,8 @@ const projetos = [
         isLowRes: true,
         instagramUrl: 'https://instagram.com/euremosorrindo',
         texto: [
-            "Projeto de sensibilização e educação comunitária com mais de 20.000 pessoas impactadas."
+            "Projeto realizado entre os anos de 2014 e 2016 com vistas à sensibilização e educação comunitária realizada por meio de vivências e oficinas.",
+            "Foram mais de 20.000 pessoas impactadas e implantação de tecnologias sociais em seis escolas do Distrito Federal."
         ]
     }
 ]
@@ -277,7 +283,7 @@ export default function InfoProjetos() {
     )
 }
 
-// --- Componente Accordion (Mantido igual, apenas ajuste de cores se necessário) ---
+// --- Componente Accordion ---
 interface AccordionItemProps {
     data: any;
     isOpen: boolean;
@@ -348,7 +354,9 @@ function AccordionItem({ data, isOpen, onClick, onVerGaleria }: AccordionItemPro
 
             <div ref={contentRef} className="h-0 opacity-0 overflow-hidden cursor-default bg-transparent">
                 <div className="px-4 pb-6 pl-[4.5rem] pr-4">
-                    <div className="space-y-3 text-gray-700 leading-relaxed text-sm text-justify">
+                    <div className="w-full h-px bg-gradient-to-r from-gray-200 via-gray-100 to-transparent mb-4 opacity-70"></div>
+
+                    <div className="space-y-3 text-gray-700 leading-relaxed text-sm text-justify font-normal tracking-wide">
                         {data.texto.map((paragrafo: string, idx: number) => (
                             <p key={idx}>{paragrafo}</p>
                         ))}
