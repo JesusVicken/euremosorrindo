@@ -20,7 +20,7 @@ const allImages = [
     { id: 7, src: "/fernanda/fer7.jpg", alt: "Sorriso no Rosto", category: "Alunos", aspect: "square" },
 
     // Lote 3: Caiaque
-    { id: 8, src: "/AULAS/CAIAQUE/CAIAQUE1.jpg", alt: "Aula de Caiaque", category: "Caiaque", aspect: "portrait" },
+    { id: 8, src: "/AULAS/CAIAQUE/caiaque1.jpg", alt: "Aula de Caiaque", category: "Caiaque", aspect: "portrait" },
     { id: 9, src: "/AULAS/CAIAQUE/CAIAQUE2.jpg", alt: "Equilíbrio na Água", category: "Caiaque", aspect: "portrait" },
     { id: 10, src: "/AULAS/CAIAQUE/CAIAQUE3.jpg", alt: "Liberdade", category: "Caiaque", aspect: "portrait" },
 
