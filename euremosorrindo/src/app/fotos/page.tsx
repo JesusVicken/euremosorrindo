@@ -8,19 +8,21 @@ import { X, ZoomIn, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react
 import gsap from "gsap";
 
 const galleryItems = [
-    { id: 1, src: "/cards/colonia.png", title: "Colônia de Férias", tag: "Verão 2025", href: "https://escolafernandarachid.com.br/c/colonia-de-ferias" },
-    { id: 2, src: "/cards/entrepontes.png", title: "Remada Entre Pontes", tag: "Expedição", href: "https://escolafernandarachid.com.br/c/aulas-de-vaa-canoa-havaiana" },
-    { id: 3, src: "/cards/FR - Card 10 - Remada Astral_capa.png", title: "Remada Astral", tag: "Nascer do Sol", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
-    { id: 4, src: "/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png", title: "Remada Lua Cheia", tag: "Noturno", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
-    { id: 5, src: "/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png", title: "Turmas Infanto-Juvenis", tag: "Aulas", href: "https://escolafernandarachid.com.br/c/aulas-kids-teen-canoagem-e-vaa" },
-    { id: 6, src: "/cards/FR - Card 14 - Lagoinha_capa.png", title: "Trilha Lagoinha", tag: "Aventura", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
-    { id: 7, src: "/cards/FR - Card 16 - Trilha Tapicuru_capa.png", title: "Trilha Tapicuru", tag: "Ecoturismo", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
-    { id: 8, src: "/cards/FR - OUT - Halloween_31-10.png", title: "Halloween a Remada", tag: "Evento Temático", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
-    { id: 9, src: "/cards/por.png", title: "Remada Pôr do Sol", tag: "Sunset", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
-    { id: 10, src: "/cards/horários aulas .png", title: "Grade de Horários", tag: "Informativo", href: "https://escolafernandarachid.com.br/c/aulas-de-canoagem-caiaque" },
-    { id: 11, src: "/cards/parceria wellhub_.jpg", title: "Parceria Wellhub", tag: "Benefício", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
-    { id: 12, src: "/cards/wellhub totalpass.jpg", title: "Wellhub & TotalPass", tag: "Parceiros", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 1, src: "/cards/colonia.png", title: "Colônia de Férias", tag: "Verão 2025" },
+    { id: 2, src: "/cards/entrepontes.png", title: "Remada Entre Pontes", tag: "Expedição" },
+    { id: 3, src: "/cards/FR - Card 10 - Remada Astral_capa.png", title: "Remada Astral", tag: "Nascer do Sol" },
+    { id: 4, src: "/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png", title: "Remada Lua Cheia", tag: "Noturno" },
+    { id: 5, src: "/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png", title: "Turmas Infanto-Juvenis", tag: "Aulas" },
+    { id: 6, src: "/cards/FR - Card 14 - Lagoinha_capa.png", title: "Trilha Lagoinha", tag: "Aventura" },
+    { id: 7, src: "/cards/FR - Card 16 - Trilha Tapicuru_capa.png", title: "Trilha Tapicuru", tag: "Ecoturismo" },
+    { id: 8, src: "/cards/FR - OUT - Halloween_31-10.png", title: "Halloween a Remada", tag: "Evento Temático" },
+    { id: 9, src: "/cards/por.png", title: "Remada Pôr do Sol", tag: "Sunset" },
+    { id: 10, src: "/cards/horários aulas .png", title: "Grade de Horários", tag: "Informativo" },
+    { id: 11, src: "/cards/parceria wellhub_.jpg", title: "Parceria Wellhub", tag: "Benefício" },
+    { id: 12, src: "/cards/wellhub totalpass.jpg", title: "Wellhub & TotalPass", tag: "Parceiros" },
 ];
+
+const REDIRECT_URL = "https://escolafernandarachid.com.br/";
 
 export default function EventsGallery() {
     const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -193,7 +195,7 @@ export default function EventsGallery() {
 
                                     <div ref={buttonRef} className="w-full px-4">
                                         <Link
-                                            href={item.href}
+                                            href={REDIRECT_URL}
                                             target="_blank"
                                             className="flex items-center justify-center gap-2 w-full bg-white text-blue-600 font-black py-4 rounded-xl transition-all shadow-xl hover:bg-blue-50 active:scale-[0.98] uppercase tracking-widest"
                                         >
