@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
     CaretLeft,
@@ -10,9 +11,12 @@ import {
     Clock,
     CalendarBlank,
     Ticket,
-    ArrowsOutSimple, // Ícone para expandir
-    X // Ícone para fechar
+    ArrowsOutSimple,
+    X
 } from '@phosphor-icons/react/dist/ssr'
+
+// --- CONFIGURAÇÃO ---
+const REDIRECT_URL = "https://escolafernandarachid.com.br/"
 
 // --- FUNÇÕES AUXILIARES ---
 const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: string, local: string, hora: string) => {
@@ -30,6 +34,33 @@ const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: str
 
 // --- BANCO DE DADOS DE EVENTOS ---
 const eventosFixos = [
+    // --- MARÇO 2026 ---
+    // Lua Cheia
+    { date: '2026-03-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:00' },
+    { date: '2026-03-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:30' },
+    { date: '2026-03-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
+    { date: '2026-03-05', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:30' },
+
+    // Trilha da Lagoinha (Domingos)
+    { date: '2026-03-01', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-03-08', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-03-15', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-03-22', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-03-29', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+
+    // Trilha do Tapicuru (Sábados)
+    { date: '2026-03-14', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
+    { date: '2026-03-21', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
+    { date: '2026-03-28', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
+
+    // Só para Mulheres
+    { date: '2026-03-08', titulo: 'Remada Só Para Mulheres', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ', hora: '17:00' },
+
+    // Remada Pôr do Sol (Sábados)
+    { date: '2026-03-14', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
+    { date: '2026-03-21', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
+    { date: '2026-03-28', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
+
     // --- JANEIRO 2026 ---
     { date: '2026-01-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:10' },
     { date: '2026-01-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
@@ -66,11 +97,27 @@ const eventosDB = [...eventosFixos, ...coloniaFerias, ...recessoDezembro, ...rec
 const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
 export default function AgendaMensal() {
-    const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 1))
+    // Inicializa com a data e hora do carregamento do componente
+    const [currentDate, setCurrentDate] = useState<Date | null>(null)
     const [selectedDate, setSelectedDate] = useState<string | null>(null)
-
-    // NOVO STATE PARA O LIGHTBOX (IMAGEM EM TELA CHEIA)
     const [previewImage, setPreviewImage] = useState<string | null>(null)
+
+    // Hook para garantir que a data atual seja setada apenas no cliente
+    useEffect(() => {
+        const today = new Date()
+        setCurrentDate(today)
+
+        // Formata o dia atual para YYYY-MM-DD
+        const year = today.getFullYear()
+        const month = String(today.getMonth() + 1).padStart(2, '0')
+        const day = String(today.getDate()).padStart(2, '0')
+        const todayKey = `${year}-${month}-${day}`
+
+        setSelectedDate(todayKey)
+    }, [])
+
+    // Se o currentDate ainda for nulo (renderizando no servidor), retorna null para evitar hydrate mismatch
+    if (!currentDate) return null;
 
     const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate()
     const getFirstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay()
@@ -92,6 +139,11 @@ export default function AgendaMensal() {
     const monthName = currentDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
 
     const selectedEvents = selectedDate ? eventosDB.filter(e => e.date === selectedDate) : []
+
+    // Para identificar se é o dia de hoje e dar um destaque extra
+    const todayObj = new Date()
+    const todayKeyString = `${todayObj.getFullYear()}-${String(todayObj.getMonth() + 1).padStart(2, '0')}-${String(todayObj.getDate()).padStart(2, '0')}`
+
 
     return (
         <section className="relative w-full bg-slate-50 pb-24 font-sans" id="agenda">
@@ -170,6 +222,7 @@ export default function AgendaMensal() {
                                 const dateKey = formatDateKey(day)
                                 const hasEvent = eventosDB.some(e => e.date === dateKey)
                                 const isSelected = selectedDate === dateKey
+                                const isToday = dateKey === todayKeyString
 
                                 return (
                                     <motion.button
@@ -181,15 +234,21 @@ export default function AgendaMensal() {
                                             relative aspect-square rounded-2xl flex flex-col items-center justify-center text-sm md:text-lg font-semibold transition-all duration-300 group
                                             ${isSelected
                                                 ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40'
-                                                : hasEvent
-                                                    ? 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100'
-                                                    : 'bg-transparent text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-100'
+                                                : isToday
+                                                    ? 'bg-cyan-100 text-cyan-800 border border-cyan-300' // Destaque para o dia de hoje quando não selecionado
+                                                    : hasEvent
+                                                        ? 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100'
+                                                        : 'bg-transparent text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-100'
                                             }
                                         `}
                                     >
                                         <span className="z-10">{day}</span>
                                         {hasEvent && (
                                             <div className={`absolute bottom-2 md:bottom-3 w-1.5 h-1.5 rounded-full transition-colors ${isSelected ? 'bg-white' : 'bg-blue-500 group-hover:bg-blue-600'}`} />
+                                        )}
+                                        {/* Pequeno indicador extra para o dia de hoje, se preferir */}
+                                        {isToday && !isSelected && (
+                                            <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-cyan-500 rounded-full" />
                                         )}
                                     </motion.button>
                                 )
@@ -203,7 +262,7 @@ export default function AgendaMensal() {
 
                             <div className="mb-6 flex items-center justify-between">
                                 <h4 className="text-slate-500 font-bold uppercase tracking-widest text-xs">
-                                    {selectedDate ? 'Eventos do Dia' : 'Detalhes'}
+                                    {selectedDate === todayKeyString ? 'Eventos de Hoje' : selectedDate ? 'Eventos do Dia' : 'Detalhes'}
                                 </h4>
                                 {selectedDate && (
                                     <span className="text-xs font-semibold bg-blue-100 text-blue-700 px-2 py-1 rounded-md">
@@ -225,10 +284,7 @@ export default function AgendaMensal() {
                                                     transition={{ duration: 0.3, delay: idx * 0.1 }}
                                                     className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100"
                                                 >
-                                                    {/* AREA DA IMAGEM: 
-                                                        - Clique abre o modal (setPreviewImage)
-                                                        - Cursor pointer para indicar clique
-                                                    */}
+                                                    {/* AREA DA IMAGEM E PREVIEW */}
                                                     <div
                                                         className="relative h-64 md:h-72 w-full overflow-hidden cursor-zoom-in"
                                                         onClick={() => setPreviewImage(evento.imagem)}
@@ -249,7 +305,7 @@ export default function AgendaMensal() {
                                                         </div>
 
                                                         {/* Botão Flutuante de Expandir */}
-                                                        <div className="absolute top-3 right-3 bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white hover:text-blue-600 transition-all shadow-sm border border-white/30">
+                                                        <div className="absolute top-3 right-3 bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white hover:text-blue-600 transition-all shadow-sm border border-white/30 z-10">
                                                             <ArrowsOutSimple size={20} weight="bold" />
                                                         </div>
                                                     </div>
@@ -279,14 +335,15 @@ export default function AgendaMensal() {
                                                             </div>
                                                         </div>
 
-                                                        {/* O botão também pode abrir a imagem se preferir, ou manter link */}
-                                                        <button
-                                                            onClick={() => setPreviewImage(evento.imagem)}
-                                                            className="w-full mt-4 py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold uppercase tracking-wide hover:bg-blue-600 hover:text-white transition-colors duration-300 flex items-center justify-center gap-2"
+                                                        {/* BOTÃO REDIRECIONAR (Link Único) */}
+                                                        <Link
+                                                            href={REDIRECT_URL}
+                                                            target="_blank"
+                                                            className="w-full mt-4 py-3 rounded-xl bg-blue-600 text-white text-xs font-bold uppercase tracking-wide hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center gap-2"
                                                         >
                                                             <Ticket size={16} weight="bold" />
-                                                            Ver Detalhes
-                                                        </button>
+                                                            Reservar Agora
+                                                        </Link>
                                                     </div>
                                                 </motion.div>
                                             ))}
@@ -297,23 +354,19 @@ export default function AgendaMensal() {
                                             animate={{ opacity: 1 }}
                                             className="h-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-slate-200 rounded-2xl bg-slate-50/50"
                                         >
-                                            {selectedDate ? (
-                                                <div className="flex flex-col items-center">
-                                                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-3xl mb-3">
-                                                        ☕
-                                                    </div>
-                                                    <p className="text-slate-600 font-semibold">Sem eventos</p>
-                                                    <p className="text-sm text-slate-400 mt-1 max-w-[200px]">Não há programação agendada para este dia no Clube ASSTJ.</p>
+                                            <div className="flex flex-col items-center">
+                                                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 mb-3 animate-pulse">
+                                                    <CalendarBlank weight="duotone" size={32} />
                                                 </div>
-                                            ) : (
-                                                <div className="flex flex-col items-center">
-                                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 mb-3 animate-pulse">
-                                                        <CalendarBlank weight="duotone" size={32} />
-                                                    </div>
-                                                    <p className="text-slate-800 font-bold">Explore a Agenda</p>
-                                                    <p className="text-sm text-slate-500 mt-1 max-w-[200px]">Clique em uma data destacada no calendário para ver os detalhes.</p>
-                                                </div>
-                                            )}
+                                                <p className="text-slate-800 font-bold">
+                                                    {selectedDate === todayKeyString ? "Nenhum evento hoje" : "Explore a Agenda"}
+                                                </p>
+                                                <p className="text-sm text-slate-500 mt-1 max-w-[200px]">
+                                                    {selectedDate === todayKeyString
+                                                        ? "Aproveite o dia para recarregar as energias!"
+                                                        : "Clique em uma data destacada no calendário para ver os detalhes da programação."}
+                                                </p>
+                                            </div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -346,7 +399,7 @@ export default function AgendaMensal() {
                                 src={previewImage}
                                 alt="Visualização do Evento"
                                 fill
-                                className="object-contain" // GARANTE QUE A FOTO APAREÇA INTEIRA SEM CORTES
+                                className="object-contain" 
                                 quality={100}
                             />
                         </div>
