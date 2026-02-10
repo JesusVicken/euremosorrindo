@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
 
 const brands = [
     {
-        name: "Fundação Baúminas",
+        name: "Fundação Bauminas",
         logo: "/bauminas.jpg",
         description: "Fundação dedicada ao desenvolvimento esportivo, cultural e social",
         category: "Social",
@@ -264,7 +264,7 @@ export default function ParceirosPage() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {brands.map((brand, index) => {
-                        const isFeatured = brand.name === "Fundação Baúminas";
+                        const isFeatured = brand.name === "Fundação Bauminas";
 
                         return (
                             <div key={index} className="partner-card h-full">
@@ -297,10 +297,7 @@ export default function ParceirosPage() {
                                             )}
 
                                             <div className="flex flex-col items-center text-center h-full">
-                                                {/* AQUI ESTÁ A LÓGICA DE TAMANHO:
-                                                    Se for isFeatured (Baúminas), usamos w-64 h-64 (quadrado grande).
-                                                    Senão, usamos w-48 h-24 (retangular menor).
-                                                */}
+                                                
                                                 <div className={`relative mb-8 shrink-0 ${isFeatured ? "w-64 h-64" : "w-48 h-24"}`}>
                                                     <Image
                                                         src={brand.logo}

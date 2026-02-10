@@ -25,7 +25,7 @@ const brands = [
         url: "https://www.rumobrasil.com.br/"
     },
     {
-        name: "Fundação Baúminas",
+        name: "Fundação Bauminas",
         logo: "/bauminas.jpg",
         description: "Fundação dedicada ao desenvolvimento esportivo, cultural e social",
         category: "Social",
@@ -252,7 +252,7 @@ export default function ContatoPage() {
                             </div>
 
                             <p className="text-slate-600 text-lg leading-relaxed">
-                                Nossa base está localizada em um dos pontos mais bonitos do Lago Paranoá.
+                                Nossa escola está localizada em um dos pontos mais bonitos do Lago Paranoá.
                                 Oferecemos estrutura completa para receber você e sua família com segurança e conforto.
                             </p>
 

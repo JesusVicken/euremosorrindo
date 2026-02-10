@@ -9,7 +9,7 @@ import { MapPin, Phone } from "lucide-react"
 
 const brands = [
   {
-    name: "Fundação Baúminas",
+    name: "Fundação Bauminas",
     logo: "/bauminas.jpg",
     description: "Fundação dedicada ao desenvolvimento esportivo, cultural e social",
     category: "Social",
@@ -103,13 +103,12 @@ export function Footer() {
 
           <div className="flex flex-wrap justify-center gap-8 items-center w-full">
             {brands.map((item, index) => {
-              // Regra para destacar a Baúminas
-              const isBauminas = item.name === "Fundação Baúminas"
+              
+              const isBauminas = item.name === "Fundação Bauminas"
 
               return (
                 <div
                   key={index}
-                  // Mantemos o AOS funcionando com seu script global
                   data-aos="fade-up"
                   data-aos-delay={index * 50}
                   className={`

@@ -349,7 +349,7 @@ export default function ColoniaDeFeriasPage() {
                         size="lg"
                         className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold text-xl px-12 py-8 rounded-full shadow-2xl hover:scale-105 transition-transform"
                     >
-                        Falar com a Tia Fernanda
+                        Falar com a Gente no WhatsApp
                     </Button>
                 </div>
             </section>

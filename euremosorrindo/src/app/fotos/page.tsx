@@ -1,29 +1,56 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
+import { X, ZoomIn, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import gsap from "gsap";
 
 const galleryItems = [
-    { id: 1, src: "/cards/colonia.png", title: "Colônia de Férias", tag: "Verão 2025" },
-    { id: 2, src: "/cards/entrepontes.png", title: "Remada Entre Pontes", tag: "Expedição" },
-    { id: 3, src: "/cards/FR - Card 10 - Remada Astral_capa.png", title: "Remada Astral", tag: "Nascer do Sol" },
-    { id: 4, src: "/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png", title: "Remada Lua Cheia", tag: "Noturno" },
-    { id: 5, src: "/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png", title: "Turmas Infanto-Juvenis", tag: "Aulas" },
-    { id: 6, src: "/cards/FR - Card 14 - Lagoinha_capa.png", title: "Trilha Lagoinha", tag: "Aventura" },
-    { id: 7, src: "/cards/FR - Card 16 - Trilha Tapicuru_capa.png", title: "Trilha Tapicuru", tag: "Ecoturismo" },
-    { id: 8, src: "/cards/FR - OUT - Halloween_31-10.png", title: "Halloween a Remada", tag: "Evento Temático" },
-    { id: 9, src: "/cards/por.png", title: "Remada Pôr do Sol", tag: "Sunset" },
-    { id: 10, src: "/cards/horários aulas .png", title: "Grade de Horários", tag: "Informativo" },
-    { id: 11, src: "/cards/parceria wellhub_.jpg", title: "Parceria Wellhub", tag: "Benefício" },
-    { id: 12, src: "/cards/wellhub totalpass.jpg", title: "Wellhub & TotalPass", tag: "Parceiros" },
+    { id: 1, src: "/cards/colonia.png", title: "Colônia de Férias", tag: "Verão 2025", href: "https://escolafernandarachid.com.br/c/colonia-de-ferias" },
+    { id: 2, src: "/cards/entrepontes.png", title: "Remada Entre Pontes", tag: "Expedição", href: "https://escolafernandarachid.com.br/c/aulas-de-vaa-canoa-havaiana" },
+    { id: 3, src: "/cards/FR - Card 10 - Remada Astral_capa.png", title: "Remada Astral", tag: "Nascer do Sol", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 4, src: "/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png", title: "Remada Lua Cheia", tag: "Noturno", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 5, src: "/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png", title: "Turmas Infanto-Juvenis", tag: "Aulas", href: "https://escolafernandarachid.com.br/c/aulas-kids-teen-canoagem-e-vaa" },
+    { id: 6, src: "/cards/FR - Card 14 - Lagoinha_capa.png", title: "Trilha Lagoinha", tag: "Aventura", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 7, src: "/cards/FR - Card 16 - Trilha Tapicuru_capa.png", title: "Trilha Tapicuru", tag: "Ecoturismo", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 8, src: "/cards/FR - OUT - Halloween_31-10.png", title: "Halloween a Remada", tag: "Evento Temático", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 9, src: "/cards/por.png", title: "Remada Pôr do Sol", tag: "Sunset", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 10, src: "/cards/horários aulas .png", title: "Grade de Horários", tag: "Informativo", href: "https://escolafernandarachid.com.br/c/aulas-de-canoagem-caiaque" },
+    { id: 11, src: "/cards/parceria wellhub_.jpg", title: "Parceria Wellhub", tag: "Benefício", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
+    { id: 12, src: "/cards/wellhub totalpass.jpg", title: "Wellhub & TotalPass", tag: "Parceiros", href: "https://escolafernandarachid.com.br/c/aulas-avulsas-e-experimentais" },
 ];
 
 export default function EventsGallery() {
     const [selectedId, setSelectedId] = useState<number | null>(null);
+    const headerRef = useRef(null);
+    const buttonRef = useRef(null);
 
-    // Lógica de Navegação (Next/Prev)
+    // GSAP para entrada do cabeçalho
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.from(".animate-title", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power4.out"
+            });
+        }, headerRef);
+        return () => ctx.revert();
+    }, []);
+
+    // GSAP para o botão do Modal
+    useEffect(() => {
+        if (selectedId && buttonRef.current) {
+            gsap.fromTo(buttonRef.current,
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.4, delay: 0.2, ease: "power2.out" }
+            );
+        }
+    }, [selectedId]);
+
     const handleNext = useCallback((e?: React.MouseEvent) => {
         e?.stopPropagation();
         if (selectedId === null) return;
@@ -40,7 +67,6 @@ export default function EventsGallery() {
         setSelectedId(galleryItems[prevIndex].id);
     }, [selectedId]);
 
-    // Controles de Teclado
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") setSelectedId(null);
@@ -57,68 +83,71 @@ export default function EventsGallery() {
     }, [selectedId, handleNext, handlePrev]);
 
     return (
-        <section className="py-20 bg-slate-50" id="eventos">
-            <div className="container mx-auto px-4 md:px-6">
+        <section
+            className="relative py-24 bg-gradient-to-b from-blue-600 via-blue-400 to-white overflow-hidden"
+            id="eventos"
+        >
+            <div className="container relative z-10 mx-auto px-4 md:px-6">
 
-                {/* Cabeçalho */}
-                <div className="flex flex-col items-center text-center mb-12 mt-10 space-y-4">
-                    
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-3xl md:text-5xl font-bold text-slate-900"
-                    >
-                        Eventos e Remadas Especiais
-                    </motion.h2>
-                </div>
+                {/* CABEÇALHO ESTILO PREMIUM */}
+                <header ref={headerRef} className="text-center mb-20 pt-10">
+                    <h2 className="flex flex-col items-center justify-center">
+                        <span className="animate-title block text-slate-100 text-lg md:text-xl font-bold uppercase tracking-[0.2em] mb-2 drop-shadow-md">
+                            Participe de nossos
+                        </span>
+                        <span className="animate-title relative block text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter drop-shadow-2xl leading-none z-10">
+                            EVENTOS <br className="md:hidden" />
+                            <span className="relative whitespace-nowrap">
+                                & REMADAS
+                                <span className="absolute -bottom-2 lg:-bottom-4 left-0 w-full h-[30%] bg-gradient-to-r from-blue-900/40 via-cyan-400/40 to-blue-900/40 -z-10 blur-xl opacity-80 rounded-full"></span>
+                            </span>
+                        </span>
+                    </h2>
+                </header>
 
-                {/* GRID DE CARDS - Ajustado para Vertical (1080x1350) */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                {/* GRID COM AOS */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                     {galleryItems.map((item, index) => (
-                        <motion.div
-                            layoutId={`card-container-${item.id}`}
+                        <div
                             key={item.id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.05 }}
-                            onClick={() => setSelectedId(item.id)}
-                            // MUDANÇA AQUI: aspect-[4/5] para respeitar o 1080x1350
-                            className="group relative aspect-[4/5] cursor-pointer overflow-hidden rounded-xl bg-white shadow-sm hover:shadow-xl transition-all duration-300 ring-1 ring-slate-200"
+                            data-aos="fade-up"
+                            data-aos-delay={index * 50}
                         >
-                            {/* Imagem com object-cover em container 4:5 encaixa perfeitamente sem cortes */}
-                            <Image
-                                src={item.src}
-                                alt={item.title}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                            />
+                            <motion.div
+                                layoutId={`card-container-${item.id}`}
+                                onClick={() => setSelectedId(item.id)}
+                                className="group relative aspect-[4/5] cursor-pointer overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/20"
+                                whileHover={{ scale: 1.02 }}
+                            >
+                                <Image
+                                    src={item.src}
+                                    alt={item.title}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                                />
 
-                            {/* Overlay Gradiente - Ajustado para legibilidade */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                                <span className="text-blue-300 text-xs font-bold uppercase tracking-wider mb-1">
-                                    {item.tag}
-                                </span>
-                                <h3 className="text-white text-sm md:text-base font-medium leading-tight">
-                                    {item.title}
-                                </h3>
-                            </div>
-
-                            {/* Ícone de Zoom discreto no topo */}
-                            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div className="bg-black/30 backdrop-blur-md p-1.5 rounded-full text-white">
-                                    <ZoomIn size={16} />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-5">
+                                    <span className="text-cyan-300 text-[10px] font-black uppercase tracking-widest mb-1">
+                                        {item.tag}
+                                    </span>
+                                    <h3 className="text-white text-sm md:text-base font-bold leading-tight">
+                                        {item.title}
+                                    </h3>
                                 </div>
-                            </div>
-                        </motion.div>
+
+                                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="bg-black/20 backdrop-blur-md p-2 rounded-lg text-white">
+                                        <ZoomIn size={18} />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>
 
-            {/* MODAL / LIGHTBOX - Mantido para visão ampliada */}
+            {/* LIGHTBOX / MODAL */}
             <AnimatePresence>
                 {selectedId && (
                     <motion.div
@@ -126,21 +155,20 @@ export default function EventsGallery() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setSelectedId(null)}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
                     >
                         <button
                             onClick={() => setSelectedId(null)}
-                            className="absolute top-4 right-4 z-50 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
+                            className="absolute top-6 right-6 z-[110] p-3 text-white/50 hover:text-white transition-all"
                         >
-                            <X size={24} />
+                            <X size={32} />
                         </button>
 
-                        {/* Setas de Navegação */}
-                        <button onClick={handlePrev} className="absolute left-2 top-1/2 -translate-y-1/2 z-50 p-3 text-white/70 hover:text-white hidden md:block">
-                            <ChevronLeft size={40} />
+                        <button onClick={handlePrev} className="absolute left-4 top-1/2 -translate-y-1/2 z-[110] p-4 text-white/30 hover:text-white transition-colors hidden lg:block">
+                            <ChevronLeft size={60} strokeWidth={1} />
                         </button>
-                        <button onClick={handleNext} className="absolute right-2 top-1/2 -translate-y-1/2 z-50 p-3 text-white/70 hover:text-white hidden md:block">
-                            <ChevronRight size={40} />
+                        <button onClick={handleNext} className="absolute right-4 top-1/2 -translate-y-1/2 z-[110] p-4 text-white/30 hover:text-white transition-colors hidden lg:block">
+                            <ChevronRight size={60} strokeWidth={1} />
                         </button>
 
                         {galleryItems.map((item) => {
@@ -150,17 +178,29 @@ export default function EventsGallery() {
                                     layoutId={`card-container-${item.id}`}
                                     key={item.id}
                                     onClick={(e) => e.stopPropagation()}
-                                    // Ajuste do container do modal para respeitar altura máxima da tela
-                                    className="relative w-full max-w-lg h-auto max-h-[90vh] aspect-[4/5] bg-transparent rounded-lg overflow-hidden shadow-2xl"
+                                    className="relative w-full max-w-lg flex flex-col items-center gap-6"
                                 >
-                                    <Image
-                                        src={item.src}
-                                        alt={item.title}
-                                        fill
-                                        className="object-contain" // Garante visualização total no modal também
-                                        priority
-                                        quality={100}
-                                    />
+                                    <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+                                        <Image
+                                            src={item.src}
+                                            alt={item.title}
+                                            fill
+                                            className="object-contain"
+                                            priority
+                                            quality={100}
+                                        />
+                                    </div>
+
+                                    <div ref={buttonRef} className="w-full px-4">
+                                        <Link
+                                            href={item.href}
+                                            target="_blank"
+                                            className="flex items-center justify-center gap-2 w-full bg-white text-blue-600 font-black py-4 rounded-xl transition-all shadow-xl hover:bg-blue-50 active:scale-[0.98] uppercase tracking-widest"
+                                        >
+                                            RESERVAR AGORA
+                                            <ExternalLink size={20} />
+                                        </Link>
+                                    </div>
                                 </motion.div>
                             );
                         })}
