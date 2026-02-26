@@ -21,8 +21,8 @@ const allImages = [
 
     // Lote 3: Caiaque
     { id: 8, src: "/AULAS/CAIAQUE/caiaque1.jpg", alt: "Aula de Caiaque", category: "Caiaque", aspect: "portrait" },
-    { id: 9, src: "/AULAS/CAIAQUE/CAIAQUE2.jpg", alt: "Equilíbrio na Água", category: "Caiaque", aspect: "portrait" },
-    { id: 10, src: "/AULAS/CAIAQUE/CAIAQUE3.jpg", alt: "Liberdade", category: "Caiaque", aspect: "portrait" },
+    { id: 9, src: "/AULAS/CAIAQUE/caiaque2.jpg", alt: "Equilíbrio na Água", category: "Caiaque", aspect: "portrait" },
+    { id: 10, src: "/AULAS/CAIAQUE/caiaque3.jpg", alt: "Liberdade", category: "Caiaque", aspect: "portrait" },
 
     // Lote 4: Canoa Havaiana
     { id: 11, src: "/AULAS/CANOA/canoa1.jpg", alt: "Preparação", category: "Canoa", aspect: "portrait" },
@@ -38,7 +38,7 @@ const allImages = [
     { id: 19, src: "/AULAS/REMANDOJUNTOS/remandojuntos2.jpeg", alt: "Superação", category: "Social", aspect: "portrait" },
     { id: 20, src: "/AULAS/REMANDOJUNTOS/remandojuntos3.jpeg", alt: "Trabalho em Equipe", category: "Social", aspect: "portrait" },
     { id: 21, src: "/AULAS/REMANDOJUNTOS/remandojuntos4.jpeg", alt: "Conquista", category: "Social", aspect: "portrait" },
-    { id: 22, src: "/foto-09.jpg", alt: "Pós-Treino", category: "Comunidade", aspect: "landscape" },
+    { id: 22, src: "/batizado.jpg", alt: "Batizado da Canoa", category: "Comunidade VAA", aspect: "landscape" },
 
     // Lote 6: Juvenil
     { id: 23, src: "/AULAS/JUVENIL/juvenil1.png", alt: "Turma Juvenil", category: "Futuro", aspect: "square" },

@@ -16,14 +16,14 @@ import {
 } from "lucide-react"
 
 // Seus imports de imagem
-import agendanov from "../../../public/cards/agendaFev.jpeg"
+import agendanov from "../../../public/agendaMar.png"
 import logo from "../../../public/logoeuremo.jpg"
 
 export function Hero() {
     const [isImageModalOpen, setIsImageModalOpen] = useState(false)
 
     const whatsappMessage = encodeURIComponent(
-        "Olá, visitei o site da Eu Remo Sorrindo e quero tirar dúvidas sobre a agenda de Dezembro!"
+        "Olá, visitei o site da Eu Remo Sorrindo e quero tirar dúvidas sobre a agenda de Março!"
     )
 
     const features = [
@@ -161,12 +161,13 @@ export function Hero() {
                                         </p>
                                     </div>
 
-                                    <div className="relative h-[550px] lg:h-[600px] w-full bg-white rounded-b-xl overflow-hidden">
+                                    {/* Ajuste exato das proporções da imagem para não sobrar bordas brancas */}
+                                    <div className="relative w-full aspect-[1856/2304] bg-white rounded-b-xl overflow-hidden">
                                         <Image
                                             src={agendanov}
-                                            alt="Agenda Dezembro Eu Remo Sorrindo"
+                                            alt="Agenda Março Eu Remo Sorrindo"
                                             fill
-                                            className="object-contain hover:scale-105 transition-transform duration-700 ease-out"
+                                            className="object-cover hover:scale-105 transition-transform duration-700 ease-out"
                                             priority
                                         />
 
@@ -207,7 +208,7 @@ export function Hero() {
                         <div className="bg-white rounded-xl overflow-hidden shadow-2xl w-full h-full relative border-4 border-white/10">
                             <Image
                                 src={agendanov}
-                                alt="Agenda Ampliada"
+                                alt="Agenda Março Ampliada"
                                 fill
                                 className="object-contain"
                                 quality={100}

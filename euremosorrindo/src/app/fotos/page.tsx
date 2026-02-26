@@ -8,7 +8,7 @@ import { X, ZoomIn, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react
 import gsap from "gsap";
 
 const galleryItems = [
-    { id: 1, src: "/cards/colonia.png", title: "Colônia de Férias", tag: "Verão 2026" },
+    { id: 1, src: "/coloniaJulho.png", title: "Colônia de Férias", tag: "Férias 2026" },
     { id: 2, src: "/cards/entrepontes.png", title: "Remada Entre Pontes", tag: "Expedição" },
     { id: 3, src: "/cards/FR - Card 10 - Remada Astral_capa.png", title: "Remada Astral", tag: "Nascer do Sol" },
     { id: 4, src: "/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png", title: "Remada Lua Cheia", tag: "Noturno" },

@@ -32,7 +32,7 @@ export default function ColoniaDeFeriasPage() {
 
     const openWhatsApp = () => {
         const phoneNumber = '+5561999674507'
-        const message = 'Olá! Gostaria de fazer a inscrição para a Colônia de Férias de Janeiro/2026!'
+        const message = 'Olá! Gostaria de fazer a inscrição para a Colônia de Férias de Julho/2026!'
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
         window.open(url, '_blank')
     }
@@ -40,7 +40,7 @@ export default function ColoniaDeFeriasPage() {
     return (
         <div className="min-h-screen bg-[#FDFDFD]">
 
-            {/* --- MODAL DE ZOOM --- */}
+           
             <AnimatePresence>
                 {selectedImage && (
                     <motion.div
@@ -65,7 +65,7 @@ export default function ColoniaDeFeriasPage() {
                                 fill
                                 className="object-contain"
                                 sizes="100vw"
-                                priority // Prioridade alta para a imagem do modal carregar rápido
+                                priority 
                             />
                         </motion.div>
                     </motion.div>
@@ -135,7 +135,7 @@ export default function ColoniaDeFeriasPage() {
 
                             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 transform hover:rotate-1 transition-transform duration-500 cursor-pointer" onClick={() => setSelectedImage('/servicos/COLONIA/coloniaBg.png')}>
                                 <Image
-                                    src="/servicos/COLONIA/coloniaBg.png"
+                                    src="/coloniaJulho.png"
                                     alt="Cartaz Colônia de Férias 2026"
                                     width={600}
                                     height={800}
