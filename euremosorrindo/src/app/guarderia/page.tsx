@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ShieldCheck, Waves, Droplets, MapPin, ArrowRight, Clock, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Waves, Droplets, MapPin, Clock } from "lucide-react";
+import { WhatsappLogo } from '@phosphor-icons/react/dist/ssr';
 import Image from "next/image";
 
 const features = [
@@ -30,10 +30,14 @@ const features = [
 const plans = [
     { name: "Mensal", price: "220", period: "/mês", highlight: false },
     { name: "Semestral", price: "180", period: "/mês", highlight: false },
-    { name: "Anual", price: "150", period: "/mês", highlight: true }, // Destaque para o melhor valor
+    { name: "Anual", price: "150", period: "/mês", highlight: true }, 
 ];
 
 export default function GuarderiaSection() {
+    // URL do WhatsApp com a mensagem pré-configurada
+    const whatsappMessage = encodeURIComponent("Olá Fernanda, gostaria de saber mais sobre as vagas e planos da Guarderia Eu Remo Sorrindo!");
+    const whatsappUrl = `https://wa.me/5561999674507?text=${whatsappMessage}`;
+
     return (
         <section className="relative w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-slate-50 to-white overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
@@ -41,12 +45,10 @@ export default function GuarderiaSection() {
                 <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
                     {/* --- COLUNA DE TEXTO --- */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
+                    <div 
                         className="flex flex-col gap-6 order-2 lg:order-1"
+                        data-aos="fade-right"
+                        data-aos-duration="800"
                     >
                         {/* Badge de Destaque */}
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-semibold w-fit shadow-sm">
@@ -72,8 +74,13 @@ export default function GuarderiaSection() {
                         {/* Grid de Features Refinado */}
                         <div className="grid sm:grid-cols-2 gap-x-6 gap-y-8 mt-4">
                             {features.map((feature, index) => (
-                                <div key={index} className="flex flex-col gap-3 group">
-                                    <div className="h-12 w-12 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                                <div 
+                                    key={index} 
+                                    className="flex flex-col gap-3 group"
+                                    data-aos="fade-up"
+                                    data-aos-delay={index * 100}
+                                >
+                                    <div className="h-12 w-12 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
                                         <feature.icon size={22} strokeWidth={2} />
                                     </div>
                                     <div>
@@ -87,7 +94,7 @@ export default function GuarderiaSection() {
                         </div>
 
                         {/* === NOVA SEÇÃO DE PREÇOS === */}
-                        <div className="mt-8">
+                        <div className="mt-8" data-aos="fade-up" data-aos-delay="300">
                             <h4 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Clock className="w-4 h-4" /> Planos Disponíveis
                             </h4>
@@ -96,7 +103,7 @@ export default function GuarderiaSection() {
                                     <div
                                         key={index}
                                         className={`
-                                            relative p-4 rounded-xl border flex flex-col items-center text-center transition-all duration-300
+                                            relative p-4 rounded-xl border flex flex-col items-center text-center transition-all duration-300 hover:shadow-md
                                             ${plan.highlight
                                                 ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200 transform sm:-translate-y-2"
                                                 : "bg-white border-slate-200 text-slate-700 hover:border-blue-300"
@@ -104,7 +111,7 @@ export default function GuarderiaSection() {
                                         `}
                                     >
                                         {plan.highlight && (
-                                            <div className="absolute -top-3 bg-cyan-400 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                            <div className="absolute -top-3 bg-cyan-400 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide animate-pulse">
                                                 Melhor Valor
                                             </div>
                                         )}
@@ -123,47 +130,58 @@ export default function GuarderiaSection() {
                             </div>
                         </div>
 
-                        {/* Botões de Ação */}
-                        <div className="mt-6 flex flex-col sm:flex-row gap-4">
-                            <button className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold hover:shadow-lg hover:shadow-blue-500/30 transition-all active:scale-95">
-                                Garantir minha Vaga
-                                <ArrowRight size={18} />
-                            </button>
-                            <button className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all">
-                                Falar no WhatsApp
-                            </button>
+                        {/* Botão Único Centralizado e Moderno (WhatsApp) */}
+                        <div 
+                            className="mt-10 flex justify-center w-full"
+                            data-aos="zoom-in" 
+                            data-aos-delay="400"
+                        >
+                            <a 
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group relative inline-flex items-center justify-center gap-3 w-full sm:w-auto px-10 py-5 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all duration-300 hover:-translate-y-1 active:scale-95 overflow-hidden"
+                            >
+                                {/* Efeito de brilho passando sobre o botão no hover */}
+                                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out z-0"></div>
+                                
+                                {/* Conteúdo do botão */}
+                                <div className="relative z-10 flex items-center gap-3">
+                                    <WhatsappLogo size={28} weight="fill" className="group-hover:scale-110 transition-transform" />
+                                    Garantir minha Vaga
+                                </div>
+                            </a>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                    {/* --- COLUNA DA IMAGEM --- */}
+                    <div 
                         className="relative w-full order-1 lg:order-2"
+                        data-aos="fade-left"
+                        data-aos-duration="1000"
                     >
+                        {/* Glow de fundo */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-gradient-to-tr from-blue-100/50 to-cyan-100/50 rounded-full blur-3xl -z-10" />
 
-                        <div className="relative w-full aspect-[4/3] lg:aspect-[3/4] xl:aspect-square rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
+                        <div className="relative w-full aspect-[4/3] lg:aspect-[3/4] xl:aspect-square rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white group">
 
                             <Image
                                 src="/guarderia.jpg"
                                 alt="Espaço da Guarderia Eu Remo Sorrindo"
                                 fill
-                                className="object-cover hover:scale-105 transition-transform duration-700"
+                                className="object-cover group-hover:scale-105 transition-transform duration-1000"
                                 sizes="(max-width: 768px) 100vw, 50vw"
                                 priority
                             />
 
                             {/* Overlay Gradiente para legibilidade do card */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 lg:opacity-40" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 lg:opacity-40 transition-opacity duration-500" />
 
-                            {/* Card Flutuante (Glassmorphism Aprimorado) */}
-                            <motion.div
-                                initial={{ y: 20, opacity: 0 }}
-                                whileInView={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.6 }}
-                                className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 bg-white/95 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-white/50"
+                            {/* Card Flutuante */}
+                            <div 
+                                className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 bg-white/95 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-white/50 transform group-hover:-translate-y-2 transition-transform duration-500"
+                                data-aos="fade-up"
+                                data-aos-delay="600"
                             >
                                 <div className="flex items-center justify-between gap-4">
                                     <div className="flex-1">
@@ -180,12 +198,12 @@ export default function GuarderiaSection() {
                                         <ShieldCheck size={24} />
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         </div>
 
-                        {/* Elemento Decorativo Flutuante (Opcional) */}
-                        <div className="absolute -top-6 -right-6 h-24 w-24 bg-stripes-blue opacity-20 rounded-full blur-xl hidden lg:block"></div>
-                    </motion.div>
+                        {/* Elemento Decorativo Flutuante */}
+                        <div className="absolute -top-6 -right-6 h-24 w-24 bg-stripes-blue opacity-20 rounded-full blur-xl hidden lg:block animate-pulse"></div>
+                    </div>
 
                 </div>
             </div>
