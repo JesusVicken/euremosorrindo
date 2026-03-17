@@ -15,85 +15,9 @@ import {
     X
 } from '@phosphor-icons/react/dist/ssr'
 
-// --- CONFIGURAÇÃO ---
-const REDIRECT_URL = "https://escolafernandarachid.com.br/"
+// Importando os dados e a configuração do nosso novo arquivo
+import { eventosDB, REDIRECT_URL } from '@/lib/eventos'
 
-// --- FUNÇÕES AUXILIARES ---
-const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: string, local: string, hora: string) => {
-    const lista = []
-    let atual = new Date(inicio)
-    const final = new Date(fim)
-
-    while (atual <= final) {
-        const dataFormatada = atual.toISOString().split('T')[0]
-        lista.push({ date: dataFormatada, titulo, imagem, local, hora })
-        atual.setDate(atual.getDate() + 1)
-    }
-    return lista
-}
-
-// --- BANCO DE DADOS DE EVENTOS ---
-const eventosFixos = [
-    // --- MARÇO 2026 ---
-    // Lua Cheia
-    { date: '2026-03-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:00' },
-    { date: '2026-03-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:30' },
-    { date: '2026-03-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
-    { date: '2026-03-05', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:30' },
-
-    // Trilha da Lagoinha (Domingos)
-    { date: '2026-03-01', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-08', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-15', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-22', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-29', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-
-    // Trilha do Tapicuru (Sábados)
-    { date: '2026-03-14', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-    { date: '2026-03-21', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-    { date: '2026-03-28', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-
-    // Só para Mulheres
-    { date: '2026-03-08', titulo: 'Remada Só Para Mulheres', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ', hora: '17:00' },
-
-    // Remada Pôr do Sol (Sábados)
-    { date: '2026-03-14', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-    { date: '2026-03-21', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-    { date: '2026-03-28', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-
-    // --- JANEIRO 2026 ---
-    { date: '2026-01-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:10' },
-    { date: '2026-01-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
-    { date: '2026-01-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '20:00' },
-    { date: '2026-01-10', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-01-17', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-01-24', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-01-11', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-01-18', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-01-25', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-01-31', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:50' },
-
-    // --- FEVEREIRO 2026 ---
-    { date: '2026-02-01', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:30' },
-    { date: '2026-02-02', titulo: 'Cortejo para Iemanjá', imagem: '/cards/iemanja.jpeg', local: 'Clube ASSTJ', hora: '08:00 e 12:00' },
-    { date: '2026-02-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:10' },
-    { date: '2026-02-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:50' },
-    { date: '2026-02-07', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:30' },
-    { date: '2026-02-08', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-02-15', titulo: 'Canoa Elétrica (Carnaval)', imagem: '/cards/carnaval.jpeg', local: 'Clube ASSTJ', hora: '10:00' },
-    { date: '2026-02-22', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-02-28', titulo: 'Trilha do Tapicuru', imagem: '/cards/tapicuru.jpeg', local: 'Tapicuru', hora: '09:30' },
-
-    // --- HISTÓRICO ---
-    { date: '2025-12-03', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Clube ASSTJ', hora: '19:30' },
-    { date: '2025-12-04', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Clube ASSTJ', hora: '19:30' },
-]
-
-const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'Clube ASSTJ', 'Manhã e Tarde')
-const recessoDezembro = gerarIntervalo('2025-12-22', '2025-12-31', 'Recesso', '/recesso.png', '-', 'Off')
-const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-01', 'Recesso', '/recesso.png', '-', 'Off')
-
-const eventosDB = [...eventosFixos, ...coloniaFerias, ...recessoDezembro, ...recessoJaneiro]
 const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
 export default function AgendaMensal() {
@@ -235,7 +159,7 @@ export default function AgendaMensal() {
                                             ${isSelected
                                                 ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40'
                                                 : isToday
-                                                    ? 'bg-cyan-100 text-cyan-800 border border-cyan-300' // Destaque para o dia de hoje quando não selecionado
+                                                    ? 'bg-cyan-100 text-cyan-800 border border-cyan-300' 
                                                     : hasEvent
                                                         ? 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100'
                                                         : 'bg-transparent text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-100'
@@ -246,7 +170,6 @@ export default function AgendaMensal() {
                                         {hasEvent && (
                                             <div className={`absolute bottom-2 md:bottom-3 w-1.5 h-1.5 rounded-full transition-colors ${isSelected ? 'bg-white' : 'bg-blue-500 group-hover:bg-blue-600'}`} />
                                         )}
-                                        {/* Pequeno indicador extra para o dia de hoje, se preferir */}
                                         {isToday && !isSelected && (
                                             <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-cyan-500 rounded-full" />
                                         )}
