@@ -16,7 +16,7 @@ import {
 } from "lucide-react"
 
 // Seus imports de imagem
-import agendanov from "../../../public/agendaMar.png"
+import agendanov from "../../../public/agendaABRIL-2.png"
 import logo from "../../../public/logoeuremo.jpg"
 
 export function Hero() {
