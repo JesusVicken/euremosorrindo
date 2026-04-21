@@ -26,6 +26,43 @@ const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: str
 
 // --- BANCO DE DADOS DE EVENTOS ---
 const eventosFixos: Evento[] = [
+    // --- MAIO 2026 ---
+    // Remada da Lua Cheia
+    { date: '2026-05-01', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:20' },
+    { date: '2026-05-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:50' },
+    { date: '2026-05-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:20' },
+    { date: '2026-05-30', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:10' },
+    { date: '2026-05-31', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:20' },
+
+    // Longão
+    { date: '2026-05-01', titulo: 'Longão', imagem: '/longao.png', local: 'Clube ASSTJ', hora: '08:00 às 11:30' },
+
+    // Remada da Lua Nova
+    { date: '2026-05-15', titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ', hora: '19:00' },
+    { date: '2026-05-16', titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ', hora: '19:00' },
+
+    // Trilha da Lagoinha
+    { date: '2026-05-03', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-05-10', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-05-17', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    { date: '2026-05-24', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+
+    // Trilha do Tapicuru
+    { date: '2026-05-09', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:15' },
+    { date: '2026-05-23', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:15' },
+
+    // Remada do Pôr do Sol
+    { date: '2026-05-09', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+    { date: '2026-05-10', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+    { date: '2026-05-16', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+    { date: '2026-05-17', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+    { date: '2026-05-23', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+    { date: '2026-05-24', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
+
+    // Remada Astral
+    { date: '2026-05-16', titulo: 'Remada Astral', imagem: '/cards/astral.png', local: 'Clube ASSTJ', hora: '06:00' },
+    { date: '2026-05-30', titulo: 'Remada Astral', imagem: '/cards/astral.png', local: 'Clube ASSTJ', hora: '06:00' },
+
     // --- ABRIL 2026 ---
     // Remada da Lua Cheia
     { date: '2026-04-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:00' },
