@@ -34,10 +34,8 @@ const eventosFixos: Evento[] = [
     { date: '2026-05-30', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:10' },
     { date: '2026-05-31', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:20' },
 
-    // Longão
     { date: '2026-05-01', titulo: 'Longão', imagem: '/longao.png', local: 'Clube ASSTJ', hora: '08:00 às 11:30' },
 
-    // Remada da Lua Nova
     { date: '2026-05-15', titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ', hora: '19:00' },
     { date: '2026-05-16', titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ', hora: '19:00' },
 
