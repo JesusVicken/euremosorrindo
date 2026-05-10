@@ -5,14 +5,10 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 export default function HeroSection() {
     const [activeIndex, setActiveIndex] = useState(0)
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false)
     const videoRef = useRef<HTMLVideoElement>(null)
 
     const carouselItems = [
-        // {
-        //     subtitle: 'EU REMO SORRINDO',
-        //     title: 'ESCOLA',
-        //     highlight: 'FERNANDA RACHID',
-        // },
         {
             subtitle: 'ESCOLA DE CANOAGEM E VA\'A',
             title: 'EU REMO',
@@ -55,16 +51,7 @@ export default function HeroSection() {
         }
     ]
 
-    // Rotação mais rápida - 2 segundos para mais dinamismo
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveIndex((prev) => (prev + 1) % carouselItems.length)
-        }, 2000)
-
-        return () => clearInterval(interval)
-    }, [carouselItems.length])
-
-    // Garantir que o vídeo esteja tocando
+    // Garantir que o vídeo tente tocar no mount
     useEffect(() => {
         if (videoRef.current) {
             videoRef.current.play().catch(error => {
@@ -73,6 +60,18 @@ export default function HeroSection() {
         }
     }, [])
 
+    // Rotação (2 segundos) - AGORA SINCRONIZADA COM O VÍDEO
+    useEffect(() => {
+        // Se o vídeo ainda não começou a tocar, não inicia o intervalo do carrossel
+        if (!isVideoPlaying) return;
+
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % carouselItems.length)
+        }, 2000)
+
+        return () => clearInterval(interval)
+    }, [isVideoPlaying, carouselItems.length])
+
     // Indicadores de progresso
     const ProgressDots = () => (
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
@@ -80,10 +79,11 @@ export default function HeroSection() {
                 <button
                     key={index}
                     onClick={() => setActiveIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${index === activeIndex
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        index === activeIndex
                             ? 'bg-white w-6 scale-110'
                             : 'bg-white/50 hover:bg-white/80 hover:scale-110'
-                        }`}
+                    }`}
                 />
             ))}
         </div>
@@ -98,6 +98,8 @@ export default function HeroSection() {
                 muted
                 loop
                 playsInline
+                // Dispara a flag exatamente quando o vídeo inicia o primeiro frame
+                onPlay={() => setIsVideoPlaying(true)} 
                 className="absolute inset-0 object-cover object-center w-full h-full -z-10"
             >
                 <source src="/bgfernanda.mp4" type="video/mp4" />
@@ -107,7 +109,7 @@ export default function HeroSection() {
             {/* Overlay gradiente moderno */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-purple-900/10 -z-10" />
 
-            {/* Carrossel de textos com animação melhorada */}
+            {/* Carrossel de textos com animação */}
             <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center px-4 w-full max-w-6xl">
                     <AnimatePresence mode="wait">
@@ -136,7 +138,7 @@ export default function HeroSection() {
                         >
                             <div className="banner-section-content">
                                 <div className="banner-section-wrapper">
-                                    {/* Subtítulo */}
+                                    {/* Subtítulo mantido em branco */}
                                     <motion.h3
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
@@ -146,10 +148,15 @@ export default function HeroSection() {
                                         {carouselItems[activeIndex].subtitle}
                                     </motion.h3>
 
-                                    {/* Título principal com destaque */}
+                                    {/* Título principal: Com os dois gradientes perfeitamente separados */}
                                     <div className="mb-6">
-                                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight drop-shadow-2xl">
-                                            {carouselItems[activeIndex].title}{' '}
+                                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight drop-shadow-2xl">
+                                            {/* Primeira palavra: Gradiente Ciano para Azul */}
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 filter drop-shadow-lg">
+                                                {carouselItems[activeIndex].title}
+                                            </span>{' '}
+                                            
+                                            {/* Segunda palavra: Gradiente Amarelo para Laranja */}
                                             <motion.span
                                                 initial={{
                                                     backgroundSize: '0% 100%',
@@ -189,8 +196,6 @@ export default function HeroSection() {
 
             {/* Indicadores de progresso */}
             <ProgressDots />
-
-            
         </section>
     )
 }
