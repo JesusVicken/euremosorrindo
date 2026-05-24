@@ -1,5 +1,6 @@
+
 // --- CONFIGURAÇÃO ---
-export const REDIRECT_URL = "https://escolafernandarachid.com.br/"
+export const REDIRECT_URL = "https://escolafernandarachid.com.br/";
 
 // --- TIPAGEM ---
 export type Evento = {
@@ -8,147 +9,111 @@ export type Evento = {
     imagem: string;
     local: string;
     hora: string;
-}
+};
+
+type TemplateEvento = Omit<Evento, 'date' | 'hora'>;
+
+// --- TEMPLATES BASE (DRY) ---
+const TEMPLATES: Record<string, TemplateEvento> = {
+    luaCheia: { titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ' },
+    porDoSol: { titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ' },
+    lagoinha: { titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha' },
+    tapicuru: { titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru' },
+    astral:   { titulo: 'Remada Astral', imagem: '/cards/astral.png', local: 'Clube ASSTJ' },
+    infanto:  { titulo: 'Turma Infanto Juvenil', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ' },
+};
 
 // --- FUNÇÕES AUXILIARES ---
+const criarEventos = (template: TemplateEvento, agendas: { d: string; h: string }[]): Evento[] =>
+    agendas.map(({ d, h }) => ({ ...template, date: d, hora: h }));
+
+const criarEventosFixos = (template: TemplateEvento, hora: string, datas: string[]): Evento[] =>
+    datas.map(date => ({ ...template, date, hora }));
+
 const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: string, local: string, hora: string): Evento[] => {
-    const lista: Evento[] = []
-    let atual = new Date(inicio)
-    const final = new Date(fim)
+    const lista: Evento[] = [];
+    let atual = new Date(inicio);
+    const final = new Date(fim);
 
     while (atual <= final) {
-        const dataFormatada = atual.toISOString().split('T')[0]
-        lista.push({ date: dataFormatada, titulo, imagem, local, hora })
-        atual.setDate(atual.getDate() + 1)
+        const dataFormatada = atual.toISOString().split('T')[0];
+        lista.push({ date: dataFormatada, titulo, imagem, local, hora });
+        atual.setDate(atual.getDate() + 1);
     }
-    return lista
-}
+    return lista;
+};
 
 // --- BANCO DE DADOS DE EVENTOS ---
 const eventosFixos: Evento[] = [
+    // --- JUNHO 2026 ---
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-06-01', h: '18:00' }, { d: '2026-06-02', h: '19:00' },
+        { d: '2026-06-30', h: '18:00' }, { d: '2026-07-01', h: '18:40' }
+    ]),
+    { date: '2026-06-04', titulo: 'Longão de Feriado', imagem: '/longao.png', local: 'Clube ASSTJ', hora: '07:30' },
+    ...criarEventosFixos(TEMPLATES.porDoSol, '17:00', ['2026-06-06', '2026-06-07', '2026-06-14', '2026-06-20', '2026-06-21']),
+    ...criarEventosFixos(TEMPLATES.astral, '06:00', ['2026-06-13', '2026-06-20']),
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-06-07', '2026-06-14', '2026-06-21']),
+    ...criarEventosFixos(TEMPLATES.tapicuru, '07:30', ['2026-06-06', '2026-06-20']),
+    { date: '2026-06-14', titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ', hora: '19:00' },
+
     // --- MAIO 2026 ---
-    // Remada da Lua Cheia
-    { date: '2026-05-01', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:20' },
-    { date: '2026-05-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:50' },
-    { date: '2026-05-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:20' },
-    { date: '2026-05-30', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:10' },
-    { date: '2026-05-31', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:20' },
-
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-05-01', h: '17:20' }, { d: '2026-05-02', h: '17:50' },
+        { d: '2026-05-04', h: '19:20' }, { d: '2026-05-30', h: '17:10' }, { d: '2026-05-31', h: '17:20' }
+    ]),
     { date: '2026-05-01', titulo: 'Longão', imagem: '/longao.png', local: 'Clube ASSTJ', hora: '08:00 às 11:30' },
-
-    { date: '2026-05-15', titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ', hora: '19:00' },
-    { date: '2026-05-16', titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ', hora: '19:00' },
-
-    // Trilha da Lagoinha
-    { date: '2026-05-03', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-05-10', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-05-17', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-05-24', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-
-    // Trilha do Tapicuru
-    { date: '2026-05-09', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:15' },
-    { date: '2026-05-23', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:15' },
-
-    // Remada do Pôr do Sol
-    { date: '2026-05-09', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-05-10', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-05-16', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-05-17', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-05-23', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-05-24', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-
-    // Remada Astral
-    { date: '2026-05-16', titulo: 'Remada Astral', imagem: '/cards/astral.png', local: 'Clube ASSTJ', hora: '06:00' },
-    { date: '2026-05-30', titulo: 'Remada Astral', imagem: '/cards/astral.png', local: 'Clube ASSTJ', hora: '06:00' },
+    ...criarEventosFixos({ titulo: 'Remada da Lua Nova', imagem: '/luanovaMaio.png', local: 'Clube ASSTJ' }, '19:00', ['2026-05-15', '2026-05-16']),
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-05-03', '2026-05-10', '2026-05-17', '2026-05-24']),
+    ...criarEventosFixos(TEMPLATES.tapicuru, '07:15', ['2026-05-09', '2026-05-23']),
+    ...criarEventosFixos(TEMPLATES.porDoSol, '17:15', ['2026-05-09', '2026-05-10', '2026-05-16', '2026-05-17', '2026-05-23', '2026-05-24']),
+    ...criarEventosFixos(TEMPLATES.astral, '06:00', ['2026-05-16', '2026-05-30']),
 
     // --- ABRIL 2026 ---
-    // Remada da Lua Cheia
-    { date: '2026-04-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:00' },
-    { date: '2026-04-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:30' },
-    { date: '2026-04-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
-    { date: '2026-04-05', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:30' },
-
-    // Turma Infanto Juvenil
-    { date: '2026-04-05', titulo: 'Turma Infanto Juvenil', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ', hora: '09:30' },
-    { date: '2026-04-12', titulo: 'Turma Infanto Juvenil', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ', hora: '09:30' },
-    { date: '2026-04-18', titulo: 'Turma Infanto Juvenil', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ', hora: '09:30' },
-    { date: '2026-04-26', titulo: 'Turma Infanto Juvenil', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ', hora: '09:30' },
-
-    // Remada do Pôr do Sol
-    { date: '2026-04-11', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-    { date: '2026-04-18', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-    { date: '2026-04-25', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-
-    // Remada Astral
-    { date: '2026-04-12', titulo: 'Remada Astral', imagem: '/cards/astral.png', local: 'Clube ASSTJ', hora: '05:40' },
-    { date: '2026-04-18', titulo: 'Remada Astral', imagem: '/cards/astral.png', local: 'Clube ASSTJ', hora: '05:40' },
-
-    // Trilha do Tapicuru
-    { date: '2026-04-11', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-    { date: '2026-04-25', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-
-    // Trilha da Lagoinha
-    { date: '2026-04-12', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-04-19', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-04-26', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-04-02', h: '18:00' }, { d: '2026-04-03', h: '18:30' },
+        { d: '2026-04-04', h: '19:00' }, { d: '2026-04-05', h: '19:30' }
+    ]),
+    ...criarEventosFixos(TEMPLATES.infanto, '09:30', ['2026-04-05', '2026-04-12', '2026-04-18', '2026-04-26']),
+    ...criarEventosFixos(TEMPLATES.porDoSol, '17:45', ['2026-04-11', '2026-04-18', '2026-04-25']),
+    ...criarEventosFixos(TEMPLATES.astral, '05:40', ['2026-04-12', '2026-04-18']),
+    ...criarEventosFixos(TEMPLATES.tapicuru, '07:30', ['2026-04-11', '2026-04-25']),
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-04-12', '2026-04-19', '2026-04-26']),
 
     // --- MARÇO 2026 ---
-    // Lua Cheia
-    { date: '2026-03-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:00' },
-    { date: '2026-03-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:30' },
-    { date: '2026-03-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
-    { date: '2026-03-05', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:30' },
-
-    // Trilha da Lagoinha (Domingos)
-    { date: '2026-03-01', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-08', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-15', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-22', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-03-29', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-
-    // Trilha do Tapicuru (Sábados)
-    { date: '2026-03-14', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-    { date: '2026-03-21', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-    { date: '2026-03-28', titulo: 'Trilha do Tapicuru', imagem: '/cards/FR - Card 16 - Trilha Tapicuru_capa.png', local: 'Tapicuru', hora: '07:30' },
-
-    // Só para Mulheres
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-03-02', h: '18:00' }, { d: '2026-03-03', h: '18:30' },
+        { d: '2026-03-04', h: '19:00' }, { d: '2026-03-05', h: '19:30' }
+    ]),
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-03-01', '2026-03-08', '2026-03-15', '2026-03-22', '2026-03-29']),
+    ...criarEventosFixos(TEMPLATES.tapicuru, '07:30', ['2026-03-14', '2026-03-21', '2026-03-28']),
     { date: '2026-03-08', titulo: 'Remada Só Para Mulheres', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ', hora: '17:00' },
-
-    // Remada Pôr do Sol (Sábados)
-    { date: '2026-03-14', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-    { date: '2026-03-21', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
-    { date: '2026-03-28', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:45' },
+    ...criarEventosFixos(TEMPLATES.porDoSol, '17:45', ['2026-03-14', '2026-03-21', '2026-03-28']),
 
     // --- JANEIRO 2026 ---
-    { date: '2026-01-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:10' },
-    { date: '2026-01-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:00' },
-    { date: '2026-01-04', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '20:00' },
-    { date: '2026-01-10', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-01-17', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-01-24', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:15' },
-    { date: '2026-01-11', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-01-18', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-01-25', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
-    { date: '2026-01-31', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '17:50' },
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-01-02', h: '18:10' }, { d: '2026-01-03', h: '19:00' },
+        { d: '2026-01-04', h: '20:00' }, { d: '2026-01-31', h: '17:50' }
+    ]),
+    ...criarEventosFixos(TEMPLATES.porDoSol, '17:15', ['2026-01-10', '2026-01-17', '2026-01-24']),
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-01-11', '2026-01-18', '2026-01-25']),
 
     // --- FEVEREIRO 2026 ---
-    { date: '2026-02-01', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '18:30' },
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-02-01', h: '18:30' }, { d: '2026-02-02', h: '19:10' }, { d: '2026-02-03', h: '19:50' }
+    ]),
     { date: '2026-02-02', titulo: 'Cortejo para Iemanjá', imagem: '/cards/iemanja.jpeg', local: 'Clube ASSTJ', hora: '08:00 e 12:00' },
-    { date: '2026-02-02', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:10' },
-    { date: '2026-02-03', titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ', hora: '19:50' },
     { date: '2026-02-07', titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ', hora: '17:30' },
-    { date: '2026-02-08', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-02-08', '2026-02-22']),
     { date: '2026-02-15', titulo: 'Canoa Elétrica (Carnaval)', imagem: '/cards/carnaval.jpeg', local: 'Clube ASSTJ', hora: '10:00' },
-    { date: '2026-02-22', titulo: 'Trilha da Lagoinha', imagem: '/cards/FR - Card 14 - Lagoinha_capa.png', local: 'Lagoinha', hora: '10:00' },
     { date: '2026-02-28', titulo: 'Trilha do Tapicuru', imagem: '/cards/tapicuru.jpeg', local: 'Tapicuru', hora: '09:30' },
 
-    // --- HISTÓRICO ---
-    { date: '2025-12-03', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Clube ASSTJ', hora: '19:30' },
-    { date: '2025-12-04', titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Clube ASSTJ', hora: '19:30' },
-]
+    // --- HISTÓRICO (DEZEMBRO 2025) ---
+    ...criarEventosFixos({ titulo: 'Remada Lua Cheia', imagem: '/DEZ - 2025/luacheia.png', local: 'Clube ASSTJ' }, '19:30', ['2025-12-03', '2025-12-04'])
+];
 
-const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'Clube ASSTJ', 'Manhã e Tarde')
-const recessoDezembro = gerarIntervalo('2025-12-22', '2025-12-31', 'Recesso', '/recesso.png', '-', 'Off')
-const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-01', 'Recesso', '/recesso.png', '-', 'Off')
+const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'Clube ASSTJ', 'Manhã e Tarde');
+const recessoDezembro = gerarIntervalo('2025-12-22', '2025-12-31', 'Recesso', '/recesso.png', '-', 'Off');
+const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-01', 'Recesso', '/recesso.png', '-', 'Off');
 
-export const eventosDB: Evento[] = [...eventosFixos, ...coloniaFerias, ...recessoDezembro, ...recessoJaneiro]
+export const eventosDB: Evento[] = [...eventosFixos, ...coloniaFerias, ...recessoDezembro, ...recessoJaneiro];
