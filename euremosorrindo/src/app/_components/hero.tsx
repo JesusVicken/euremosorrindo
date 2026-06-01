@@ -16,8 +16,9 @@ import {
 } from "lucide-react"
 
 // Seus imports de imagem
-import agendanov from "../../../public/agendaMaioCompleta.png"
+import agendanov from "../../../public/agendaJunho.png"
 import logo from "../../../public/logoeuremo.jpg"
+
 
 export function Hero() {
     const [isImageModalOpen, setIsImageModalOpen] = useState(false)
