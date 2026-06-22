@@ -1,8 +1,5 @@
-
-// --- CONFIGURAÇÃO ---
 export const REDIRECT_URL = "https://escolafernandarachid.com.br/";
 
-// --- TIPAGEM ---
 export type Evento = {
     date: string;
     titulo: string;
@@ -13,7 +10,6 @@ export type Evento = {
 
 type TemplateEvento = Omit<Evento, 'date' | 'hora'>;
 
-// --- TEMPLATES BASE (DRY) ---
 const TEMPLATES: Record<string, TemplateEvento> = {
     luaCheia: { titulo: 'Remada da Lua Cheia', imagem: '/cards/FR - Card 13 - Remada Lua Cheia - Set_Capa.png', local: 'Clube ASSTJ' },
     porDoSol: { titulo: 'Remada do Pôr do Sol', imagem: '/cards/por.png', local: 'Clube ASSTJ' },
@@ -23,7 +19,6 @@ const TEMPLATES: Record<string, TemplateEvento> = {
     infanto:  { titulo: 'Turma Infanto Juvenil', imagem: '/cards/FR - Card 10 - Turmas Infanto Juvenis_capa.png', local: 'Clube ASSTJ' },
 };
 
-// --- FUNÇÕES AUXILIARES ---
 const criarEventos = (template: TemplateEvento, agendas: { d: string; h: string }[]): Evento[] =>
     agendas.map(({ d, h }) => ({ ...template, date: d, hora: h }));
 
@@ -43,8 +38,17 @@ const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: str
     return lista;
 };
 
-// --- BANCO DE DADOS DE EVENTOS ---
 const eventosFixos: Evento[] = [
+    // --- JULHO 2026 ---
+    { date: '2026-07-03', titulo: 'Festa Julina', imagem: '/cards/festaJulina.png', local: 'Clube ASSTJ', hora: '18:30' },
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-07-05', '2026-07-12', '2026-07-19', '2026-07-26']),
+    ...criarEventosFixos(TEMPLATES.tapicuru, '09:00', ['2026-07-04', '2026-07-11', '2026-07-18', '2026-07-25']),
+    ...criarEventosFixos(TEMPLATES.porDoSol, '17:00', ['2026-07-04', '2026-07-05', '2026-07-11', '2026-07-12', '2026-07-18', '2026-07-19', '2026-07-25', '2026-07-26']),
+    ...criarEventosFixos({ ...TEMPLATES.astral, titulo: 'Remada Astral – Pro Dia Nascer Feliz' }, '06:00', ['2026-07-04', '2026-07-11', '2026-07-18', '2026-07-25']),
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-07-29', h: '17:30' }, { d: '2026-07-30', h: '18:00' }, { d: '2026-07-31', h: '19:10' }
+    ]),
+
     // --- JUNHO 2026 ---
     ...criarEventos(TEMPLATES.luaCheia, [
         { d: '2026-06-01', h: '18:00' }, { d: '2026-06-02', h: '19:00' },
@@ -113,7 +117,8 @@ const eventosFixos: Evento[] = [
 ];
 
 const coloniaFerias = gerarIntervalo('2026-01-12', '2026-01-23', 'Colônia de Férias', '/servicos/COLONIA/coloniaBg.png', 'Clube ASSTJ', 'Manhã e Tarde');
+const coloniaFeriasJulho = gerarIntervalo('2026-07-06', '2026-07-24', 'Colônia de Férias & Teen Experience', '/servicos/COLONIA/coloniaBg.png', 'Clube ASSTJ', 'Vespertino');
 const recessoDezembro = gerarIntervalo('2025-12-22', '2025-12-31', 'Recesso', '/recesso.png', '-', 'Off');
 const recessoJaneiro = gerarIntervalo('2026-01-01', '2026-01-01', 'Recesso', '/recesso.png', '-', 'Off');
 
-export const eventosDB: Evento[] = [...eventosFixos, ...coloniaFerias, ...recessoDezembro, ...recessoJaneiro];
+export const eventosDB: Evento[] = [...eventosFixos, ...coloniaFerias, ...coloniaFeriasJulho, ...recessoDezembro, ...recessoJaneiro];
