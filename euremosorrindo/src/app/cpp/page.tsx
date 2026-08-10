@@ -231,7 +231,7 @@ export default function CppPage() {
 
     const whatsappNumber = '5561999674507'
     const whatsappMessage =
-        'Olá! Gostaria de saber mais sobre as modalidades da Eu Remo Sorrindo.'
+        'Olá! Vi no site e gostaria de saber mais sobre as modalidades da Eu Remo Sorrindo.'
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
         whatsappMessage
     )}`

@@ -21,42 +21,42 @@ const weeklySchedule = [
         description: "Treinos Regulares",
         schedules: ["6:20", "7:40", "12:15"],
         image: canoa1Img,
-        linkText: "Olá, gostaria de informações sobre os treinos de Segunda-feira"
+        linkText: "Olá! Vi no site e gostaria de informações sobre os treinos de Segunda-feira"
     },
     {
         day: "Terça-feira",
         description: "Treinos Regulares",
         schedules: ["6:20", "7:40", "17:40" ],
         image: canoa2Img,
-        linkText: "Olá, gostaria de informações sobre os treinos de Terça-feira"
+        linkText: "Olá! Vi no site e gostaria de informações sobre os treinos de Terça-feira"
     },
     {
         day: "Quarta-feira",
         description: "Treinos Regulares",
         schedules: ["6:20", "7:40", "12:15"],
         image: canoa3Img,
-        linkText: "Olá, gostaria de informações sobre os treinos de Quarta-feira"
+        linkText: "Olá! Vi no site e gostaria de informações sobre os treinos de Quarta-feira"
     },
     {
         day: "Quinta-feira",
         description: "Treinos Regulares + Competição",
         schedules: ["6:00 (Competição)", "7:40 (Regular)", "17:40 (Regular)" ],
         image: canoa5Img,
-        linkText: "Olá, gostaria de informações sobre os treinos de Quinta-feira"
+        linkText: "Olá! Vi no site e gostaria de informações sobre os treinos de Quinta-feira"
     },
     {
         day: "Sexta-feira",
         description: "Treinos Regulares",
         schedules: ["6:20", "7:40", "12:15"],
         image: canoa6Img,
-        linkText: "Olá, gostaria de informações sobre os treinos de Sexta-feira"
+        linkText: "Olá! Vi no site e gostaria de informações sobre os treinos de Sexta-feira"
     },
     {
         day: "Sábado",
         description: "Treinos + Turma Kids",
         schedules: ["7:30 (Competição)", "9:30 (Regular)", "11:30 (Kids)"],
         image: canoa4Img,
-        linkText: "Olá, gostaria de informações sobre os treinos de Sábado"
+        linkText: "Olá! Vi no site e gostaria de informações sobre os treinos de Sábado"
     }
 ]
 

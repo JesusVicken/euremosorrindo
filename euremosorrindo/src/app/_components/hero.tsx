@@ -24,7 +24,7 @@ export function Hero() {
     const [isImageModalOpen, setIsImageModalOpen] = useState(false)
 
     const whatsappMessage = encodeURIComponent(
-        "Olá, visitei o site da Eu Remo Sorrindo e quero tirar dúvidas sobre a agenda de Março!"
+        "Olá, visitei o site da Eu Remo Sorrindo e quero tirar dúvidas sobre a agenda de remadas!"
     )
 
     const features = [

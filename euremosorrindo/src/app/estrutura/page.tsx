@@ -197,7 +197,7 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0], inde
                 </p>
 
                 <a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Olá Fernanda, gostaria de saber mais sobre: ${service.title}`)}`}
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Olá Fernanda! Vi no site e gostaria de saber mais sobre: ${service.title}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-auto w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gray-50 text-gray-700 font-bold text-sm hover:bg-blue-600 hover:text-white transition-all duration-300 border border-gray-200 hover:border-blue-600 group/btn shadow-sm hover:shadow-md"

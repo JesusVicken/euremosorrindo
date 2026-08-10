@@ -141,7 +141,7 @@ export default function CheckVaa() {
                                 </p>
                                 <Button variant="default" className="mt-2" asChild>
                                     <a
-                                        href="https://wa.me/5561999674507?text=Olá, gostaria de agendar minha primeira aula de canoa havaiana!"
+                                        href="https://wa.me/5561999674507?text=Olá! Vi no site da Eu Remo Sorrindo e gostaria de agendar minha primeira aula de canoa havaiana!"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >

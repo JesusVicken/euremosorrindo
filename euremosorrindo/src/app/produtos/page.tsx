@@ -132,7 +132,10 @@ export default function EquipamentosPage() {
 
     const handleWhatsApp = (texto: string) => {
         const numero = '+5561999674507'
-        const url = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`
+        const mensagemComSite = texto.startsWith('Olá!')
+            ? texto.replace('Olá!', 'Olá! Vi no site e')
+            : `Olá! Vi no site. ${texto}`
+        const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagemComSite)}`
         window.open(url, '_blank')
     }
 
