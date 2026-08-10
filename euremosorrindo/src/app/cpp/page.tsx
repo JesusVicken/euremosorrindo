@@ -229,9 +229,9 @@ export default function CppPage() {
         },
     ]
 
-    const whatsappNumber = '61998219177'
+    const whatsappNumber = '5561999674507'
     const whatsappMessage =
-        'Olá! Gostaria de saber mais sobre as modalidades da CPP Extreme.'
+        'Olá! Gostaria de saber mais sobre as modalidades da Eu Remo Sorrindo.'
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
         whatsappMessage
     )}`
@@ -259,7 +259,7 @@ export default function CppPage() {
                         className="text-white max-w-2xl"
                     >
                         <p className="text-lg md:text-xl text-white/90">
-                            Descubra nossas experiências exclusivas na CPP Extreme BSB
+                            Descubra nossas experiências exclusivas na Eu Remo Sorrindo BSB
                         </p>
                     </motion.div>
                 </div>
@@ -437,7 +437,7 @@ export default function CppPage() {
                             </Button>
                         </a>
 
-                        <a href="tel:+556198219177">
+                        <a href="tel:+5561999674507">
                             <Button
                                 variant="outline"
                                 size="lg"

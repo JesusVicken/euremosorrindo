@@ -26,7 +26,7 @@ import { useWindowSize } from 'react-use'
 
 const checklistItems = [
     "Deixar o nome na portaria ao chegar",
-    "Ir para a beira lago (BASE CPP - quase de frente às piscinas)",
+    "Ir para a beira lago (BASE Eu Remo Sorrindo - quase de frente às piscinas)",
     "Guardar chinelas/mochilas na base/sala",
     "Leve garrafinha de água",
     "Roupa confortável que possa molhar",
@@ -97,7 +97,7 @@ export default function CheckVaa() {
                         <InfoRow
                             icon={<MapPinIcon className="w-5 h-5 mt-1 text-red-600" />}
                             title="Local:"
-                            content="ASCADE. Deixe o nome na portaria e vá até a base da CPP EXTREME (quase em frente às piscinas)."
+                            content="ASCADE. Deixe o nome na portaria e vá até a base da Eu Remo Sorrindo (quase em frente às piscinas)."
                         />
                         <InfoRow
                             icon={<ShowerHead className="w-5 h-5 mt-1 text-indigo-600" />}
@@ -141,7 +141,7 @@ export default function CheckVaa() {
                                 </p>
                                 <Button variant="default" className="mt-2" asChild>
                                     <a
-                                        href="https://wa.me/5561998219177?text=Olá, gostaria de agendar minha primeira aula de canoa havaiana!"
+                                        href="https://wa.me/5561999674507?text=Olá, gostaria de agendar minha primeira aula de canoa havaiana!"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
