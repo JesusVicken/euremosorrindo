@@ -9,7 +9,7 @@ import "aos/dist/aos.css"
 import { motion, AnimatePresence } from "framer-motion"
 
 // --- CONFIGURAÇÃO GERAL ---
-const WHATSAPP_NUMBER = "5561984644698"
+const WHATSAPP_NUMBER = "5561991041213"
 const HERO_BG = '/bgremo.webp'
 
 // --- LISTA DE SERVIÇOS PARA O SLIDER DO BANNER ---

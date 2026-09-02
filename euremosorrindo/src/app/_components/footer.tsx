@@ -74,7 +74,7 @@ const brands = [
 ]
 
 export function Footer() {
-  const whatsappNumber = "61999674507"
+  const whatsappNumber = "5561991041213"
   const whatsappMessage = "Olá! Visitei o site da Eu Remo Sorrindo e gostaria de mais informações sobre as aulas e experiências."
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
@@ -180,11 +180,11 @@ export function Footer() {
             <div className="space-y-4 w-full max-w-xs">
               <a href={`tel:${whatsappNumber}`} className="flex items-center gap-3 text-cyan-100 hover:text-white transition-colors justify-center md:justify-start">
                 <Phone className="w-5 h-5 text-cyan-400" />
-                <span>(61) 99967-4507</span>
+                <span>(61) 99104-1213</span>
               </a>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-cyan-100 hover:text-white transition-colors justify-center md:justify-start">
                 <WhatsappLogo className="w-5 h-5 text-green-400" />
-                <span>(61) 99967-4507 (WhatsApp)</span>
+                <span>(61) 99104-1213 (WhatsApp)</span>
               </a>
               <div className="flex items-start gap-3 text-cyan-100 justify-center md:justify-start text-left">
                 <MapPin className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1" />

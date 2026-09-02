@@ -83,7 +83,7 @@ const brands = [
 ]
 
 export default function ContatoPage() {
-    const whatsappNumber = "61999674507"
+    const whatsappNumber = "5561991041213"
     const whatsappMessage = "Olá! Vim pelo site e gostaria de saber mais sobre as aulas de canoagem."
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
@@ -261,7 +261,7 @@ export default function ContatoPage() {
                                     <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
                                         <Phone size={20} />
                                     </div>
-                                    <span className="font-semibold">(61) 99967-4507</span>
+                                    <span className="font-semibold">(61) 99104-1213</span>
                                 </div>
                                 <div className="flex items-center gap-4 text-slate-700">
                                     <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">

@@ -141,7 +141,7 @@ export function Services() {
                                             <a
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                href={`https://wa.me/5561999674507?text=${encodeURIComponent(daySchedule.linkText)}`}
+                                                href={`https://wa.me/5561991041213?text=${encodeURIComponent(daySchedule.linkText)}`}
                                                 className="w-full flex items-center justify-center gap-2 bg-black text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all"
                                             >
                                                 <WhatsappLogo className="w-4 h-4" />

@@ -54,7 +54,7 @@ export default function Header() {
     ]
 
     const openWhatsApp = () => {
-        const phoneNumber = '+5561999674507'
+        const phoneNumber = '+5561991041213'
         const message = 'Olá! Vi no site da Eu Remo Sorrindo e gostaria de mais informações sobre as aulas.'
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
         window.open(url, '_blank')

@@ -16,7 +16,7 @@ import {
 } from "lucide-react"
 
 // Seus imports de imagem
-import agendanov from "../../../public/agendaCompletaJulho.png"
+import agendanov from "../../../public/agendaSet.jpeg"
 import logo from "../../../public/logoeuremo.jpg"
 
 
@@ -123,7 +123,7 @@ export function Hero() {
 
                                 {/* Botão 2: WhatsApp (Verde no Hover) */}
                                 <a
-                                    href={`https://wa.me/5561999674507?text=${whatsappMessage}`}
+                                    href={`https://wa.me/5561991041213?text=${whatsappMessage}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="px-8 py-4 rounded-xl font-bold text-lg border border-white/30 text-white transition-all duration-300 flex items-center justify-center gap-2 hover:bg-green-500 hover:border-green-500 hover:scale-105 hover:shadow-lg shadow-green-900/20"
@@ -166,7 +166,7 @@ export function Hero() {
                                     <div className="relative w-full aspect-[1856/2304] bg-white rounded-b-xl overflow-hidden">
                                         <Image
                                             src={agendanov}
-                                            alt="Agenda Março Eu Remo Sorrindo"
+                                            alt="Agenda Setembro Eu Remo Sorrindo"
                                             fill
                                             className="object-cover hover:scale-105 transition-transform duration-700 ease-out"
                                             priority
@@ -209,7 +209,7 @@ export function Hero() {
                         <div className="bg-white rounded-xl overflow-hidden shadow-2xl w-full h-full relative border-4 border-white/10">
                             <Image
                                 src={agendanov}
-                                alt="Agenda Março Ampliada"
+                                alt="Agenda Setembro Ampliada"
                                 fill
                                 className="object-contain"
                                 quality={100}

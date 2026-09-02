@@ -132,7 +132,7 @@ const benefits = [
 ]
 
 export default function ParceirosPage() {
-    const whatsappNumber = "61999674507"
+    const whatsappNumber = "5561991041213"
     const whatsappMessage = "Olá! Vi no site e gostaria de mais informações sobre como ser um parceiro do Eu Remo Sorrindo."
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 

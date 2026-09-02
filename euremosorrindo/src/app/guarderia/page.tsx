@@ -36,7 +36,7 @@ const plans = [
 export default function GuarderiaSection() {
     // URL do WhatsApp com a mensagem pré-configurada
     const whatsappMessage = encodeURIComponent("Olá Fernanda! Vi no site e gostaria de saber mais sobre as vagas e planos da Guarderia Eu Remo Sorrindo!");
-    const whatsappUrl = `https://wa.me/5561999674507?text=${whatsappMessage}`;
+    const whatsappUrl = `https://wa.me/5561991041213?text=${whatsappMessage}`;
 
     return (
         <section className="relative w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-slate-50 to-white overflow-hidden">

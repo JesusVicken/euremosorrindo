@@ -186,7 +186,7 @@ export function About() {
                             <a
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href={`https://wa.me/5561999674507?text=${encodeURIComponent('Olá! Vi o site da Eu Remo Sorrindo e quero agendar minha aula experimental.')}`}
+                                href={`https://wa.me/5561991041213?text=${encodeURIComponent('Olá! Vi o site da Eu Remo Sorrindo e quero agendar minha aula experimental.')}`}
                                 className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white flex items-center justify-center gap-3 px-8 py-4 rounded-2xl hover:shadow-2xl transition-all duration-300 font-bold text-lg group"
                             >
                                 <WhatsappLogo className="w-6 h-6" />

@@ -131,7 +131,7 @@ export default function EquipamentosPage() {
     }, [produtoSelecionado])
 
     const handleWhatsApp = (texto: string) => {
-        const numero = '+5561999674507'
+        const numero = '+5561991041213'
         const mensagemComSite = texto.startsWith('Olá!')
             ? texto.replace('Olá!', 'Olá! Vi no site e')
             : `Olá! Vi no site. ${texto}`

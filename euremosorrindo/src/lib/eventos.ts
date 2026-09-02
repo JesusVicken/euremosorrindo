@@ -39,6 +39,19 @@ const gerarIntervalo = (inicio: string, fim: string, titulo: string, imagem: str
 };
 
 const eventosFixos: Evento[] = [
+    // --- SETEMBRO 2026 ---
+    ...criarEventos(TEMPLATES.luaCheia, [
+        { d: '2026-09-25', h: '17:10' }, { d: '2026-09-26', h: '17:40' },
+        { d: '2026-09-27', h: '18:40' }, { d: '2026-09-28', h: '19:40' }
+    ]),
+    { date: '2026-09-07', titulo: 'Longão de Feriado', imagem: '/longao.png', local: 'Clube ASSTJ', hora: '07:30' },
+    ...criarEventosFixos(TEMPLATES.infanto, '09:30', ['2026-09-05', '2026-09-19', '2026-09-27']),
+    { date: '2026-09-13', titulo: 'Turma Infanto Juvenil - Campeonato', imagem: TEMPLATES.infanto.imagem, local: TEMPLATES.infanto.local, hora: '09:30' },
+    ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-09-06', '2026-09-20', '2026-09-27']),
+    ...criarEventosFixos(TEMPLATES.porDoSol, '17:00', ['2026-09-05', '2026-09-06', '2026-09-19', '2026-09-20', '2026-09-26', '2026-09-27']),
+    ...criarEventosFixos(TEMPLATES.astral, '06:00', ['2026-09-05', '2026-09-19', '2026-09-26']),
+    ...criarEventosFixos(TEMPLATES.tapicuru, '08:30', ['2026-09-19', '2026-09-26']),
+
     // --- JULHO 2026 ---
     { date: '2026-07-03', titulo: 'Festa Julina', imagem: '/cards/festaJulina.png', local: 'Clube ASSTJ', hora: '18:30' },
     ...criarEventosFixos(TEMPLATES.lagoinha, '10:00', ['2026-07-05', '2026-07-12', '2026-07-19', '2026-07-26']),
