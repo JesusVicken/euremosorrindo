@@ -74,7 +74,7 @@ const brands = [
 ]
 
 export function Footer() {
-  const whatsappNumber = "5561991041213"
+  const whatsappNumber = "556191041213"
   const whatsappMessage = "Olá! Visitei o site da Eu Remo Sorrindo e gostaria de mais informações sobre as aulas e experiências."
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 

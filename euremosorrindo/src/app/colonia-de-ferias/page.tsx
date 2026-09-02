@@ -31,7 +31,7 @@ export default function ColoniaDeFeriasPage() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
     const openWhatsApp = () => {
-        const phoneNumber = '+5561991041213'
+        const phoneNumber = '+556191041213'
         const message = 'Olá! Vi no site e gostaria de fazer a inscrição para a Colônia de Férias de Julho/2026!'
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
         window.open(url, '_blank')
